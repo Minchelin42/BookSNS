@@ -29,6 +29,11 @@
 		395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF032BC7DAA300488E50 /* TargetType.swift */; };
 		395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF052BC7DB6F00488E50 /* HTTPHeader.swift */; };
 		395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF072BC7DCDA00488E50 /* NetworkManager.swift */; };
+		395DEF0B2BC7E65900488E50 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF0A2BC7E65900488E50 /* SignInViewController.swift */; };
+		395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF0C2BC7E6F800488E50 /* SignInView.swift */; };
+		395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */; };
+		395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF102BC7E81E00488E50 /* SignInQuery.swift */; };
+		395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF122BC8266300488E50 /* EmailValidationQuery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +57,11 @@
 		395DEF032BC7DAA300488E50 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
 		395DEF052BC7DB6F00488E50 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		395DEF072BC7DCDA00488E50 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		395DEF0A2BC7E65900488E50 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		395DEF0C2BC7E6F800488E50 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		395DEF102BC7E81E00488E50 /* SignInQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInQuery.swift; sourceTree = "<group>"; };
+		395DEF122BC8266300488E50 /* EmailValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidationQuery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
+				395DEF092BC7E64300488E50 /* SignIn */,
 				395DEEF72BC7D47800488E50 /* Network */,
 				395DEEE42BC7C56500488E50 /* Base */,
 				395DEEE12BC7C4C600488E50 /* SignUp */,
@@ -126,6 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				395DEEF82BC7D48600488E50 /* SignUpQuery.swift */,
+				395DEF102BC7E81E00488E50 /* SignInQuery.swift */,
+				395DEF122BC8266300488E50 /* EmailValidationQuery.swift */,
 				395DEEFE2BC7DA2700488E50 /* Router.swift */,
 				395DEF032BC7DAA300488E50 /* TargetType.swift */,
 				395DEEFC2BC7D9A900488E50 /* APIKey.swift */,
@@ -133,6 +146,16 @@
 				395DEF072BC7DCDA00488E50 /* NetworkManager.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		395DEF092BC7E64300488E50 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				395DEF0A2BC7E65900488E50 /* SignInViewController.swift */,
+				395DEF0C2BC7E6F800488E50 /* SignInView.swift */,
+				395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */,
+			);
+			path = SignIn;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */,
+				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
 				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
 				395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */,
 				395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */,
@@ -226,9 +250,13 @@
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
 				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
 				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
+				395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */,
+				395DEF0B2BC7E65900488E50 /* SignInViewController.swift in Sources */,
+				395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */,
 				395DEECB2BC7C08600488E50 /* AppDelegate.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
 				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
+				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
 				395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */,
 				395DEECD2BC7C08600488E50 /* SceneDelegate.swift in Sources */,
