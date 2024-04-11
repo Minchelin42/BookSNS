@@ -15,12 +15,14 @@ class SignUpView: BaseView {
     let passwordTextField = UITextField()
     let nickNameTextField = UITextField()
     
+    let emailValidationButton = UIButton()
     let signUpButton = UIButton()
     
     override func configureHierarchy() {
         addSubview(emailTextField)
         addSubview(passwordTextField)
         addSubview(nickNameTextField)
+        addSubview(emailValidationButton)
         addSubview(signUpButton)
     }
     
@@ -43,8 +45,14 @@ class SignUpView: BaseView {
             make.height.equalTo(40)
         }
         
-        signUpButton.snp.makeConstraints { make in
+        emailValidationButton.snp.makeConstraints { make in
             make.top.equalTo(nickNameTextField.snp.bottom).offset(50)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(40)
+        }
+        
+        signUpButton.snp.makeConstraints { make in
+            make.top.equalTo(emailValidationButton.snp.bottom).offset(50)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
             make.height.equalTo(40)
         }
@@ -55,6 +63,10 @@ class SignUpView: BaseView {
         passwordTextField.placeholder = "비밀번호"
         nickNameTextField.placeholder = "닉네임"
         
+        emailValidationButton.setTitle("중복확인", for: .normal)
+        emailValidationButton.backgroundColor = .black
+        emailValidationButton.setTitleColor(.white, for: .normal)
+
         signUpButton.setTitle("가입하기", for: .normal)
         signUpButton.backgroundColor = .black
         signUpButton.setTitleColor(.white, for: .normal)

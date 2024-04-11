@@ -17,13 +17,14 @@ class SignUpViewModel {
         let idText: Observable<String>
         let passwordText: Observable<String>
         let nicknameText: Observable<String>
+        let emailValidationButtonTapped: Observable<Void>
         let signUpButtonTapped: Observable<Void>
     }
     
     struct Output {
         let signUpValidation: Driver<Bool>
         let signUpSuccess: Driver<Void>
-        
+        let emailValidMessage: Driver<String>
     }
     
     func transfrom(input: Input) -> Output {
@@ -35,10 +36,32 @@ class SignUpViewModel {
         
         let signUpSuccess = PublishRelay<Void>()
         let signUpValid = BehaviorRelay(value: false)
+        var emailValid = false
+        let emailValidMessage = PublishRelay<String>()
+        
+        input.emailValidationButtonTapped
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(signUpObservable)
+            .flatMap { signUpQuery in
+                return NetworkManager.emailValidation(query: EmailValidationQuery(email: signUpQuery.email))
+            }
+            .subscribe(with: self) { owner, messageModel in
+                emailValidMessage.accept(messageModel.message)
+                if messageModel.message.contains("불가") {
+                    emailValid = false
+                } else {
+                    emailValid = true
+                }
+            } onError: { owner, error in
+                print("오류 발생")
+                emailValid = false
+            }
+            .disposed(by: disposeBag)
+        
         
         //signUp 유효성 검사
         signUpObservable.bind(with: self) { owner, signUp in
-            if signUp.email.count > 5 && signUp.password.count > 8 && signUp.nick.count > 2 {
+            if signUp.email.count > 5 && signUp.password.count > 8 && signUp.nick.count > 2 && emailValid {
                 signUpValid.accept(true)
             } else {
                 signUpValid.accept(false)
@@ -60,7 +83,7 @@ class SignUpViewModel {
             .disposed(by: disposeBag)
         
         
-        return Output(signUpValidation: signUpValid.asDriver(), signUpSuccess: signUpSuccess.asDriver(onErrorJustReturn: ()))
+        return Output(signUpValidation: signUpValid.asDriver(), signUpSuccess: signUpSuccess.asDriver(onErrorJustReturn: ()), emailValidMessage: emailValidMessage.asDriver(onErrorJustReturn: ""))
     }
     
 }
