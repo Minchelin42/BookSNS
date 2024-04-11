@@ -12,6 +12,7 @@ enum Router {
     case signUp(query: SignUpQuery)
     case signIn(query: SignInQuery)
     case emailValidation(query: EmailValidationQuery)
+    case withdraw
 }
 
 extension Router: TargetType {
@@ -23,7 +24,9 @@ extension Router: TargetType {
     var method: Alamofire.HTTPMethod {
         switch self {
         case .signUp, .signIn, .emailValidation:
-            return .post            
+            return .post
+        case .withdraw:
+            return .get
         }
     }
     
@@ -35,6 +38,8 @@ extension Router: TargetType {
             return "/users/login"
         case .emailValidation:
             return "/validation/email"
+        case .withdraw:
+            return "/users/withdraw"
         }
     }
     
@@ -42,6 +47,9 @@ extension Router: TargetType {
         switch self {
         case .signUp, .signIn, .emailValidation:
             return [HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .withdraw:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }
     }
@@ -68,6 +76,8 @@ extension Router: TargetType {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
+        case .withdraw:
+            return nil
         }
     }
 

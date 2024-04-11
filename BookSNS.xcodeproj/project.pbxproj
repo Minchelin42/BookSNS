@@ -34,6 +34,9 @@
 		395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */; };
 		395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF102BC7E81E00488E50 /* SignInQuery.swift */; };
 		395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF122BC8266300488E50 /* EmailValidationQuery.swift */; };
+		395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF152BC836B900488E50 /* WithDrawView.swift */; };
+		395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF172BC83D0300488E50 /* WithDrawViewController.swift */; };
+		395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +65,9 @@
 		395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		395DEF102BC7E81E00488E50 /* SignInQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInQuery.swift; sourceTree = "<group>"; };
 		395DEF122BC8266300488E50 /* EmailValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidationQuery.swift; sourceTree = "<group>"; };
+		395DEF152BC836B900488E50 /* WithDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawView.swift; sourceTree = "<group>"; };
+		395DEF172BC83D0300488E50 /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
+		395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,7 @@
 			children = (
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
 				395DEF092BC7E64300488E50 /* SignIn */,
+				395DEF142BC8369500488E50 /* WithDraw */,
 				395DEEF72BC7D47800488E50 /* Network */,
 				395DEEE42BC7C56500488E50 /* Base */,
 				395DEEE12BC7C4C600488E50 /* SignUp */,
@@ -156,6 +163,16 @@
 				395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */,
 			);
 			path = SignIn;
+			sourceTree = "<group>";
+		};
+		395DEF142BC8369500488E50 /* WithDraw */ = {
+			isa = PBXGroup;
+			children = (
+				395DEF152BC836B900488E50 /* WithDrawView.swift */,
+				395DEF172BC83D0300488E50 /* WithDrawViewController.swift */,
+				395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */,
+			);
+			path = WithDraw;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,10 +260,12 @@
 			files = (
 				395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */,
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
+				395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */,
 				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
 				395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */,
 				395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */,
 				395DEECF2BC7C08600488E50 /* ViewController.swift in Sources */,
+				395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */,
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
 				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
 				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
@@ -255,6 +274,7 @@
 				395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */,
 				395DEECB2BC7C08600488E50 /* AppDelegate.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
+				395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */,
 				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,

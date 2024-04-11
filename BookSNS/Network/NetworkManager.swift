@@ -49,6 +49,34 @@ struct SignInModel: Decodable {
 
 struct NetworkManager {
     
+    static func withDraw() -> Single<SignUpModel> {
+        return Single<SignUpModel>.create { single in
+            do {
+                let urlRequest = try Router.withdraw.asURLRequest()
+                
+                AF.request(urlRequest)
+                    .validate(statusCode: 200..<420)
+                    .responseDecodable(of: SignUpModel.self) { response in
+                        switch response.result {
+                        case .success(let signUpModel):
+                            print(signUpModel)
+                            single(.success(signUpModel))
+                        case .failure(let error):
+                            if let code = response.response?.statusCode {
+                                print("회월탈퇴 실패 \(code)")
+                                single(.failure(error))
+                            } else {
+                                print("error 발생 \(error)")
+                            }
+                        }
+                    }
+            } catch {
+                single(.failure(error))
+            }
+            return Disposables.create()
+        }
+    }
+    
     static func emailValidation(query: EmailValidationQuery) -> Single<MessageModel> {
         return Single<MessageModel>.create { single in
             do {
