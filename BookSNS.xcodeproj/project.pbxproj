@@ -12,6 +12,23 @@
 		395DEECF2BC7C08600488E50 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEECE2BC7C08600488E50 /* ViewController.swift */; };
 		395DEED42BC7C08800488E50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395DEED32BC7C08800488E50 /* Assets.xcassets */; };
 		395DEED72BC7C08800488E50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 395DEED52BC7C08800488E50 /* LaunchScreen.storyboard */; };
+		395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEE22BC7C4D800488E50 /* SignUpViewController.swift */; };
+		395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEE52BC7C57500488E50 /* BaseView.swift */; };
+		395DEEE92BC7C58600488E50 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 395DEEE82BC7C58600488E50 /* SnapKit */; };
+		395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEEA2BC7CB8900488E50 /* SignUpView.swift */; };
+		395DEEED2BC7CDD400488E50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 395DEEEC2BC7CDD400488E50 /* Main.storyboard */; };
+		395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEEE2BC7CEB000488E50 /* BaseViewController.swift */; };
+		395DEEF22BC7CF3B00488E50 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 395DEEF12BC7CF3B00488E50 /* RxCocoa */; };
+		395DEEF42BC7CF3B00488E50 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 395DEEF32BC7CF3B00488E50 /* RxSwift */; };
+		395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEF52BC7CFD100488E50 /* SignUpViewModel.swift */; };
+		395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEF82BC7D48600488E50 /* SignUpQuery.swift */; };
+		395DEEFB2BC7D95E00488E50 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 395DEEFA2BC7D95E00488E50 /* .gitignore */; };
+		395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEFC2BC7D9A900488E50 /* APIKey.swift */; };
+		395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEEFE2BC7DA2700488E50 /* Router.swift */; };
+		395DEF022BC7DA7E00488E50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 395DEF012BC7DA7E00488E50 /* Alamofire */; };
+		395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF032BC7DAA300488E50 /* TargetType.swift */; };
+		395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF052BC7DB6F00488E50 /* HTTPHeader.swift */; };
+		395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF072BC7DCDA00488E50 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +39,19 @@
 		395DEED32BC7C08800488E50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		395DEED62BC7C08800488E50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		395DEED82BC7C08800488E50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		395DEEE22BC7C4D800488E50 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		395DEEE52BC7C57500488E50 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		395DEEEA2BC7CB8900488E50 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		395DEEEC2BC7CDD400488E50 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		395DEEEE2BC7CEB000488E50 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		395DEEF52BC7CFD100488E50 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		395DEEF82BC7D48600488E50 /* SignUpQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpQuery.swift; sourceTree = "<group>"; };
+		395DEEFA2BC7D95E00488E50 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		395DEEFC2BC7D9A900488E50 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		395DEEFE2BC7DA2700488E50 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		395DEF032BC7DAA300488E50 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		395DEF052BC7DB6F00488E50 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		395DEF072BC7DCDA00488E50 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395DEEF42BC7CF3B00488E50 /* RxSwift in Frameworks */,
+				395DEF022BC7DA7E00488E50 /* Alamofire in Frameworks */,
+				395DEEF22BC7CF3B00488E50 /* RxCocoa in Frameworks */,
+				395DEEE92BC7C58600488E50 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,14 +88,51 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
+				395DEEFA2BC7D95E00488E50 /* .gitignore */,
+				395DEEF72BC7D47800488E50 /* Network */,
+				395DEEE42BC7C56500488E50 /* Base */,
+				395DEEE12BC7C4C600488E50 /* SignUp */,
 				395DEECA2BC7C08600488E50 /* AppDelegate.swift */,
 				395DEECC2BC7C08600488E50 /* SceneDelegate.swift */,
 				395DEECE2BC7C08600488E50 /* ViewController.swift */,
 				395DEED32BC7C08800488E50 /* Assets.xcassets */,
 				395DEED52BC7C08800488E50 /* LaunchScreen.storyboard */,
 				395DEED82BC7C08800488E50 /* Info.plist */,
+				395DEEEC2BC7CDD400488E50 /* Main.storyboard */,
 			);
 			path = BookSNS;
+			sourceTree = "<group>";
+		};
+		395DEEE12BC7C4C600488E50 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				395DEEE22BC7C4D800488E50 /* SignUpViewController.swift */,
+				395DEEEA2BC7CB8900488E50 /* SignUpView.swift */,
+				395DEEF52BC7CFD100488E50 /* SignUpViewModel.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		395DEEE42BC7C56500488E50 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				395DEEE52BC7C57500488E50 /* BaseView.swift */,
+				395DEEEE2BC7CEB000488E50 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		395DEEF72BC7D47800488E50 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				395DEEF82BC7D48600488E50 /* SignUpQuery.swift */,
+				395DEEFE2BC7DA2700488E50 /* Router.swift */,
+				395DEF032BC7DAA300488E50 /* TargetType.swift */,
+				395DEEFC2BC7D9A900488E50 /* APIKey.swift */,
+				395DEF052BC7DB6F00488E50 /* HTTPHeader.swift */,
+				395DEF072BC7DCDA00488E50 /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,6 +151,12 @@
 			dependencies = (
 			);
 			name = BookSNS;
+			packageProductDependencies = (
+				395DEEE82BC7C58600488E50 /* SnapKit */,
+				395DEEF12BC7CF3B00488E50 /* RxCocoa */,
+				395DEEF32BC7CF3B00488E50 /* RxSwift */,
+				395DEF012BC7DA7E00488E50 /* Alamofire */,
+			);
 			productName = BookSNS;
 			productReference = 395DEEC72BC7C08600488E50 /* BookSNS.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +185,11 @@
 				Base,
 			);
 			mainGroup = 395DEEBE2BC7C08600488E50;
+			packageReferences = (
+				395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 395DEEC82BC7C08600488E50 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -122,6 +204,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395DEEFB2BC7D95E00488E50 /* .gitignore in Resources */,
+				395DEEED2BC7CDD400488E50 /* Main.storyboard in Resources */,
 				395DEED72BC7C08800488E50 /* LaunchScreen.storyboard in Resources */,
 				395DEED42BC7C08800488E50 /* Assets.xcassets in Resources */,
 			);
@@ -134,8 +218,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */,
+				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
+				395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */,
+				395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */,
 				395DEECF2BC7C08600488E50 /* ViewController.swift in Sources */,
+				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
+				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
+				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
 				395DEECB2BC7C08600488E50 /* AppDelegate.swift in Sources */,
+				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
+				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
+				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
+				395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */,
 				395DEECD2BC7C08600488E50 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +454,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
+		395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		395DEEE82BC7C58600488E50 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		395DEEF12BC7CF3B00488E50 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		395DEEF32BC7CF3B00488E50 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		395DEF012BC7DA7E00488E50 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 395DEEBF2BC7C08600488E50 /* Project object */;
 }
