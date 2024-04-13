@@ -34,7 +34,7 @@ class SignInViewController: RxBaseViewController {
         output.signInSuccess
             .drive(with: self) { owner, _ in
                 print("로그인 성공")
-                owner.navigationController?.pushViewController(WithDrawViewController(), animated: true)
+                owner.navigationController?.pushViewController(CreatePostViewController(), animated: true)
             }
             .disposed(by: disposeBag)
     }
