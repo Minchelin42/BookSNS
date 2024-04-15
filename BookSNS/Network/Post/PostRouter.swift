@@ -10,6 +10,7 @@ import Alamofire
 
 enum PostRouter {
     case createPost(query: CreatePostQuery)
+    case uploadImage
 }
 
 extension PostRouter: TargetType {
@@ -22,6 +23,8 @@ extension PostRouter: TargetType {
         switch self {
         case .createPost:
             return .post
+        case .uploadImage:
+            return .post
         }
     }
     
@@ -29,6 +32,8 @@ extension PostRouter: TargetType {
         switch self {
         case .createPost:
             return "/posts"
+        case .uploadImage:
+            return "/posts/files"
         }
     }
     
@@ -38,6 +43,11 @@ extension PostRouter: TargetType {
             return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .uploadImage:
+            return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
+                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                     HTTPHeader.contentType.rawValue: "multipart/form-data" ]
+            
         }
     }
     
@@ -55,6 +65,8 @@ extension PostRouter: TargetType {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
+        case .uploadImage:
+            return nil
         }
     }
     

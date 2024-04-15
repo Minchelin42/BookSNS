@@ -8,6 +8,11 @@
 import Foundation
 
 struct CreatePostQuery: Encodable {
-    let content: String
-    let product_id: String
+    var content: String
+    var content1: String
+    var content2: String
+    var content3: String
+    var content4: String
+    var files: [String]
+    var product_id: String
 }
