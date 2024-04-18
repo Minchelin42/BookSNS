@@ -16,3 +16,7 @@ struct CreatePostQuery: Encodable {
     var files: [String]
     var product_id: String
 }
+
+struct LikeQuery: Encodable {
+    var like_status: Bool
+}
