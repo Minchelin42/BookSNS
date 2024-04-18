@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39353FA12BCE4167008AF1D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FA02BCE4167008AF1D5 /* HomeViewController.swift */; };
+		39353FA32BCE41F1008AF1D5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FA22BCE41F1008AF1D5 /* HomeViewModel.swift */; };
+		39353FA52BCE5B06008AF1D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FA42BCE5B06008AF1D5 /* HomeView.swift */; };
+		39353FA72BCE6E2E008AF1D5 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FA62BCE6E2E008AF1D5 /* HomeTableViewCell.swift */; };
+		39353FA92BCE6F7D008AF1D5 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FA82BCE6F7D008AF1D5 /* BaseTableViewCell.swift */; };
+		39353FAC2BCEC1C3008AF1D5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 39353FAB2BCEC1C3008AF1D5 /* Kingfisher */; };
 		3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8462BC987AF0070E13F /* CreatePostView.swift */; };
 		3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */; };
 		3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E84A2BC987C80070E13F /* CreatePostViewController.swift */; };
@@ -52,6 +58,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		39353FA02BCE4167008AF1D5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		39353FA22BCE41F1008AF1D5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		39353FA42BCE5B06008AF1D5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		39353FA62BCE6E2E008AF1D5 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		39353FA82BCE6F7D008AF1D5 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		3953E8462BC987AF0070E13F /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		3953E84A2BC987C80070E13F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -103,12 +114,24 @@
 				395DEF022BC7DA7E00488E50 /* Alamofire in Frameworks */,
 				395DEEF22BC7CF3B00488E50 /* RxCocoa in Frameworks */,
 				395DEEE92BC7C58600488E50 /* SnapKit in Frameworks */,
+				39353FAC2BCEC1C3008AF1D5 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39353F9F2BCE3EB1008AF1D5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				39353FA02BCE4167008AF1D5 /* HomeViewController.swift */,
+				39353FA22BCE41F1008AF1D5 /* HomeViewModel.swift */,
+				39353FA42BCE5B06008AF1D5 /* HomeView.swift */,
+				39353FA62BCE6E2E008AF1D5 /* HomeTableViewCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		3953E8452BC9877A0070E13F /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,14 +202,15 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
-				3953E8582BCC16C80070E13F /* SearchBook */,
-				3953E8452BC9877A0070E13F /* CreatePost */,
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
+				3953E8452BC9877A0070E13F /* CreatePost */,
+				395DEEE12BC7C4C600488E50 /* SignUp */,
 				395DEF092BC7E64300488E50 /* SignIn */,
+				39353F9F2BCE3EB1008AF1D5 /* Home */,
+				3953E8582BCC16C80070E13F /* SearchBook */,
 				395DEF142BC8369500488E50 /* WithDraw */,
 				395DEEF72BC7D47800488E50 /* Network */,
 				395DEEE42BC7C56500488E50 /* Base */,
-				395DEEE12BC7C4C600488E50 /* SignUp */,
 				395DEECA2BC7C08600488E50 /* AppDelegate.swift */,
 				395DEECC2BC7C08600488E50 /* SceneDelegate.swift */,
 				395DEECE2BC7C08600488E50 /* ViewController.swift */,
@@ -214,6 +238,7 @@
 			children = (
 				395DEEE52BC7C57500488E50 /* BaseView.swift */,
 				395DEEEE2BC7CEB000488E50 /* BaseViewController.swift */,
+				39353FA82BCE6F7D008AF1D5 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -272,6 +297,7 @@
 				395DEEF12BC7CF3B00488E50 /* RxCocoa */,
 				395DEEF32BC7CF3B00488E50 /* RxSwift */,
 				395DEF012BC7DA7E00488E50 /* Alamofire */,
+				39353FAB2BCEC1C3008AF1D5 /* Kingfisher */,
 			);
 			productName = BookSNS;
 			productReference = 395DEEC72BC7C08600488E50 /* BookSNS.app */;
@@ -305,6 +331,7 @@
 				395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				39353FAA2BCEC1C3008AF1D5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 395DEEC82BC7C08600488E50 /* Products */;
 			projectDirPath = "";
@@ -340,6 +367,7 @@
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
 				3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */,
 				3953E85A2BCC16DE0070E13F /* SearchBookViewController.swift in Sources */,
+				39353FA72BCE6E2E008AF1D5 /* HomeTableViewCell.swift in Sources */,
 				395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */,
 				3953E8552BCA235F0070E13F /* ViewModelType.swift in Sources */,
 				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
@@ -356,6 +384,8 @@
 				395DEF0B2BC7E65900488E50 /* SignInViewController.swift in Sources */,
 				395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */,
 				395DEECB2BC7C08600488E50 /* AppDelegate.swift in Sources */,
+				39353FA52BCE5B06008AF1D5 /* HomeView.swift in Sources */,
+				39353FA12BCE4167008AF1D5 /* HomeViewController.swift in Sources */,
 				3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
 				3953E8632BCC24CF0070E13F /* SearchBook.swift in Sources */,
@@ -365,8 +395,10 @@
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
 				3953E85E2BCC1F1B0070E13F /* SearchBookTableViewCell.swift in Sources */,
+				39353FA32BCE41F1008AF1D5 /* HomeViewModel.swift in Sources */,
 				395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */,
 				3953E8512BC991DC0070E13F /* PostRouter.swift in Sources */,
+				39353FA92BCE6F7D008AF1D5 /* BaseTableViewCell.swift in Sources */,
 				395DEECD2BC7C08600488E50 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -592,6 +624,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		39353FAA2BCEC1C3008AF1D5 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 		395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -619,6 +659,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		39353FAB2BCEC1C3008AF1D5 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39353FAA2BCEC1C3008AF1D5 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		395DEEE82BC7C58600488E50 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 395DEEE72BC7C58600488E50 /* XCRemoteSwiftPackageReference "SnapKit" */;
