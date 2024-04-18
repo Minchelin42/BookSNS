@@ -43,7 +43,7 @@ class SignUpViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(signUpObservable)
             .flatMap { signUpQuery in
-                return NetworkManager.emailValidation(query: EmailValidationQuery(email: signUpQuery.email))
+                return NetworkManager.APIcall(type: MessageModel.self, router: Router.emailValidation(query: EmailValidationQuery(email: signUpQuery.email)))
             }
             .subscribe(with: self) { owner, messageModel in
                 emailValidMessage.accept(messageModel.message)
@@ -73,7 +73,7 @@ class SignUpViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(signUpObservable)
             .flatMap { signUpQuery in
-                return NetworkManager.signUp(query: signUpQuery)
+                return NetworkManager.APIcall(type: SignUpModel.self, router: Router.signUp(query: signUpQuery))
             }
             .subscribe(with: self) { owner, loginModel in
                 signUpSuccess.accept(())

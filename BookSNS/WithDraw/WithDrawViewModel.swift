@@ -32,7 +32,7 @@ class WithDrawViewModel {
         input.withDrawButtonClicked
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
-                return NetworkManager.withDraw()
+                return NetworkManager.APIcall(type: SignUpModel.self, router: Router.withdraw)
             }
             .subscribe(with: self) { owner, withDrawModel in
                 userEmail.onNext(withDrawModel.email)

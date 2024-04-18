@@ -49,117 +49,30 @@ struct SignInModel: Decodable {
 
 struct NetworkManager {
     
-    static func withDraw() -> Single<SignUpModel> {
-        return Single<SignUpModel>.create { single in
+    static func APIcall<T: Decodable>(type: T.Type, router: TargetType) -> Single<T> {
+        return Single<T>.create { single in
             do {
-                let urlRequest = try Router.withdraw.asURLRequest()
+                let urlRequest = try router.asURLRequest()
                 
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<420)
-                    .responseDecodable(of: SignUpModel.self) { response in
+                    .responseDecodable(of: T.self) { response in
                         switch response.result {
-                        case .success(let signUpModel):
-                            print(signUpModel)
-                            single(.success(signUpModel))
+                        case .success(let responseModel):
+                            print("제네릭 통신 성공",responseModel)
+                            single(.success(responseModel))
                         case .failure(let error):
                             if let code = response.response?.statusCode {
-                                print("회월탈퇴 실패 \(code)")
+                                print("제네릭 통신 실패 \(code)")
                                 single(.failure(error))
                             } else {
-                                print("error 발생 \(error)")
+                                print("제네릭 통신 에러 발생 \(error)")
                             }
                         }
                     }
             } catch {
                 single(.failure(error))
             }
-            return Disposables.create()
-        }
-    }
-    
-    static func emailValidation(query: EmailValidationQuery) -> Single<MessageModel> {
-        return Single<MessageModel>.create { single in
-            do {
-                let urlRequest = try Router.emailValidation(query: query).asURLRequest()
-                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<410)
-                    .responseDecodable(of: MessageModel.self) { response in
-                        switch response.result {
-                        case .success(let messageModel):
-                            print("이메일 중복 확인 성공", messageModel)
-                            single(.success(messageModel))
-                        case .failure(let error):
-                            if let code = response.response?.statusCode {
-                                print("이메일 중복 확인 실패 \(code)")
-                                single(.failure(error))
-                            } else {
-                                print("이메일 중복 확인 실패 \(error)")
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    static func signIn(query: SignInQuery) -> Single<SignInModel> {
-        return Single<SignInModel>.create { single in
-            do {
-                let urlRequest = try Router.signIn(query: query).asURLRequest()
-                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<410)
-                    .responseDecodable(of: SignInModel.self) { response in
-                        switch response.result {
-                        case .success(let signInModel):
-                            print(signInModel)
-                            single(.success(signInModel))
-                        case .failure(let error):
-                            if let code = response.response?.statusCode {
-                                print("로그인 실패 \(code)")
-                                single(.failure(error))
-                            } else {
-                                print("error 발생 \(error)")
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    static func signUp(query: SignUpQuery) -> Single<SignUpModel> {
-        return Single<SignUpModel>.create { single in
-            do {
-                let urlRequest = try Router.signUp(query: query).asURLRequest()
-                
-                AF.request(urlRequest)
-                    .validate(statusCode: 200..<410)
-                    .responseDecodable(of: SignUpModel.self) { response in
-                        switch response.result {
-                        case .success(let signUpModel):
-                            print(signUpModel)
-                            single(.success(signUpModel))
-                        case .failure(let error):
-                            if let code = response.response?.statusCode {
-                                print("회원가입 실패 \(code)")
-                                single(.failure(error))
-                            } else {
-                                print("error 발생 \(error)")
-                            }
-                        }
-                    }
-            } catch {
-                single(.failure(error))
-            }
-            
             return Disposables.create()
         }
     }

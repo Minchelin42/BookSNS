@@ -49,7 +49,7 @@ class SignInViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(signInObservable)
             .flatMap { signInQuery in
-                return NetworkManager.signIn(query: signInQuery)
+                return NetworkManager.APIcall(type: SignInModel.self, router: Router.signIn(query: signInQuery))
             }
             .subscribe(with: self) { owner, signInModel in
                 signInSuccess.accept(())
