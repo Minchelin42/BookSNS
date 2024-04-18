@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class SearchBookTableViewCell: UITableViewCell {
+class SearchBookTableViewCell: BaseTableViewCell {
 
     static let identifier = "ITunesTableViewCell"
     
@@ -37,17 +37,6 @@ class SearchBookTableViewCell: UITableViewCell {
         label.textColor = .black
         return label
     }()
- 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureHierarchy()
-        configureLayout()
-        configureView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -55,13 +44,13 @@ class SearchBookTableViewCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(bookImage)
         contentView.addSubview(title)
         contentView.addSubview(price)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         bookImage.snp.makeConstraints { make in
             make.top.leading.bottom.equalTo(contentView).inset(12)
             make.width.equalTo(70)
@@ -82,7 +71,7 @@ class SearchBookTableViewCell: UITableViewCell {
         }
     }
     
-    func configureView() {
+    override func configureView() {
         title.backgroundColor = .orange
         price.backgroundColor = .brown
     }
