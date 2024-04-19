@@ -12,11 +12,17 @@ class ProfileView: BaseView {
     
     let profileImage = UIImageView()
     let profileName = UILabel()
+    
+    let postButton = UIButton()
+    let scrapButton = UIButton()
+    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
     
     override func configureHierarchy() {
         addSubview(profileImage)
         addSubview(profileName)
+        addSubview(postButton)
+        addSubview(scrapButton)
         addSubview(collectionView)
     }
     
@@ -35,8 +41,22 @@ class ProfileView: BaseView {
             
         }
         
+        postButton.snp.makeConstraints { make in
+            make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.height.equalTo(40)
+            make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
+            make.leading.equalTo(safeAreaLayoutGuide).inset(12)
+        }
+        
+        scrapButton.snp.makeConstraints { make in
+            make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.height.equalTo(40)
+            make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
+        }
+        
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(20)
+            make.top.equalTo(postButton.snp.bottom).offset(8)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
@@ -44,6 +64,8 @@ class ProfileView: BaseView {
     override func configureView() {
         profileImage.backgroundColor = .systemPink
         profileName.backgroundColor = .orange
+        postButton.backgroundColor = .blue
+        scrapButton.backgroundColor = .yellow
         collectionView.backgroundColor = .white
         
         collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)

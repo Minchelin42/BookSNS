@@ -15,6 +15,8 @@ class ProfileViewModel: ViewModelType {
 
     struct Input {
         let loadProfile: PublishSubject<Void>
+        let scrapButtonClicked: ControlEvent<Void>
+        let postButtonClicked: ControlEvent<Void>
     }
     
     struct Output {
@@ -26,6 +28,28 @@ class ProfileViewModel: ViewModelType {
         
         let profileInfo = PublishSubject<ProfileModel>()
         let postResult = PublishSubject<[String]>()
+        
+        input.postButtonClicked
+            .subscribe(with: self) { owner, scrapPost in
+                input.loadProfile.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
+        input.scrapButtonClicked
+            .flatMap { _ in
+                return NetworkManager.APIcall(type: GetPostModel.self, router: ProfileRouter.getScraplist)
+            }
+            .subscribe(with: self) { owner, scrapPost in
+                
+                var scrapResult: [String] = []
+                
+                for index in 0..<scrapPost.data.count {
+                    scrapResult.append(scrapPost.data[index].post_id)
+                }
+                
+                postResult.onNext(scrapResult.reversed())
+            }
+            .disposed(by: disposeBag)
         
         input.loadProfile
             .flatMap { _ in

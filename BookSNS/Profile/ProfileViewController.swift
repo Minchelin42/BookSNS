@@ -26,7 +26,7 @@ class ProfileViewController: RxBaseViewController {
     }
     
     override func bind() {
-        let input = ProfileViewModel.Input(loadProfile: PublishSubject<Void>())
+        let input = ProfileViewModel.Input(loadProfile: PublishSubject<Void>(), scrapButtonClicked: mainView.scrapButton.rx.tap, postButtonClicked: mainView.postButton.rx.tap)
 
         let output = viewModel.transform(input: input)
 

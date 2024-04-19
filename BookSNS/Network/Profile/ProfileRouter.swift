@@ -42,6 +42,7 @@ struct ProfileModel: Decodable {
 
 enum ProfileRouter {
     case myProfile
+    case getScraplist
 }
 
 extension ProfileRouter: TargetType {
@@ -51,26 +52,24 @@ extension ProfileRouter: TargetType {
     }
     
     var method: Alamofire.HTTPMethod {
-        switch self {
-        case .myProfile:
-            return .get
-        }
+        return .get
     }
     
     var path: String {
         switch self {
         case .myProfile:
             return "/users/me/profile"
+        case .getScraplist:
+            return "/posts/likes/me"
         }
     }
     
     var header: [String : String] {
-        switch self {
-        case .myProfile:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
-                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
-                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
-        }
+        
+        return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        
     }
     
     var parameters: String? {
