@@ -12,6 +12,7 @@ enum PostRouter {
     case createPost(query: CreatePostQuery)
     case uploadImage
     case getPost
+    case getThisPost(id: String)
     case like(id: String, query: LikeQuery)
 }
 
@@ -29,6 +30,8 @@ extension PostRouter: TargetType {
             return .post
         case .getPost:
             return .get
+        case .getThisPost:
+            return .get
         case .like:
             return .post
         }
@@ -42,6 +45,8 @@ extension PostRouter: TargetType {
             return "/posts/files"
         case .getPost:
             return "/posts"
+        case .getThisPost(let id):
+            return "/posts/\(id)"
         case .like(let id, _):
             return "/posts/\(id)/like"
         }
@@ -58,6 +63,9 @@ extension PostRouter: TargetType {
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                      HTTPHeader.contentType.rawValue: "multipart/form-data" ]
         case .getPost:
+            return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
+                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+        case .getThisPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
         case .like:
@@ -79,6 +87,8 @@ extension PostRouter: TargetType {
             return nil
         case .getPost:
             return [URLQueryItem(name: "product_id", value: "test"), URLQueryItem(name: "limit", value: "10")]
+        case .getThisPost:
+            return nil
         case .like:
             return nil
         }
@@ -93,6 +103,8 @@ extension PostRouter: TargetType {
         case .uploadImage:
             return nil
         case .getPost:
+            return nil
+        case .getThisPost:
             return nil
         case .like(_, let query):
             let encoder = JSONEncoder()

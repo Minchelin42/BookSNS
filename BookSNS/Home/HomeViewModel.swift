@@ -40,6 +40,16 @@ class HomeViewModel: ViewModelType {
         return Output(postResult: postResult)
     }
     
+    func isUser(selectID: String, myID: String) -> Bool {
+        if selectID == myID {
+            print("사용자의 프로필 입니다")
+            return true
+        } else {
+            print("다른 유저의 프로필 입니다")
+            return false
+        }
+    }
+    
 }
 
 
