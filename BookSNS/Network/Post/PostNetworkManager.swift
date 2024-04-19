@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 import Alamofire
 
+struct CommentModel: Decodable {
+    let comment_id: String //댓글 ID
+    let content: String //댓글 내용
+    let creator: CreatorModel //작성자 정보
+}
+
 struct BookModel: Decodable {
     let title: String //책 제목
     let priceStandard: Int //정가
@@ -32,6 +38,7 @@ struct PostModel: Decodable {
     let files: [String]
     let likes: [String]
     let hashTags: [String]
+    let comments: [CommentModel]
     
     enum CodingKeys: CodingKey {
         case post_id
@@ -45,6 +52,7 @@ struct PostModel: Decodable {
         case files
         case likes
         case hashTags
+        case comments
     }
     
     init(from decoder: Decoder) throws {
@@ -60,6 +68,7 @@ struct PostModel: Decodable {
         self.files = try container.decodeIfPresent([String].self, forKey: .files) ?? []
         self.likes = try container.decodeIfPresent([String].self, forKey: .likes) ?? []
         self.hashTags = try container.decodeIfPresent([String].self, forKey: .hashTags) ?? []
+        self.comments = try container.decodeIfPresent([CommentModel].self, forKey: .comments) ?? []
     }
 }
 

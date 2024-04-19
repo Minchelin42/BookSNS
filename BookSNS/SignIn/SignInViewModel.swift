@@ -53,6 +53,7 @@ class SignInViewModel {
             }
             .subscribe(with: self) { owner, signInModel in
                 signInSuccess.accept(())
+                UserDefaults.standard.set(signInModel.user_id, forKey: "userID")
                 UserDefaults.standard.set(signInModel.accessToken, forKey: "accessToken")
                 UserDefaults.standard.set(signInModel.refreshToken, forKey: "refreshToken")
             } onError: { owner, error in

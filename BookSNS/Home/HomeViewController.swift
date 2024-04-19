@@ -29,7 +29,6 @@ class HomeViewController: RxBaseViewController {
     override func bind() {
         
         let input = HomeViewModel.Input(getPost: PublishSubject<Void>())
-        
         let output = viewModel.transform(input: input)
         
         input.getPost.onNext(())
@@ -39,27 +38,32 @@ class HomeViewController: RxBaseViewController {
                 cellIdentifier: HomeTableViewCell.identifier,
                 cellType: HomeTableViewCell.self)
             ) {(row, element, cell) in
-                print("postResult 시작", element.likes)
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content1
                 
-                var isLike = element.likes.contains { $0 == "661e7154438b876b25f7566c"}
+                var isLike = element.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
+                
+                cell.profileButton.rx.tap
+                    .map { return element.creator?.user_id ?? "" }
+                    .subscribe(with: self) { owner, profileID in
+                        let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                        let isUser = owner.viewModel.isUser(selectID: profileID, myID: userID)
+                        
+                        if isUser {
+                            let vc = ProfileViewController()
+                            owner.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
+                    .disposed(by: cell.disposeBag)
                 
                 cell.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
                 
                 cell.save.rx.tap
                     .flatMap { _ in
-
-                        print("isLike: ",isLike)
-                        
                         return PostNetworkManager.like(id: element.post_id, query: LikeQuery(like_status: !isLike))
                     }
                     .subscribe(with: self) { owner, like in
-                        print("scrap button")
-                        print("post_id: ", element.post_id)
-                        print(like)
                         isLike = like.like_status
-                        print("통신 이후 isLike", isLike)
 
                         cell.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
                         input.getPost.onNext(())
@@ -67,6 +71,20 @@ class HomeViewController: RxBaseViewController {
                     
                     } onError: { owner, error in
                         print("오류 발생 \(error)")
+                    }
+                    .disposed(by: cell.disposeBag)
+  
+                cell.comment.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        let vc = CommentViewController()
+                        vc.post_id = element.post_id
+                          if let sheet = vc.sheetPresentationController {
+                              sheet.detents = [.medium()]
+
+                              sheet.prefersGrabberVisible = true
+                          }
+                          
+                          self.present(vc, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
                 
