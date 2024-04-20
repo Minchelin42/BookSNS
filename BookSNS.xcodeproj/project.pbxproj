@@ -27,6 +27,9 @@
 		393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540002BD3494F008AF1D5 /* OtherProfileViewController.swift */; };
 		393540032BD3495E008AF1D5 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540022BD3495E008AF1D5 /* OtherProfileView.swift */; };
 		393540052BD3496E008AF1D5 /* OtherProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540042BD3496E008AF1D5 /* OtherProfileViewModel.swift */; };
+		393540082BD35579008AF1D5 /* SelectPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540072BD35579008AF1D5 /* SelectPostViewController.swift */; };
+		3935400A2BD35588008AF1D5 /* SelectPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540092BD35588008AF1D5 /* SelectPostView.swift */; };
+		3935400C2BD35596008AF1D5 /* SelectPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3935400B2BD35596008AF1D5 /* SelectPostViewModel.swift */; };
 		3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8462BC987AF0070E13F /* CreatePostView.swift */; };
 		3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */; };
 		3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E84A2BC987C80070E13F /* CreatePostViewController.swift */; };
@@ -91,6 +94,9 @@
 		393540002BD3494F008AF1D5 /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		393540022BD3495E008AF1D5 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
 		393540042BD3496E008AF1D5 /* OtherProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewModel.swift; sourceTree = "<group>"; };
+		393540072BD35579008AF1D5 /* SelectPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostViewController.swift; sourceTree = "<group>"; };
+		393540092BD35588008AF1D5 /* SelectPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostView.swift; sourceTree = "<group>"; };
+		3935400B2BD35596008AF1D5 /* SelectPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPostViewModel.swift; sourceTree = "<group>"; };
 		3953E8462BC987AF0070E13F /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		3953E84A2BC987C80070E13F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +215,16 @@
 			path = OtherProfile;
 			sourceTree = "<group>";
 		};
+		393540062BD3555B008AF1D5 /* SelectPost */ = {
+			isa = PBXGroup;
+			children = (
+				393540072BD35579008AF1D5 /* SelectPostViewController.swift */,
+				393540092BD35588008AF1D5 /* SelectPostView.swift */,
+				3935400B2BD35596008AF1D5 /* SelectPostViewModel.swift */,
+			);
+			path = SelectPost;
+			sourceTree = "<group>";
+		};
 		3953E8452BC9877A0070E13F /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +295,7 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
+				393540062BD3555B008AF1D5 /* SelectPost */,
 				39353FFF2BD34916008AF1D5 /* OtherProfile */,
 				39353FD72BD1327D008AF1D5 /* Profile */,
 				39353FC72BD0FBFE008AF1D5 /* Comment */,
@@ -459,10 +476,12 @@
 				39353FCD2BD10086008AF1D5 /* CommentView.swift in Sources */,
 				395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */,
 				395DEECF2BC7C08600488E50 /* ViewController.swift in Sources */,
+				3935400A2BD35588008AF1D5 /* SelectPostView.swift in Sources */,
 				395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */,
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
 				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
 				3953E8602BCC235B0070E13F /* SearchBookViewModel.swift in Sources */,
+				393540082BD35579008AF1D5 /* SelectPostViewController.swift in Sources */,
 				39353FE02BD13E87008AF1D5 /* PostCollectionViewCell.swift in Sources */,
 				39353FDE2BD138C0008AF1D5 /* ProfileRouter.swift in Sources */,
 				39353FD42BD12427008AF1D5 /* CommentRouter.swift in Sources */,
@@ -487,6 +506,7 @@
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
 				393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
+				3935400C2BD35596008AF1D5 /* SelectPostViewModel.swift in Sources */,
 				39353FD22BD1240E008AF1D5 /* CreateCommentQuery.swift in Sources */,
 				39353FD62BD13273008AF1D5 /* ProfileViewController.swift in Sources */,
 				3953E85E2BCC1F1B0070E13F /* SearchBookTableViewCell.swift in Sources */,

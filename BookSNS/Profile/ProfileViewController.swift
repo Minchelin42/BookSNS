@@ -61,8 +61,11 @@ class ProfileViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         self.mainView.collectionView.rx.modelSelected(String.self)
-            .subscribe(with: self) { owner, post in
-                print("collectionView 클릭", post)
+            .subscribe(with: self) { owner, postID in
+                print("collectionView 클릭", postID)
+                let vc = SelectPostViewController()
+                vc.postID = postID
+                owner.navigationController?.pushViewController(vc, animated: true)
                 
             }
             .disposed(by: disposeBag)
