@@ -24,6 +24,9 @@
 		39353FDB2BD132B0008AF1D5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FDA2BD132B0008AF1D5 /* ProfileViewModel.swift */; };
 		39353FDE2BD138C0008AF1D5 /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FDD2BD138C0008AF1D5 /* ProfileRouter.swift */; };
 		39353FE02BD13E87008AF1D5 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39353FDF2BD13E87008AF1D5 /* PostCollectionViewCell.swift */; };
+		393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540002BD3494F008AF1D5 /* OtherProfileViewController.swift */; };
+		393540032BD3495E008AF1D5 /* OtherProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540022BD3495E008AF1D5 /* OtherProfileView.swift */; };
+		393540052BD3496E008AF1D5 /* OtherProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540042BD3496E008AF1D5 /* OtherProfileViewModel.swift */; };
 		3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8462BC987AF0070E13F /* CreatePostView.swift */; };
 		3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */; };
 		3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E84A2BC987C80070E13F /* CreatePostViewController.swift */; };
@@ -85,6 +88,9 @@
 		39353FDA2BD132B0008AF1D5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		39353FDD2BD138C0008AF1D5 /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		39353FDF2BD13E87008AF1D5 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
+		393540002BD3494F008AF1D5 /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
+		393540022BD3495E008AF1D5 /* OtherProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileView.swift; sourceTree = "<group>"; };
+		393540042BD3496E008AF1D5 /* OtherProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewModel.swift; sourceTree = "<group>"; };
 		3953E8462BC987AF0070E13F /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		3953E84A2BC987C80070E13F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +199,16 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		39353FFF2BD34916008AF1D5 /* OtherProfile */ = {
+			isa = PBXGroup;
+			children = (
+				393540002BD3494F008AF1D5 /* OtherProfileViewController.swift */,
+				393540022BD3495E008AF1D5 /* OtherProfileView.swift */,
+				393540042BD3496E008AF1D5 /* OtherProfileViewModel.swift */,
+			);
+			path = OtherProfile;
+			sourceTree = "<group>";
+		};
 		3953E8452BC9877A0070E13F /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +279,7 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
+				39353FFF2BD34916008AF1D5 /* OtherProfile */,
 				39353FD72BD1327D008AF1D5 /* Profile */,
 				39353FC72BD0FBFE008AF1D5 /* Comment */,
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
@@ -462,10 +479,13 @@
 				3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
 				3953E8632BCC24CF0070E13F /* SearchBook.swift in Sources */,
+				393540052BD3496E008AF1D5 /* OtherProfileViewModel.swift in Sources */,
 				395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */,
 				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
 				3953E8532BC992CB0070E13F /* PostNetworkManager.swift in Sources */,
+				393540032BD3495E008AF1D5 /* OtherProfileView.swift in Sources */,
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
+				393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
 				39353FD22BD1240E008AF1D5 /* CreateCommentQuery.swift in Sources */,
 				39353FD62BD13273008AF1D5 /* ProfileViewController.swift in Sources */,

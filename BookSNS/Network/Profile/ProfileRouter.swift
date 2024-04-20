@@ -30,7 +30,7 @@ struct ProfileModel: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.user_id = try container.decode(String.self, forKey: .user_id)
-        self.email = try container.decode(String.self, forKey: .email)
+        self.email = try container.decodeIfPresent(String.self, forKey: .email) ?? ""
         self.nick = try container.decode(String.self, forKey: .nick)
         self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage) ?? ""
         self.followers = try container.decode([String].self, forKey: .followers)
@@ -42,6 +42,7 @@ struct ProfileModel: Decodable {
 
 enum ProfileRouter {
     case myProfile
+    case otherProfile(id: String)
     case getScraplist
 }
 
@@ -59,6 +60,8 @@ extension ProfileRouter: TargetType {
         switch self {
         case .myProfile:
             return "/users/me/profile"
+        case .otherProfile(let id):
+            return "/users/\(id)/profile"
         case .getScraplist:
             return "/posts/likes/me"
         }

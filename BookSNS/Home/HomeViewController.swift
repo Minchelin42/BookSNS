@@ -38,6 +38,7 @@ class HomeViewController: RxBaseViewController {
                 cellIdentifier: HomeTableViewCell.identifier,
                 cellType: HomeTableViewCell.self)
             ) {(row, element, cell) in
+                
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content1
                 
@@ -49,8 +50,12 @@ class HomeViewController: RxBaseViewController {
                         let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
                         let isUser = owner.viewModel.isUser(selectID: profileID, myID: userID)
                         
-                        if isUser {
+                        if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()
+                            owner.navigationController?.pushViewController(vc, animated: true)
+                        } else {
+                            let vc = OtherProfileViewController()
+                            vc.userID = profileID
                             owner.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
