@@ -21,6 +21,9 @@ class SelectPostView: BaseView {
     let save = UIButton()
     let textView = UILabel()
     
+    let cardView = BookCardView()
+    let tapGesture = UITapGestureRecognizer()
+    
     override func configureHierarchy() {
         
         addSubview(scrollView)
@@ -32,6 +35,9 @@ class SelectPostView: BaseView {
         contentView.addSubview(comment)
         contentView.addSubview(save)
         contentView.addSubview(textView)
+        contentView.addSubview(cardView)
+
+        cardView.addGestureRecognizer(tapGesture)
     }
     
     override func configureLayout() {
@@ -79,6 +85,13 @@ class SelectPostView: BaseView {
         textView.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView).inset(12)
+            make.height.greaterThanOrEqualTo(10)
+        }
+        
+        cardView.snp.makeConstraints { make in
+            make.top.equalTo(textView.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(contentView).inset(12)
+            make.height.equalTo(100)
             make.bottom.equalTo(contentView).inset(12)
         }
     }
@@ -94,6 +107,9 @@ class SelectPostView: BaseView {
         textView.backgroundColor = .cyan
         textView.numberOfLines = 0
         textView.text = ""
+        cardView.backgroundColor = .systemPink
+        cardView.clipsToBounds = true
+        cardView.layer.cornerRadius = 16
     }
     
     

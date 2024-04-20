@@ -33,6 +33,8 @@
 		3935400F2BD39D7B008AF1D5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3935400E2BD39D7B008AF1D5 /* SearchViewController.swift */; };
 		393540112BD39D87008AF1D5 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540102BD39D87008AF1D5 /* SearchViewModel.swift */; };
 		393540152BD3A658008AF1D5 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540142BD3A658008AF1D5 /* SearchCollectionViewCell.swift */; };
+		393540182BD42214008AF1D5 /* BookCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540172BD42214008AF1D5 /* BookCardView.swift */; };
+		3935401A2BD42C32008AF1D5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540192BD42C32008AF1D5 /* TabBarController.swift */; };
 		3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8462BC987AF0070E13F /* CreatePostView.swift */; };
 		3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */; };
 		3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3953E84A2BC987C80070E13F /* CreatePostViewController.swift */; };
@@ -103,6 +105,8 @@
 		3935400E2BD39D7B008AF1D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		393540102BD39D87008AF1D5 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		393540142BD3A658008AF1D5 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		393540172BD42214008AF1D5 /* BookCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardView.swift; sourceTree = "<group>"; };
+		393540192BD42C32008AF1D5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		3953E8462BC987AF0070E13F /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		3953E84A2BC987C80070E13F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +245,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		393540162BD421F8008AF1D5 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				393540172BD42214008AF1D5 /* BookCardView.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		3953E8452BC9877A0070E13F /* CreatePost */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
+				393540162BD421F8008AF1D5 /* Custom */,
 				3935400D2BD385A8008AF1D5 /* Search */,
 				393540062BD3555B008AF1D5 /* SelectPost */,
 				39353FFF2BD34916008AF1D5 /* OtherProfile */,
@@ -333,6 +346,7 @@
 				395DEED82BC7C08800488E50 /* Info.plist */,
 				395DEEEC2BC7CDD400488E50 /* Main.storyboard */,
 				3953E8542BCA235F0070E13F /* ViewModelType.swift */,
+				393540192BD42C32008AF1D5 /* TabBarController.swift */,
 			);
 			path = BookSNS;
 			sourceTree = "<group>";
@@ -478,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39353FC92BD0FC12008AF1D5 /* CommentViewController.swift in Sources */,
+				393540182BD42214008AF1D5 /* BookCardView.swift in Sources */,
 				3953E84F2BC991840070E13F /* CreatePostQuery.swift in Sources */,
 				3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */,
 				395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */,
@@ -485,6 +500,7 @@
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
 				3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */,
 				3953E85A2BCC16DE0070E13F /* SearchBookViewController.swift in Sources */,
+				3935401A2BD42C32008AF1D5 /* TabBarController.swift in Sources */,
 				39353FA72BCE6E2E008AF1D5 /* HomeTableViewCell.swift in Sources */,
 				395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */,
 				3953E8552BCA235F0070E13F /* ViewModelType.swift in Sources */,

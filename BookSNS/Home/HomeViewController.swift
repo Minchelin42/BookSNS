@@ -40,7 +40,18 @@ class HomeViewController: RxBaseViewController {
             ) {(row, element, cell) in
                 
                 cell.nickName.text = element.creator?.nick
-                cell.textView.text = element.content1
+                cell.textView.text = element.content
+                
+                cell.cardView.title.text = element.content1
+                cell.cardView.price.text = "\(element.content2)원"
+                cell.cardView.bookImage.kf.setImage(with: URL(string: element.content4))
+                
+                cell.tapGesture.rx.event
+                    .subscribe(with: self) { owner, _ in
+                        cell.cardView.unknownView.isHidden.toggle()
+                        UIView.transition(with: cell.cardView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: nil)
+                    }
+                    .disposed(by: cell.disposeBag)
                 
                 var isLike = element.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
                 

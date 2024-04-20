@@ -24,14 +24,16 @@ class HomeTableViewCell: BaseTableViewCell {
     let save = UIButton()
     let textView = UILabel()
     
-    //책 정보는 일단 나중에 생각
-    
+    let cardView = BookCardView()
+    let tapGesture = UITapGestureRecognizer()
+
     override func prepareForReuse() {
         super.prepareForReuse()
         
         disposeBag = DisposeBag()
         postImage.image = nil
         save.setImage(nil, for: .normal)
+        cardView.unknownView.isHidden = false
     }
 
     override func configureHierarchy() {
@@ -41,6 +43,9 @@ class HomeTableViewCell: BaseTableViewCell {
         contentView.addSubview(comment)
         contentView.addSubview(save)
         contentView.addSubview(textView)
+        contentView.addSubview(cardView)
+
+        cardView.addGestureRecognizer(tapGesture)
     }
     
     override func configureLayout() {
@@ -77,10 +82,16 @@ class HomeTableViewCell: BaseTableViewCell {
         textView.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView).inset(12)
-            make.height.lessThanOrEqualTo(100)
-            make.bottom.equalTo(contentView).inset(12)
+            make.height.greaterThanOrEqualTo(10)
         }
         
+        cardView.snp.makeConstraints { make in
+            make.top.equalTo(textView.snp.bottom).offset(12)
+            make.horizontalEdges.equalTo(contentView).inset(12)
+            make.height.equalTo(100)
+            make.bottom.equalTo(contentView).inset(12)
+        }
+
     }
     
     override func configureView() {
@@ -93,6 +104,9 @@ class HomeTableViewCell: BaseTableViewCell {
         save.tintColor = .black
         textView.backgroundColor = .cyan
         textView.numberOfLines = 0
+        cardView.backgroundColor = .systemPink
+        cardView.clipsToBounds = true
+        cardView.layer.cornerRadius = 16
     }
-    
+
 }

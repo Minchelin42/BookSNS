@@ -34,7 +34,18 @@ class SelectPostViewController: RxBaseViewController {
         output.postResult
             .subscribe(with: self) { owner, result in
                 owner.mainView.nickName.text = result.creator?.nick
-                owner.mainView.textView.text = result.content1
+                owner.mainView.textView.text = result.content
+                
+                owner.mainView.cardView.title.text = result.content1
+                owner.mainView.cardView.price.text = "\(result.content2)원"
+                owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: result.content4))
+                
+                owner.mainView.tapGesture.rx.event
+                    .subscribe(with: self) { owner, _ in
+                        owner.mainView.cardView.unknownView.isHidden.toggle()
+                        UIView.transition(with:  owner.mainView.cardView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: nil)
+                    }
+                    .disposed(by: owner.disposeBag)
                 
                 owner.mainView.comment.rx.tap
                     .map { return result.post_id }
