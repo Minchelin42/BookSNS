@@ -14,6 +14,9 @@ class CommentViewModel: ViewModelType {
     var disposeBag = DisposeBag()
 
     var post_id: String = ""
+    var commentResult: [CommentModel] = []
+    
+    var deleteButtonTapped = PublishSubject<String>()
     
     struct Input {
         let loadCommentResult: PublishSubject<Void>

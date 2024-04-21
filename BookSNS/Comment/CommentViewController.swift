@@ -45,9 +45,47 @@ class CommentViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.commentResult
+            .subscribe(with: self) { owner, comment in
+                owner.viewModel.commentResult = comment
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.deleteButtonTapped
+            .subscribe(with: self) { owner, comment_id in
+                NetworkManager.DeleteAPI(router: CommentRouter.deleteComment(id: owner.post_id, commentID: comment_id))
+                input.loadCommentResult.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.tableView.rx.setDelegate(self)
+                    .disposed(by: disposeBag)
+
         viewModel.post_id = self.post_id
         input.loadCommentResult.onNext(())
         
     }
     
+}
+
+extension CommentViewController: UITableViewDelegate {
+
+   func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+       
+       let userID = UserDefaults.standard.string(forKey: "userID")
+       
+       if self.viewModel.commentResult[indexPath.row].creator.user_id == userID {
+           
+           let deleteButton = UITableViewRowAction(style: .default, title: "삭제") { (action, indexPath) in
+               self.viewModel.deleteButtonTapped.onNext(self.viewModel.commentResult[indexPath.row].comment_id)
+               print("delete")
+               return
+           }
+           
+           return [deleteButton]
+           
+       }
+
+        return []
+    }
 }
