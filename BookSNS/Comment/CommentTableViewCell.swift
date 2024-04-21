@@ -56,6 +56,7 @@ class CommentTableViewCell: BaseTableViewCell {
     }
 
     override func configureView() {
+        super.configureView()
         profileButton.backgroundColor = .yellow
         nickName.backgroundColor = .orange
         comment.backgroundColor = .blue

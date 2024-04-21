@@ -19,6 +19,9 @@ class HomeTableViewCell: BaseTableViewCell {
     let profileButton = UIButton()
     let nickName = UILabel()
     
+    let optionButton = UIButton(type: .system)
+
+    
     let postImage = UIImageView()
     let comment = UIButton()
     let save = UIButton()
@@ -39,6 +42,7 @@ class HomeTableViewCell: BaseTableViewCell {
     override func configureHierarchy() {
         contentView.addSubview(profileButton)
         contentView.addSubview(nickName)
+        contentView.addSubview(optionButton)
         contentView.addSubview(postImage)
         contentView.addSubview(comment)
         contentView.addSubview(save)
@@ -57,8 +61,14 @@ class HomeTableViewCell: BaseTableViewCell {
         nickName.snp.makeConstraints { make in
             make.leading.equalTo(profileButton.snp.trailing).offset(8)
             make.top.equalTo(profileButton.snp.top).offset(4)
-            make.trailing.equalTo(contentView).inset(12)
+            make.trailing.equalTo(optionButton.snp.leading).offset(-12)
             make.height.equalTo(20)
+        }
+        
+        optionButton.snp.makeConstraints { make in
+            make.centerY.equalTo(profileButton)
+            make.size.equalTo(30)
+            make.trailing.equalTo(contentView).inset(12)
         }
         
         postImage.snp.makeConstraints { make in
@@ -95,8 +105,15 @@ class HomeTableViewCell: BaseTableViewCell {
     }
     
     override func configureView() {
+        super.configureView()
         profileButton.backgroundColor = .yellow
         nickName.backgroundColor = .orange
+        
+        optionButton.backgroundColor = .purple
+        optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        optionButton.showsMenuAsPrimaryAction = true
+
+        
         postImage.backgroundColor = .green
         comment.setImage(UIImage(systemName: "message"), for: .normal)
         comment.tintColor = .black

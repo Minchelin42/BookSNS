@@ -29,7 +29,7 @@ class BaseTableViewCell: UITableViewCell {
     }
     
     func configureView() {
-        
+        selectionStyle = .none
     }
 
 }
