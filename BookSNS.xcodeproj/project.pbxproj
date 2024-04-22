@@ -81,6 +81,7 @@
 		39C2E4C72BD6312B00885E88 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C62BD6312B00885E88 /* EditProfileView.swift */; };
 		39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */; };
 		39C2E4CB2BD6314400885E88 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */; };
+		39C2E4CE2BD6BD5600885E88 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4CD2BD6BD5600885E88 /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -155,6 +156,7 @@
 		39C2E4C62BD6312B00885E88 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		39C2E4CD2BD6BD5600885E88 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +334,7 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
+				39C2E4CC2BD6BD0A00885E88 /* Style */,
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
 				393540162BD421F8008AF1D5 /* Custom */,
 				3935400D2BD385A8008AF1D5 /* Search */,
@@ -424,6 +427,14 @@
 				39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */,
 			);
 			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		39C2E4CC2BD6BD0A00885E88 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				39C2E4CD2BD6BD5600885E88 /* Color.swift */,
+			);
+			path = Style;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -546,6 +557,7 @@
 				39353FD42BD12427008AF1D5 /* CommentRouter.swift in Sources */,
 				3953E85C2BCC19DC0070E13F /* SearchBookView.swift in Sources */,
 				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
+				39C2E4CE2BD6BD5600885E88 /* Color.swift in Sources */,
 				395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */,
 				395DEF0B2BC7E65900488E50 /* SignInViewController.swift in Sources */,
 				395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */,
