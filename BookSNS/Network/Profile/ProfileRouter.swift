@@ -8,6 +8,11 @@
 import Foundation
 import Alamofire
 
+struct ProfileQuery: Encodable {
+    var nick: String
+    var profile: Data
+}
+
 struct ProfileModel: Decodable {
     let user_id: String
     let email: String
@@ -44,6 +49,7 @@ enum ProfileRouter {
     case myProfile
     case otherProfile(id: String)
     case getScraplist
+    case editProfile(query: ProfileQuery)
 }
 
 extension ProfileRouter: TargetType {
@@ -53,7 +59,16 @@ extension ProfileRouter: TargetType {
     }
     
     var method: Alamofire.HTTPMethod {
-        return .get
+        switch self {
+        case .myProfile:
+            return .get
+        case .otherProfile:
+            return .get
+        case .getScraplist:
+            return .get
+        case .editProfile:
+            return .put
+        }
     }
     
     var path: String {
@@ -64,14 +79,33 @@ extension ProfileRouter: TargetType {
             return "/users/\(id)/profile"
         case .getScraplist:
             return "/posts/likes/me"
+        case .editProfile:
+            return "/users/me/profile"
         }
     }
-    
+
     var header: [String : String] {
         
-        return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
-                HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
-                HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        switch self {
+        case .myProfile:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .otherProfile:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .getScraplist:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .editProfile:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue: "multipart/form-data",
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        }
+        
+        
         
     }
     
@@ -84,7 +118,16 @@ extension ProfileRouter: TargetType {
     }
     
     var body: Data? {
-        return nil
+        switch self {
+        case .myProfile:
+            return nil
+        case .otherProfile:
+            return nil
+        case .getScraplist:
+            return nil
+        case .editProfile:
+            return nil
+        }
     }
 
 }

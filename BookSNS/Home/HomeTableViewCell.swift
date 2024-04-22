@@ -16,7 +16,7 @@ class HomeTableViewCell: BaseTableViewCell {
     
     var disposeBag = DisposeBag()
     
-    let profileButton = UIButton()
+    let profileButton = UIButton(type: .custom)
     let nickName = UILabel()
     
     let optionButton = UIButton(type: .system)
@@ -34,6 +34,7 @@ class HomeTableViewCell: BaseTableViewCell {
         super.prepareForReuse()
         
         disposeBag = DisposeBag()
+        profileButton.setImage(nil, for: .normal)
         postImage.image = nil
         save.setImage(nil, for: .normal)
         cardView.unknownView.isHidden = false

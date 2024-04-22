@@ -13,6 +13,8 @@ class ProfileView: BaseView {
     let profileImage = UIImageView()
     let profileName = UILabel()
     
+    let profileEditButton = UIButton()
+    
     let postButton = UIButton()
     let scrapButton = UIButton()
     
@@ -21,6 +23,7 @@ class ProfileView: BaseView {
     override func configureHierarchy() {
         addSubview(profileImage)
         addSubview(profileName)
+        addSubview(profileEditButton)
         addSubview(postButton)
         addSubview(scrapButton)
         addSubview(collectionView)
@@ -41,15 +44,21 @@ class ProfileView: BaseView {
             
         }
         
-        postButton.snp.makeConstraints { make in
+        profileEditButton.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.height.equalTo(40)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
+        }
+        
+        postButton.snp.makeConstraints { make in
+            make.top.equalTo(profileEditButton.snp.bottom).offset(8)
             make.height.equalTo(40)
             make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
             make.leading.equalTo(safeAreaLayoutGuide).inset(12)
         }
         
         scrapButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.top.equalTo(profileEditButton.snp.bottom).offset(8)
             make.height.equalTo(40)
             make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
@@ -64,6 +73,7 @@ class ProfileView: BaseView {
     override func configureView() {
         profileImage.backgroundColor = .systemPink
         profileName.backgroundColor = .orange
+        profileEditButton.backgroundColor = .green
         postButton.backgroundColor = .blue
         scrapButton.backgroundColor = .yellow
         collectionView.backgroundColor = .white

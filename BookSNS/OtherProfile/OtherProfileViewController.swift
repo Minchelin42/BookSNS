@@ -34,6 +34,21 @@ class OtherProfileViewController: RxBaseViewController {
         output.profileInfo
             .subscribe(with: self) { owner, profile in
                 owner.mainView.profileName.text = profile.nick
+                
+                let modifier = AnyModifier { request in
+                    var r = request
+                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                    return r
+                }
+
+                if !profile.profileImage.isEmpty {
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
+                    
+                    owner.mainView.profileImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                } else {
+                    owner.mainView.profileImage.image = UIImage(systemName: "person")
+                }
             }
             .disposed(by: disposeBag)
         
