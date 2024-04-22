@@ -17,10 +17,13 @@ class CreatePostViewModel: ViewModelType {
     var imageData: [Data?] = []
     var inputImageData = PublishSubject<[Data?]>()
     var selectedBook = PublishSubject<BookModel>()
+    var type: PostType = .create
+    var id: String = ""
     
     struct Input {
         let contentText: ControlProperty<String>
         let imageData: PublishSubject<[Data?]>
+        let fileData: PublishSubject<[String]>
         let imageRegisterButtonTapped: ControlEvent<Void>
         let searchBookButtonTapped: ControlEvent<Void>
         let createButtonTapped: ControlEvent<Void>
@@ -54,6 +57,15 @@ class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
+        input.fileData
+            .subscribe(with: self) { owner, files in
+                postQuery.files = files
+            } onError: { owner, error in
+                print("오류 발생 \(error)")
+                createSuccess.onNext(false)
+            }
+            .disposed(by: disposeBag)
+        
         self.selectedBook.subscribe(with: self) { owner, book in
             postQuery.content1 = book.title
             postQuery.content2 = String(book.priceStandard)
@@ -65,7 +77,11 @@ class CreatePostViewModel: ViewModelType {
         input.createButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
-                return PostNetworkManager.createPost(query: postQuery)
+                if self.type == .create {
+                    return PostNetworkManager.createPost(query: postQuery)
+                } else {
+                    return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.id, query: postQuery))
+                }
             }
             .subscribe(with: self) { owner, postModel in
                 print(postModel)

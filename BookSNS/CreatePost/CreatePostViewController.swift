@@ -9,10 +9,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum PostType {
+    case create
+    case edit
+}
+
 class CreatePostViewController: RxBaseViewController {
+    
+    var type = PostType.create
+    
+    var id = ""
     
     let mainView = CreatePostView()
     let viewModel = CreatePostViewModel()
+    let editViewModel = EditPostViewModel()
     
     override func loadView() {
         self.view = mainView
@@ -30,9 +40,30 @@ class CreatePostViewController: RxBaseViewController {
     }
     
     override func bind() {
-        let input = CreatePostViewModel.Input(contentText: mainView.textView.rx.text.orEmpty, imageData: PublishSubject<[Data?]>(), imageRegisterButtonTapped: mainView.imageRegisterButton.rx.tap, searchBookButtonTapped: mainView.searchBookButton.rx.tap, createButtonTapped: mainView.createButton.rx.tap)
+        
+        let input = CreatePostViewModel.Input(contentText: mainView.textView.rx.text.orEmpty, imageData: PublishSubject<[Data?]>(), fileData: PublishSubject<[String]>(), imageRegisterButtonTapped: mainView.imageRegisterButton.rx.tap, searchBookButtonTapped: mainView.searchBookButton.rx.tap, createButtonTapped: mainView.createButton.rx.tap)
         
         let output = viewModel.transform(input: input)
+        
+        if type == .edit {
+            print("edit 작동")
+            let editInput = EditPostViewModel.Input(loadPost: PublishSubject<String>())
+            
+            let editOutput = editViewModel.transform(input: editInput)
+            
+            editOutput.postResult
+                .subscribe(with: self) { owner, result in
+                    owner.mainView.textView.text = result.content
+                    owner.mainView.textView.textColor = .black
+                    input.fileData.onNext(result.files)
+                }
+                .disposed(by: disposeBag)
+            
+            editInput.loadPost.onNext(self.id)
+            
+            viewModel.type = .edit
+            viewModel.id = self.id
+        }
 
         viewModel.inputImageData
             .subscribe(with: self) { owner, value in
@@ -63,11 +94,13 @@ class CreatePostViewController: RxBaseViewController {
         
         output.createSuccesss
             .subscribe(with: self) { owner, value in
+                
                 let alert = UIAlertController(title: value ? "게시글 등록 완료" : "게시글 등록 실패", message: nil, preferredStyle: .alert)
-
+                
+                
                 let button = UIAlertAction(title: "확인", style: .default)
                 alert.addAction(button)
-
+                
                 owner.present(alert, animated: true)
             }
             .disposed(by: disposeBag)

@@ -15,6 +15,8 @@ class HomeViewController: RxBaseViewController {
     let mainView = HomeView()
     let viewModel = HomeViewModel()
     
+    let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+    
     override func loadView() {
         self.view = mainView
     }
@@ -28,11 +30,26 @@ class HomeViewController: RxBaseViewController {
     
     override func bind() {
         
-        let input = HomeViewModel.Input(getPost: PublishSubject<Void>())
+        let input = HomeViewModel.Input(getPost: PublishSubject<Void>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
         let output = viewModel.transform(input: input)
         
         input.getPost.onNext(())
-
+        
+        output.editButtonTapped
+            .subscribe(with: self) { owner, id in
+               let vc = CreatePostViewController()
+                vc.type = .edit
+                vc.id = id
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.deleteButtonTapped
+            .subscribe(with: self) { owenr, _ in
+                print("delete Button Clicked")
+            }
+            .disposed(by: disposeBag)
+        
         output.postResult
             .bind(to: mainView.tableView.rx.items(
                 cellIdentifier: HomeTableViewCell.identifier,
@@ -41,6 +58,30 @@ class HomeViewController: RxBaseViewController {
                 
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content
+                
+                if let profileImage = element.creator?.profileImage {
+                    if !profileImage.isEmpty {
+                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                        cell.profileButton.kf.setImage(with: imgURL, for: .normal)
+                    } else {
+                        cell.profileButton.setImage(UIImage(systemName: "person"), for: .normal)
+                    }
+                } else {
+                    cell.profileButton.setImage(UIImage(systemName: "person"), for: .normal)
+                }
+
+                let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
+                    print("수정하기")
+                    input.editButtonTapped.onNext(element.post_id)
+                }
+                let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+                    print("삭제하기")
+                    input.deleteButtonTapped.onNext(element.post_id)
+                }
+                
+                cell.optionButton.isHidden = (self.userID != element.creator?.user_id)
+
+                cell.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
                 
                 cell.cardView.title.text = element.content1
                 cell.cardView.price.text = "\(element.content2)원"
@@ -58,8 +99,8 @@ class HomeViewController: RxBaseViewController {
                 cell.profileButton.rx.tap
                     .map { return element.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
-                        let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
-                        let isUser = owner.viewModel.isUser(selectID: profileID, myID: userID)
+
+                        let isUser = owner.viewModel.isUser(selectID: profileID, myID: owner.userID)
                         
                         if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()

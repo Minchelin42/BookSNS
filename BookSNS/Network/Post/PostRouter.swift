@@ -10,10 +10,12 @@ import Alamofire
 
 enum PostRouter {
     case createPost(query: CreatePostQuery)
+    case editPost(id: String, query: CreatePostQuery)
     case uploadImage
     case getPost
     case hashTagPost(tag: String)
     case getThisPost(id: String)
+    case deletePost(id: String)
     case like(id: String, query: LikeQuery)
 }
 
@@ -27,6 +29,8 @@ extension PostRouter: TargetType {
         switch self {
         case .createPost:
             return .post
+        case .editPost:
+            return .put
         case .uploadImage:
             return .post
         case .getPost:
@@ -35,6 +39,8 @@ extension PostRouter: TargetType {
             return .get
         case .getThisPost:
             return .get
+        case .deletePost:
+            return .delete
         case .like:
             return .post
         }
@@ -44,6 +50,8 @@ extension PostRouter: TargetType {
         switch self {
         case .createPost:
             return "/posts"
+        case .editPost(let id, _):
+            return "/posts/\(id)"
         case .uploadImage:
             return "/posts/files"
         case .getPost:
@@ -51,6 +59,8 @@ extension PostRouter: TargetType {
         case .hashTagPost:
             return "/posts/hashtags"
         case .getThisPost(let id):
+            return "/posts/\(id)"
+        case .deletePost(let id):
             return "/posts/\(id)"
         case .like(let id, _):
             return "/posts/\(id)/like"
@@ -60,6 +70,10 @@ extension PostRouter: TargetType {
     var header: [String : String] {
         switch self {
         case .createPost:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .editPost:
             return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
@@ -74,6 +88,9 @@ extension PostRouter: TargetType {
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
         case .getThisPost:
+            return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
+                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+        case .deletePost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
         case .like:
@@ -91,6 +108,8 @@ extension PostRouter: TargetType {
         switch self {
         case .createPost:
             return nil
+        case .editPost:
+            return nil
         case .uploadImage:
             return nil
         case .getPost:
@@ -98,6 +117,8 @@ extension PostRouter: TargetType {
         case .hashTagPost(let tag):
             return [URLQueryItem(name: "hashTag", value: tag)]
         case .getThisPost:
+            return nil
+        case .deletePost:
             return nil
         case .like:
             return nil
@@ -110,6 +131,10 @@ extension PostRouter: TargetType {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
+        case .editPost(_, let query):
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            return try? encoder.encode(query)
         case .uploadImage:
             return nil
         case .getPost:
@@ -117,6 +142,8 @@ extension PostRouter: TargetType {
         case .hashTagPost:
             return nil
         case .getThisPost:
+            return nil
+        case .deletePost:
             return nil
         case .like(_, let query):
             let encoder = JSONEncoder()

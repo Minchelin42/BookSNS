@@ -77,6 +77,10 @@
 		395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF152BC836B900488E50 /* WithDrawView.swift */; };
 		395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF172BC83D0300488E50 /* WithDrawViewController.swift */; };
 		395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */; };
+		39C2E4B12BD52DA900885E88 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */; };
+		39C2E4C72BD6312B00885E88 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C62BD6312B00885E88 /* EditProfileView.swift */; };
+		39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */; };
+		39C2E4CB2BD6314400885E88 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +151,10 @@
 		395DEF152BC836B900488E50 /* WithDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawView.swift; sourceTree = "<group>"; };
 		395DEF172BC83D0300488E50 /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
 		395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewModel.swift; sourceTree = "<group>"; };
+		39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
+		39C2E4C62BD6312B00885E88 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +267,7 @@
 				3953E8462BC987AF0070E13F /* CreatePostView.swift */,
 				3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */,
 				3953E84A2BC987C80070E13F /* CreatePostViewController.swift */,
+				39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */,
 			);
 			path = CreatePost;
 			sourceTree = "<group>";
@@ -329,6 +338,7 @@
 				393540062BD3555B008AF1D5 /* SelectPost */,
 				39353FFF2BD34916008AF1D5 /* OtherProfile */,
 				39353FD72BD1327D008AF1D5 /* Profile */,
+				39C2E4C52BD6303900885E88 /* EditProfile */,
 				39353FC72BD0FBFE008AF1D5 /* Comment */,
 				3953E8452BC9877A0070E13F /* CreatePost */,
 				395DEEE12BC7C4C600488E50 /* SignUp */,
@@ -404,6 +414,16 @@
 				395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */,
 			);
 			path = WithDraw;
+			sourceTree = "<group>";
+		};
+		39C2E4C52BD6303900885E88 /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				39C2E4C62BD6312B00885E88 /* EditProfileView.swift */,
+				39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */,
+				39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */,
+			);
+			path = EditProfile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,12 +511,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C2E4C72BD6312B00885E88 /* EditProfileView.swift in Sources */,
 				39353FC92BD0FC12008AF1D5 /* CommentViewController.swift in Sources */,
 				393540182BD42214008AF1D5 /* BookCardView.swift in Sources */,
 				3953E84F2BC991840070E13F /* CreatePostQuery.swift in Sources */,
 				3953E84B2BC987C80070E13F /* CreatePostViewController.swift in Sources */,
 				395DEF042BC7DAA300488E50 /* TargetType.swift in Sources */,
 				39353FD92BD132A4008AF1D5 /* ProfileView.swift in Sources */,
+				39C2E4B12BD52DA900885E88 /* EditPostViewModel.swift in Sources */,
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
 				3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */,
 				3953E85A2BCC16DE0070E13F /* SearchBookViewController.swift in Sources */,
@@ -505,6 +527,7 @@
 				395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */,
 				3953E8552BCA235F0070E13F /* ViewModelType.swift in Sources */,
 				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
+				39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */,
 				395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */,
 				39353FCD2BD10086008AF1D5 /* CommentView.swift in Sources */,
 				393540152BD3A658008AF1D5 /* SearchCollectionViewCell.swift in Sources */,
@@ -515,6 +538,7 @@
 				393540112BD39D87008AF1D5 /* SearchViewModel.swift in Sources */,
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
 				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
+				39C2E4CB2BD6314400885E88 /* EditProfileViewModel.swift in Sources */,
 				3953E8602BCC235B0070E13F /* SearchBookViewModel.swift in Sources */,
 				393540082BD35579008AF1D5 /* SelectPostViewController.swift in Sources */,
 				39353FE02BD13E87008AF1D5 /* PostCollectionViewCell.swift in Sources */,

@@ -15,15 +15,26 @@ class HomeViewModel: ViewModelType {
     
     struct Input {
         let getPost: PublishSubject<Void>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
     }
     
     struct Output {
         let postResult: PublishSubject<[PostModel]>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output{
         
         let postResult = PublishSubject<[PostModel]>()
+        
+        input.deleteButtonTapped
+            .subscribe(with: self) { owner, id in
+                NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id))
+                input.getPost.onNext(())
+            }
+            .disposed(by: disposeBag)
         
         input.getPost
             .flatMap { _ in
@@ -37,7 +48,7 @@ class HomeViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(postResult: postResult)
+        return Output(postResult: postResult, editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped)
     }
     
     func isUser(selectID: String, myID: String) -> Bool {
