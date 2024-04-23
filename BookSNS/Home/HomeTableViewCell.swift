@@ -20,22 +20,21 @@ class HomeTableViewCell: BaseTableViewCell {
     let nickName = UILabel()
     
     let optionButton = UIButton(type: .system)
-
+    let postImage = UIScrollView()
+    let pageControl = UIPageControl()
     
-    let postImage = UIImageView()
     let comment = UIButton()
     let save = UIButton()
     let textView = UILabel()
     
     let cardView = BookCardView()
     let tapGesture = UITapGestureRecognizer()
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         disposeBag = DisposeBag()
         profileButton.setImage(nil, for: .normal)
-        postImage.image = nil
         save.setImage(nil, for: .normal)
         cardView.unknownView.isHidden = false
     }
@@ -45,6 +44,7 @@ class HomeTableViewCell: BaseTableViewCell {
         contentView.addSubview(nickName)
         contentView.addSubview(optionButton)
         contentView.addSubview(postImage)
+        contentView.addSubview(pageControl)
         contentView.addSubview(comment)
         contentView.addSubview(save)
         contentView.addSubview(textView)
@@ -75,7 +75,14 @@ class HomeTableViewCell: BaseTableViewCell {
         postImage.snp.makeConstraints { make in
             make.top.equalTo(profileButton.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView)
+            make.width.equalTo(UIScreen.main.bounds.width)
             make.height.equalTo(UIScreen.main.bounds.width * 0.9)
+        }
+        
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.top.equalTo(postImage.snp.bottom).offset(8)
+            make.height.equalTo(10)
         }
         
         comment.snp.makeConstraints { make in
@@ -119,7 +126,13 @@ class HomeTableViewCell: BaseTableViewCell {
         optionButton.tintColor = Color.mainColor
         optionButton.showsMenuAsPrimaryAction = true
 
-        postImage.backgroundColor = .green
+        postImage.isPagingEnabled = true
+        postImage.showsHorizontalScrollIndicator = false
+        
+        pageControl.hidesForSinglePage = true
+        pageControl.pageIndicatorTintColor = Color.lightPoint
+        pageControl.currentPageIndicatorTintColor = Color.mainColor
+        
         comment.setImage(UIImage(named: "Comment"), for: .normal)
         
         save.setImage(UIImage(named: "Bookmark"), for: .normal)

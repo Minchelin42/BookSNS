@@ -27,14 +27,67 @@ class SelectPostViewController: RxBaseViewController {
     }
 
     override func bind() {
-        let input = SelectPostViewModel.Input(loadPost: PublishSubject<String>())
+        let input = SelectPostViewModel.Input(loadPost: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
         
         let output = viewModel.transform(input: input)
+        
+        output.editButtonTapped
+            .subscribe(with: self) { owner, id in
+               let vc = CreatePostViewController()
+                vc.type = .edit
+                vc.id = id
+                vc.updatePost = {
+                    input.loadPost.onNext(id)
+                }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.deleteButtonTapped
+            .subscribe(with: self) { owner, _ in
+                print("delete Button Clicked")
+                
+                let alert = UIAlertController(title: "삭제 완료", message: nil, preferredStyle: .alert)
+
+                let button = UIAlertAction(title: "확인", style: .default) { _ in
+                    owner.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(button)
+
+                owner.present(alert, animated: true)
+            }
+            .disposed(by: disposeBag)
         
         output.postResult
             .subscribe(with: self) { owner, result in
                 owner.mainView.nickName.text = result.creator?.nick
                 owner.mainView.textView.text = result.content
+                
+                if let profileImage = result.creator?.profileImage {
+                    if !profileImage.isEmpty {
+                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                        owner.mainView.profileButton.kf.setImage(with: imgURL, for: .normal)
+                    } else {
+                        owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
+                    }
+                } else {
+                    owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
+                }
+                
+                let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
+                    print("수정하기")
+                    input.editButtonTapped.onNext(result.post_id)
+                }
+                let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+                    print("삭제하기")
+                    input.deleteButtonTapped.onNext(result.post_id)
+                }
+                
+                let userID = UserDefaults.standard.string(forKey: "userID")
+                
+                owner.mainView.optionButton.isHidden = (userID != result.creator?.user_id)
+                owner.mainView.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
+                
                 
                 owner.mainView.cardView.title.text = result.content1
                 owner.mainView.cardView.price.text = "\(result.content2)원"
@@ -97,18 +150,45 @@ class SelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
                 
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
+                owner.mainView.pageControl.numberOfPages = result.files.count
+                
+                owner.mainView.pageControl.rx.controlEvent(.valueChanged)
+                    .map { return owner.mainView.pageControl.currentPage }
+                    .subscribe(with: self) { owner, page in
+                        owner.mainView.postImage.contentOffset.x = UIScreen.main.bounds.width * CGFloat(page)
+                    }
+                    .disposed(by: owner.disposeBag)
+                
+                for index in 0..<result.files.count {
+                    
+                    let image = UIImageView()
+                    image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
+                    
+                    let modifier = AnyModifier { request in
+                        var r = request
+                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                        return r
+                    }
+                    
+                    if !result.files.isEmpty {
+                        let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[index])!
+
+                        image.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                        
+                        owner.mainView.postImage.addSubview(image)
+                        
+                        owner.mainView.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+
+                    }
                 }
                 
-                if !result.files.isEmpty {
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[0])!
-                    
-                    owner.mainView.postImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                }
+                owner.mainView.postImage.rx.didEndDecelerating
+                    .subscribe(with: self) { owner, _ in
+                        let pageNumber = owner.mainView.postImage.contentOffset.x / UIScreen.main.bounds.width
+                        owner.mainView.pageControl.currentPage = Int(pageNumber)
+                    }
+                    .disposed(by: owner.disposeBag)
                 
             }
             .disposed(by: disposeBag)

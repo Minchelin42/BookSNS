@@ -13,10 +13,13 @@ class SelectPostView: BaseView {
     let scrollView = UIScrollView()
     let contentView = UIView()
     
-    let profileButton = UIButton()
+    let profileButton = UIButton(type: .custom)
     let nickName = UILabel()
     
-    let postImage = UIImageView()
+    let optionButton = UIButton(type: .system)
+    let postImage = UIScrollView()
+    let pageControl = UIPageControl()
+    
     let comment = UIButton()
     let save = UIButton()
     let textView = UILabel()
@@ -31,7 +34,9 @@ class SelectPostView: BaseView {
         
         contentView.addSubview(profileButton)
         contentView.addSubview(nickName)
+        contentView.addSubview(optionButton)
         contentView.addSubview(postImage)
+        contentView.addSubview(pageControl)
         contentView.addSubview(comment)
         contentView.addSubview(save)
         contentView.addSubview(textView)
@@ -53,21 +58,34 @@ class SelectPostView: BaseView {
         }
 
         profileButton.snp.makeConstraints { make in
-            make.top.leading.equalTo(contentView).inset(12)
-            make.size.equalTo(40)
+            make.top.leading.equalTo(contentView).inset(8)
+            make.size.equalTo(34)
         }
         
         nickName.snp.makeConstraints { make in
             make.leading.equalTo(profileButton.snp.trailing).offset(8)
-            make.top.equalTo(profileButton.snp.top).offset(4)
-            make.trailing.equalTo(contentView).inset(12)
+            make.centerY.equalTo(profileButton)
+            make.trailing.equalTo(optionButton.snp.leading).offset(-12)
             make.height.equalTo(20)
         }
         
+        optionButton.snp.makeConstraints { make in
+            make.centerY.equalTo(profileButton)
+            make.size.equalTo(30)
+            make.trailing.equalTo(contentView).inset(12)
+        }
+        
         postImage.snp.makeConstraints { make in
-            make.top.equalTo(profileButton.snp.bottom).offset(12)
+            make.top.equalTo(profileButton.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView)
+            make.width.equalTo(UIScreen.main.bounds.width)
             make.height.equalTo(UIScreen.main.bounds.width * 0.9)
+        }
+        
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalTo(contentView)
+            make.centerY.equalTo(postImage.snp.bottom).offset(8)
+            make.height.equalTo(10)
         }
         
         comment.snp.makeConstraints { make in
@@ -84,7 +102,7 @@ class SelectPostView: BaseView {
         
         textView.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(8)
-            make.horizontalEdges.equalTo(contentView).inset(12)
+            make.horizontalEdges.equalTo(contentView).inset(16)
             make.height.greaterThanOrEqualTo(10)
         }
         
@@ -92,24 +110,38 @@ class SelectPostView: BaseView {
             make.top.equalTo(textView.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(contentView).inset(12)
             make.height.equalTo(100)
-            make.bottom.equalTo(contentView).inset(12)
+            make.bottom.equalTo(contentView).inset(8)
         }
     }
     
     override func configureView() {
-        profileButton.backgroundColor = .yellow
-        nickName.backgroundColor = .orange
-        postImage.backgroundColor = .green
-        comment.setImage(UIImage(systemName: "message"), for: .normal)
-        comment.tintColor = .black
+        profileButton.clipsToBounds = true
+        profileButton.layer.cornerRadius = 17
+        profileButton.layer.borderWidth = 1
+        profileButton.layer.borderColor = Color.lightPoint?.cgColor
+        
+        nickName.font = .systemFont(ofSize: 14, weight: .medium)
+        
+        optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        optionButton.tintColor = Color.mainColor
+        optionButton.showsMenuAsPrimaryAction = true
+
+        postImage.isPagingEnabled = true
+        postImage.showsHorizontalScrollIndicator = false
+        
+        pageControl.hidesForSinglePage = true
+        pageControl.pageIndicatorTintColor = Color.lightPoint
+        pageControl.currentPageIndicatorTintColor = Color.mainColor
+        
+        comment.setImage(UIImage(named: "Comment"), for: .normal)
         save.setImage(UIImage(named: "Bookmark"), for: .normal)
-        save.tintColor = .black
-        textView.backgroundColor = .cyan
+
         textView.numberOfLines = 0
-        textView.text = ""
-        cardView.backgroundColor = .systemPink
+        
         cardView.clipsToBounds = true
         cardView.layer.cornerRadius = 16
+        cardView.layer.borderWidth = 1
+        cardView.layer.borderColor = Color.lightPoint?.cgColor
     }
     
     

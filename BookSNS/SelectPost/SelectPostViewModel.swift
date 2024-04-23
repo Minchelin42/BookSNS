@@ -15,15 +15,25 @@ class SelectPostViewModel: ViewModelType {
     
     struct Input {
         let loadPost: PublishSubject<String>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
     }
     
     struct Output {
         let postResult: PublishSubject<PostModel>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
         
         let  postResult = PublishSubject<PostModel>()
+        
+        input.deleteButtonTapped
+            .subscribe(with: self) { owner, id in
+                NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id))
+            }
+            .disposed(by: disposeBag)
         
         input.loadPost
             .flatMap { postID in
@@ -36,7 +46,7 @@ class SelectPostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(postResult: postResult)
+        return Output(postResult: postResult, editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped)
     }
     
 }

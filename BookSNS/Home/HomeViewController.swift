@@ -138,7 +138,6 @@ class HomeViewController: RxBaseViewController {
                         vc.post_id = element.post_id
                           if let sheet = vc.sheetPresentationController {
                               sheet.detents = [.medium()]
-
                               sheet.prefersGrabberVisible = true
                           }
                           
@@ -146,18 +145,47 @@ class HomeViewController: RxBaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
                 
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
+                cell.pageControl.numberOfPages = element.files.count
+                
+                cell.pageControl.rx.controlEvent(.valueChanged)
+                    .map { return cell.pageControl.currentPage }
+                    .subscribe(with: self) { owner, page in
+                        cell.postImage.contentOffset.x = UIScreen.main.bounds.width * CGFloat(page)
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                for index in 0..<element.files.count {
+                    
+                    let image = UIImageView()
+                    image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
+                    
+                    let modifier = AnyModifier { request in
+                        var r = request
+                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                        return r
+                    }
+                    
+                    if !element.files.isEmpty {
+                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element.files[index])!
+
+                        image.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                        
+                        cell.postImage.addSubview(image)
+                        
+                        cell.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+
+                    }
                 }
                 
-                if !element.files.isEmpty {
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.files[0])!
-                    
-                    cell.postImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                }
+                cell.postImage.rx.didEndDecelerating
+                    .subscribe(with: self) { owner, _ in
+                        let pageNumber = cell.postImage.contentOffset.x / UIScreen.main.bounds.width
+                        cell.pageControl.currentPage = Int(pageNumber)
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                
             }
             .disposed(by: disposeBag)
          
