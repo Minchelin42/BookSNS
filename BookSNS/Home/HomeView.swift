@@ -23,6 +23,7 @@ class HomeView: BaseView {
     }
     
     override func configureView() {
+        tableView.separatorStyle = .none
         tableView.backgroundColor = .darkGray
     }
   

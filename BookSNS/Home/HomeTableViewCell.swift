@@ -55,13 +55,13 @@ class HomeTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         profileButton.snp.makeConstraints { make in
-            make.top.leading.equalTo(contentView).inset(12)
-            make.size.equalTo(40)
+            make.top.leading.equalTo(contentView).inset(8)
+            make.size.equalTo(34)
         }
         
         nickName.snp.makeConstraints { make in
             make.leading.equalTo(profileButton.snp.trailing).offset(8)
-            make.top.equalTo(profileButton.snp.top).offset(4)
+            make.centerY.equalTo(profileButton)
             make.trailing.equalTo(optionButton.snp.leading).offset(-12)
             make.height.equalTo(20)
         }
@@ -73,7 +73,7 @@ class HomeTableViewCell: BaseTableViewCell {
         }
         
         postImage.snp.makeConstraints { make in
-            make.top.equalTo(profileButton.snp.bottom).offset(12)
+            make.top.equalTo(profileButton.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView)
             make.height.equalTo(UIScreen.main.bounds.width * 0.9)
         }
@@ -92,7 +92,7 @@ class HomeTableViewCell: BaseTableViewCell {
         
         textView.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(8)
-            make.horizontalEdges.equalTo(contentView).inset(12)
+            make.horizontalEdges.equalTo(contentView).inset(16)
             make.height.greaterThanOrEqualTo(10)
         }
         
@@ -100,31 +100,37 @@ class HomeTableViewCell: BaseTableViewCell {
             make.top.equalTo(textView.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(contentView).inset(12)
             make.height.equalTo(100)
-            make.bottom.equalTo(contentView).inset(12)
+            make.bottom.equalTo(contentView).inset(8)
         }
 
     }
     
     override func configureView() {
         super.configureView()
-        profileButton.backgroundColor = .yellow
-        nickName.backgroundColor = .orange
+    
+        profileButton.clipsToBounds = true
+        profileButton.layer.cornerRadius = 17
+        profileButton.layer.borderWidth = 1
+        profileButton.layer.borderColor = Color.lightPoint?.cgColor
+
+        nickName.font = .systemFont(ofSize: 14, weight: .medium)
         
-        optionButton.backgroundColor = .purple
         optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        optionButton.tintColor = Color.mainColor
         optionButton.showsMenuAsPrimaryAction = true
 
-        
         postImage.backgroundColor = .green
-        comment.setImage(UIImage(systemName: "message"), for: .normal)
-        comment.tintColor = .black
+        comment.setImage(UIImage(named: "Comment"), for: .normal)
+        
         save.setImage(UIImage(named: "Bookmark"), for: .normal)
-        save.tintColor = .black
-        textView.backgroundColor = .cyan
+
         textView.numberOfLines = 0
-        cardView.backgroundColor = .systemPink
+        textView.font = .systemFont(ofSize: 13, weight: .medium)
+        
         cardView.clipsToBounds = true
         cardView.layer.cornerRadius = 16
+        cardView.layer.borderWidth = 1
+        cardView.layer.borderColor = Color.lightPoint?.cgColor
     }
 
 }

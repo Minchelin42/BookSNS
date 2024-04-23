@@ -40,6 +40,9 @@ class HomeViewController: RxBaseViewController {
                let vc = CreatePostViewController()
                 vc.type = .edit
                 vc.id = id
+                vc.updatePost = {
+                    input.getPost.onNext(())
+                }
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
@@ -63,11 +66,9 @@ class HomeViewController: RxBaseViewController {
                     if !profileImage.isEmpty {
                         let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
                         cell.profileButton.kf.setImage(with: imgURL, for: .normal)
-                    } else {
-                        cell.profileButton.setImage(UIImage(systemName: "person"), for: .normal)
+                    } else {      
+                        cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                     }
-                } else {
-                    cell.profileButton.setImage(UIImage(systemName: "person"), for: .normal)
                 }
 
                 let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in

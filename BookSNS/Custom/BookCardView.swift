@@ -9,8 +9,39 @@ import UIKit
 import SnapKit
 
 class UnknownView: BaseView {
+    
+    let bookImage = {
+       let view = UIImageView()
+        view.image = UIImage(named: "Book")
+        return view
+    }()
+    
+    let questionImage = {
+       let view = UIImageView()
+        view.image = UIImage(named: "QuestionMark")
+        return view
+    }()
+    
+    override func configureHierarchy() {
+        addSubview(bookImage)
+        addSubview(questionImage)
+    }
+    
+    override func configureLayout() {
+        bookImage.snp.makeConstraints { make in
+            make.center.equalTo(safeAreaLayoutGuide)
+            make.size.equalTo(60)
+        }
+        
+        questionImage.snp.makeConstraints { make in
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(bookImage.snp.top)
+            make.size.equalTo(40)
+        }
+    }
+    
     override func configureView() {
-        backgroundColor = .black
+        backgroundColor = Color.lightPoint
     }
 }
 
@@ -19,22 +50,23 @@ class BookCardView: BaseView {
     let bookImage = {
         let image = UIImageView()
         image.clipsToBounds = true
-        image.layer.cornerRadius = 7
+        image.layer.cornerRadius = 10
         image.backgroundColor = .blue
         return image
     }()
     
     let title = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
         label.textColor = .black
+        label.numberOfLines = 0
         return label
     }()
     
     let price = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = .black
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = Color.pointColor
         return label
     }()
     
@@ -49,22 +81,22 @@ class BookCardView: BaseView {
     
     override func configureLayout() {
         bookImage.snp.makeConstraints { make in
-            make.top.leading.bottom.equalTo(safeAreaLayoutGuide).inset(12)
+            make.top.leading.bottom.equalTo(safeAreaLayoutGuide).inset(15)
             make.width.equalTo(70)
         }
         
         title.snp.makeConstraints { make in
-            make.top.equalTo(bookImage.snp.top).offset(4)
+            make.height.equalTo(20)
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-10)
-            make.bottom.lessThanOrEqualTo(price.snp.top).offset(-8)
+            make.bottom.equalTo(bookImage.snp.centerY).offset(-4)
         }
         
         price.snp.makeConstraints { make in
-            make.bottom.equalTo(bookImage.snp.bottom).inset(4)
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-10)
             make.height.equalTo(16)
+            make.top.equalTo(bookImage.snp.centerY).offset(4)
         }
         
         unknownView.snp.makeConstraints { make in
@@ -73,10 +105,9 @@ class BookCardView: BaseView {
     }
     
     override func configureView() {
-        title.backgroundColor = .yellow
-        title.numberOfLines = 0
-        price.backgroundColor = .brown
+        unknownView.clipsToBounds = true
+        unknownView.layer.cornerRadius = 16
+        backgroundColor = .white
     }
-    
     
 }
