@@ -13,10 +13,10 @@ class ProfileView: BaseView {
     let profileImage = UIImageView()
     let profileName = UILabel()
     
-    let profileEditButton = UIButton()
+    let profileEditButton = ProfileEditButton()
     
-    let postButton = UIButton()
-    let scrapButton = UIButton()
+    let postButton = ProfilePostButton()
+    let scrapButton = ProfilePostButton()
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
     
@@ -31,35 +31,34 @@ class ProfileView: BaseView {
     
     override func configureLayout() {
         profileImage.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(12)
-            make.leading.equalTo(safeAreaLayoutGuide).offset(16)
-            make.size.equalTo(70)
+            make.top.equalTo(safeAreaLayoutGuide).inset(16)
+            make.centerX.equalTo(self)
+            make.size.equalTo(100)
         }
         
         profileName.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.top).offset(4)
-            make.leading.equalTo(profileImage.snp.trailing).offset(12)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(20)
+            make.top.equalTo(profileImage.snp.bottom).offset(14)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(30)
+            make.height.equalTo(22)
             
         }
         
         profileEditButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.top.equalTo(profileName.snp.bottom).offset(24)
             make.height.equalTo(40)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
         postButton.snp.makeConstraints { make in
             make.top.equalTo(profileEditButton.snp.bottom).offset(8)
-            make.height.equalTo(40)
+            make.height.equalTo(45)
             make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
             make.leading.equalTo(safeAreaLayoutGuide).inset(12)
         }
         
         scrapButton.snp.makeConstraints { make in
             make.top.equalTo(profileEditButton.snp.bottom).offset(8)
-            make.height.equalTo(40)
+            make.height.equalTo(45)
             make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
             make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
         }
@@ -71,11 +70,19 @@ class ProfileView: BaseView {
     }
     
     override func configureView() {
-        profileImage.backgroundColor = .systemPink
-        profileName.backgroundColor = .orange
-        profileEditButton.backgroundColor = .green
-        postButton.backgroundColor = .blue
-        scrapButton.backgroundColor = .yellow
+
+        profileImage.clipsToBounds = true
+        profileImage.layer.cornerRadius = 50
+        profileImage.layer.borderWidth = 1
+        profileImage.layer.borderColor = Color.lightPoint?.cgColor
+        
+        profileName.font = .systemFont(ofSize: 24, weight: .semibold)
+        profileName.textAlignment = .center
+        
+        postButton.setImage(UIImage(named: "Grid.fill"), for: .normal)
+        postButton.backgroundColor = Color.mainColor
+        scrapButton.setImage(UIImage(named: "Bookmark"), for: .normal)
+        
         collectionView.backgroundColor = .white
         
         collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)

@@ -21,7 +21,9 @@ class ProfileViewController: RxBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        navigationItem.title = "내 프로필"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.mainColor]
 
     }
     
