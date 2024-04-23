@@ -36,19 +36,20 @@ class CommentTableViewCell: BaseTableViewCell {
     override func configureLayout() {
         profileButton.snp.makeConstraints { make in
             make.top.leading.equalTo(contentView).inset(12)
-            make.size.equalTo(40)
+            make.size.equalTo(34)
         }
         
         nickName.snp.makeConstraints { make in
             make.leading.equalTo(profileButton.snp.trailing).offset(8)
-            make.top.equalTo(profileButton.snp.top).offset(4)
+            make.top.equalTo(profileButton.snp.top)
             make.trailing.equalTo(contentView).inset(12)
             make.height.equalTo(20)
         }
         
         comment.snp.makeConstraints { make in
-            make.top.equalTo(profileButton.snp.bottom).offset(8)
-            make.horizontalEdges.equalTo(contentView).inset(12)
+            make.top.equalTo(nickName.snp.bottom)
+            make.leading.equalTo(profileButton.snp.trailing).offset(8)
+            make.trailing.equalTo(contentView).inset(12)
             make.height.greaterThanOrEqualTo(10)
             make.bottom.equalTo(contentView).inset(12)
         }
@@ -57,9 +58,14 @@ class CommentTableViewCell: BaseTableViewCell {
 
     override func configureView() {
         super.configureView()
-        profileButton.backgroundColor = .yellow
-        nickName.backgroundColor = .orange
-        comment.backgroundColor = .blue
+        profileButton.clipsToBounds = true
+        profileButton.layer.cornerRadius = 17
+        profileButton.layer.borderWidth = 1
+        profileButton.layer.borderColor = Color.lightPoint?.cgColor
+        
+        nickName.font = .systemFont(ofSize: 12, weight: .medium)
+
+        comment.font = .systemFont(ofSize: 11, weight: .regular)
         comment.numberOfLines = 0
     }
 }

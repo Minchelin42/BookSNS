@@ -10,8 +10,8 @@ import SnapKit
 
 class CommentView: BaseView {
     let tableView = UITableView()
-    let textField = UITextField()
-    let registerButton = UIButton()
+    let textField = CommentTextField()
+    let registerButton = CommentButton()
     
     override func configureHierarchy() {
         addSubview(tableView)
@@ -30,23 +30,20 @@ class CommentView: BaseView {
         textField.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.bottom).offset(12)
             make.height.equalTo(40)
-            make.leading.equalTo(safeAreaLayoutGuide).inset(12)
-            make.trailing.equalTo(registerButton.snp.trailing).inset(12)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(12)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(12)
         }
         
         registerButton.snp.makeConstraints { make in
-            make.size.equalTo(40)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(12)
+            make.size.equalTo(28)
+            make.trailing.equalTo(textField.snp.trailing).inset(10)
+            make.centerY.equalTo(textField)
         }
     }
     
     override func configureView() {
-        tableView.backgroundColor = .darkGray
-        
-        textField.backgroundColor = .blue
-        registerButton.backgroundColor = .yellow
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
     }
     
 }

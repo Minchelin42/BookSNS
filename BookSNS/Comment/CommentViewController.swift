@@ -42,6 +42,15 @@ class CommentViewController: RxBaseViewController {
             ) {(row, element, cell) in
                 cell.nickName.text = element.creator.nick
                 cell.comment.text = element.content
+                
+                let profileImage = element.creator.profileImage
+                    if !profileImage.isEmpty {
+                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                        cell.profileButton.kf.setImage(with: imgURL, for: .normal)
+                    } else {
+                        cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
+                    }
+              
             }
             .disposed(by: disposeBag)
         
