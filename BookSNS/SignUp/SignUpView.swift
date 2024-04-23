@@ -11,8 +11,8 @@ import SnapKit
 
 class SignUpView: BaseView {
 
-    let emailTextField = UITextField()
-    let passwordTextField = UITextField()
+    let emailTextField = SignTextField()
+    let passwordTextField = SignTextField()
     let nickNameTextField = UITextField()
     
     let emailValidationButton = UIButton()

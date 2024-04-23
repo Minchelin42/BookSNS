@@ -27,7 +27,7 @@ class SignInViewController: RxBaseViewController {
         output.signInValidation
             .drive(with: self) { owner, valid in
                 owner.mainView.signInButton.isEnabled = valid
-                owner.mainView.signInButton.backgroundColor = valid ? .blue : .red
+                owner.mainView.signInButton.backgroundColor = valid ? Color.mainColor : Color.lightPoint
             }
             .disposed(by: disposeBag)
         

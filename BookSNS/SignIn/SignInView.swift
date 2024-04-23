@@ -10,10 +10,19 @@ import SnapKit
 
 class SignInView: BaseView {
 
-    let emailTextField = UITextField()
-    let passwordTextField = UITextField()
+    let emailTextField = SignTextField()
+    let passwordTextField = SignTextField()
     
-    let signInButton = UIButton()
+    let signInButton = {
+        let button = UIButton()
+        button.backgroundColor = Color.mainColor
+        button.setTitle("로그인", for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 25
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        return button
+    }()
     
     override func configureHierarchy() {
         addSubview(emailTextField)
@@ -23,31 +32,27 @@ class SignInView: BaseView {
     
     override func configureLayout() {
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(50)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(40)
+            make.centerY.equalTo(self)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(50)
         }
         
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(50)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(40)
+            make.top.equalTo(emailTextField.snp.bottom).offset(11)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(50)
         }
 
         signInButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(50)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(40)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(35)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(50)
         }
     }
     
     override func configureView() {
-        emailTextField.placeholder = "이메일"
-        passwordTextField.placeholder = "비밀번호"
-        
-        signInButton.setTitle("로그인", for: .normal)
-        signInButton.backgroundColor = .black
-        signInButton.setTitleColor(.white, for: .normal)
+        emailTextField.placeholder = "    ID"
+        passwordTextField.placeholder = "    PW"
     }
 }
 
