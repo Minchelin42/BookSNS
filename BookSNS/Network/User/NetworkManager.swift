@@ -19,6 +19,12 @@ struct SignUpModel: Decodable {
     let nick: String
 }
 
+struct FollowModel: Decodable {
+    let user_id: String
+    let nick: String
+    let profileImage: String
+}
+
 struct SignInModel: Decodable {
     let user_id: String
     let email: String
@@ -82,7 +88,7 @@ struct NetworkManager {
         }
     }
     
-    static func DeleteAPI (router: TargetType) {
+    static func DeleteAPI (router: TargetType, closure: @escaping (Bool) -> Void) {
         do {
             let urlRequest = try router.asURLRequest()
             
@@ -92,10 +98,11 @@ struct NetworkManager {
                     switch response.result {
                     case .success:
                         print("삭제 성공")
+                        closure(true)
                     case .failure(let error):
                         if let code = response.response?.statusCode {
                             print("삭제 실패 \(code)")
-                            
+                            closure(false)
                         } else {
                             print("삭제 통신 에러 발생 \(error)")
                         }

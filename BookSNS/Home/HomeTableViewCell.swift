@@ -20,6 +20,18 @@ class HomeTableViewCell: BaseTableViewCell {
     let nickName = UILabel()
     
     let optionButton = UIButton(type: .system)
+    let followButton = {
+       let button = UIButton()
+        button.backgroundColor = Color.mainColor
+        button.setTitle("테스트", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
+        button.setTitleColor(.white, for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 7
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Color.mainColor?.cgColor
+        return button
+    }()
     let postImage = UIScrollView()
     let pageControl = UIPageControl()
     
@@ -42,6 +54,7 @@ class HomeTableViewCell: BaseTableViewCell {
     override func configureHierarchy() {
         contentView.addSubview(profileButton)
         contentView.addSubview(nickName)
+        contentView.addSubview(followButton)
         contentView.addSubview(optionButton)
         contentView.addSubview(postImage)
         contentView.addSubview(pageControl)
@@ -65,10 +78,17 @@ class HomeTableViewCell: BaseTableViewCell {
             make.trailing.equalTo(optionButton.snp.leading).offset(-12)
             make.height.equalTo(20)
         }
-        
+
         optionButton.snp.makeConstraints { make in
             make.centerY.equalTo(profileButton)
             make.size.equalTo(30)
+            make.trailing.equalTo(contentView).inset(12)
+        }
+        
+        followButton.snp.makeConstraints { make in
+            make.centerY.equalTo(profileButton)
+            make.width.equalTo(60)
+            make.height.equalTo(30)
             make.trailing.equalTo(contentView).inset(12)
         }
         

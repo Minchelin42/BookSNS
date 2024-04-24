@@ -9,8 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Toast
 
 class SelectPostViewController: RxBaseViewController {
+    
+    let userID = UserDefaults.standard.string(forKey: "userID")
+    var isFollowing = false
     
     let mainView = SelectPostView()
     let viewModel = SelectPostViewModel()
@@ -27,7 +31,7 @@ class SelectPostViewController: RxBaseViewController {
     }
 
     override func bind() {
-        let input = SelectPostViewModel.Input(loadPost: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
+        let input = SelectPostViewModel.Input(loadPost: PublishSubject<String>(), getProfile: PublishSubject<Void>(), followButtonTapped: PublishSubject<String>(), unfollowButtonTapped: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
         
         let output = viewModel.transform(input: input)
         
@@ -58,6 +62,28 @@ class SelectPostViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.followingStatus
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { owner, status in
+                owner.isFollowing = status
+                
+                owner.mainView.followButton.setTitle(owner.isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+                owner.mainView.followButton.backgroundColor = owner.isFollowing ? Color.mainColor : .white
+                owner.mainView.followButton.setTitleColor(owner.isFollowing ? .white : Color.mainColor, for: .normal)
+       
+                var style = ToastStyle()
+
+                style.messageColor = .white
+                style.backgroundColor = Color.mainColor!
+                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
+                
+                let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
+
+                owner.view.makeToast(followMessage, duration: 0.5, position: .bottom, style: style)
+
+            }
+            .disposed(by: disposeBag)
+        
         output.postResult
             .subscribe(with: self) { owner, result in
                 owner.mainView.nickName.text = result.creator?.nick
@@ -83,12 +109,39 @@ class SelectPostViewController: RxBaseViewController {
                     input.deleteButtonTapped.onNext(result.post_id)
                 }
                 
-                let userID = UserDefaults.standard.string(forKey: "userID")
-                
-                owner.mainView.optionButton.isHidden = (userID != result.creator?.user_id)
+                owner.mainView.optionButton.isHidden = (owner.userID != result.creator?.user_id)
                 owner.mainView.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
                 
+                owner.mainView.optionButton.isHidden = (owner.userID != result.creator?.user_id)
+                owner.mainView.followButton.isHidden = (owner.userID == result.creator?.user_id)
+  
+                let userFollowing = owner.viewModel.userResult?.following ?? []
                 
+                for index in 0..<userFollowing.count {
+                    let following = userFollowing[index]
+                    
+                    if following.user_id == result.creator?.user_id {
+                        owner.isFollowing = true
+                        break
+                    }
+                }
+                
+                owner.mainView.followButton.setTitle(owner.isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+                owner.mainView.followButton.backgroundColor = owner.isFollowing ? Color.mainColor : .white
+                owner.mainView.followButton.setTitleColor(owner.isFollowing ? .white : Color.mainColor, for: .normal)
+                
+                owner.mainView.followButton.rx.tap
+                    .map { return result.creator?.user_id ?? "" }
+                    .subscribe(with: self) { owner, profileID in
+                        print("작성자 ID:", profileID)
+                        if !owner.isFollowing {
+                            input.followButtonTapped.onNext(profileID)
+                        } else {
+                            input.unfollowButtonTapped.onNext(profileID)
+                        }
+                    }
+                    .disposed(by: owner.disposeBag)
+
                 owner.mainView.cardView.title.text = result.content1
                 owner.mainView.cardView.price.text = "\(result.content2)원"
                 owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: result.content4))
@@ -192,8 +245,10 @@ class SelectPostViewController: RxBaseViewController {
                 
             }
             .disposed(by: disposeBag)
-        
+    
+        input.getProfile.onNext(())
         input.loadPost.onNext(postID)
+
     }
     
 

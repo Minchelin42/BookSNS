@@ -18,8 +18,8 @@ struct ProfileModel: Decodable {
     let email: String
     let nick: String
     let profileImage: String
-    let followers: [String]
-    let following: [String]
+    let followers: [FollowModel]
+    let following: [FollowModel]
     let posts: [String]
     
     enum CodingKeys: CodingKey {
@@ -38,8 +38,8 @@ struct ProfileModel: Decodable {
         self.email = try container.decodeIfPresent(String.self, forKey: .email) ?? ""
         self.nick = try container.decode(String.self, forKey: .nick)
         self.profileImage = try container.decodeIfPresent(String.self, forKey: .profileImage) ?? ""
-        self.followers = try container.decode([String].self, forKey: .followers)
-        self.following = try container.decode([String].self, forKey: .following)
+        self.followers = try container.decode([FollowModel].self, forKey: .followers)
+        self.following = try container.decode([FollowModel].self, forKey: .following)
         self.posts = try container.decode([String].self, forKey: .posts)
     }
     

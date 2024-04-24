@@ -62,7 +62,9 @@ class CommentViewController: RxBaseViewController {
         
         viewModel.deleteButtonTapped
             .subscribe(with: self) { owner, comment_id in
-                NetworkManager.DeleteAPI(router: CommentRouter.deleteComment(id: owner.post_id, commentID: comment_id))
+                NetworkManager.DeleteAPI(router: CommentRouter.deleteComment(id: owner.post_id, commentID: comment_id)) { _ in
+                    print("댓글 삭제")
+                }
                 input.loadCommentResult.onNext(())
             }
             .disposed(by: disposeBag)

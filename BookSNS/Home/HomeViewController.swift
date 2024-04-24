@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Toast
 
 class HomeViewController: RxBaseViewController {
 
@@ -30,10 +31,11 @@ class HomeViewController: RxBaseViewController {
     
     override func bind() {
         
-        let input = HomeViewModel.Input(getPost: PublishSubject<Void>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
+        let input = HomeViewModel.Input(getPost: PublishSubject<Void>(), getProfile: PublishSubject<Void>(), followButtonTapped: PublishSubject<String>(), unfollowButtonTapped: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
         let output = viewModel.transform(input: input)
         
         input.getPost.onNext(())
+        input.getProfile.onNext(())
         
         output.editButtonTapped
             .subscribe(with: self) { owner, id in
@@ -50,6 +52,23 @@ class HomeViewController: RxBaseViewController {
         output.deleteButtonTapped
             .subscribe(with: self) { owenr, _ in
                 print("delete Button Clicked")
+            }
+            .disposed(by: disposeBag)
+        
+        output.followingStatus
+            .observe(on: MainScheduler.instance) 
+            .subscribe(with: self) { owner, status in
+                input.getPost.onNext(())
+                var style = ToastStyle()
+
+                style.messageColor = .white
+                style.backgroundColor = Color.mainColor!
+                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
+                
+                let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
+
+                owner.view.makeToast(followMessage, duration: 0.5, position: .bottom, style: style)
+
             }
             .disposed(by: disposeBag)
         
@@ -81,6 +100,24 @@ class HomeViewController: RxBaseViewController {
                 }
                 
                 cell.optionButton.isHidden = (self.userID != element.creator?.user_id)
+                cell.followButton.isHidden = (self.userID == element.creator?.user_id)
+                
+                var isFollowing = false
+                
+                let userFollowing = self.viewModel.userResult?.following ?? []
+                
+                for index in 0..<userFollowing.count {
+                    let following = userFollowing[index]
+                    
+                    if following.user_id == element.creator?.user_id {
+                        isFollowing = true
+                        break
+                    }
+                }
+                
+                cell.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+                cell.followButton.backgroundColor = isFollowing ? Color.mainColor : .white
+                cell.followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
 
                 cell.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
                 
@@ -96,6 +133,18 @@ class HomeViewController: RxBaseViewController {
                     .disposed(by: cell.disposeBag)
                 
                 var isLike = element.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
+                
+                cell.followButton.rx.tap
+                    .map { return element.creator?.user_id ?? "" }
+                    .subscribe(with: self) { owner, profileID in
+                        print("작성자 ID:", profileID)
+                        if !isFollowing {
+                            input.followButtonTapped.onNext(profileID)
+                        } else {
+                            input.unfollowButtonTapped.onNext(profileID)
+                        }
+                    }
+                    .disposed(by: cell.disposeBag)
                 
                 cell.profileButton.rx.tap
                     .map { return element.creator?.user_id ?? "" }
