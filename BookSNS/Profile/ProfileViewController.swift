@@ -35,7 +35,9 @@ class ProfileViewController: RxBaseViewController {
         output.profileInfo
             .subscribe(with: self) { owner, profile in
                 owner.mainView.profileName.text = profile.nick
-
+                owner.mainView.postNumLabel.text = "\(profile.posts.count)"
+                owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
+                owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
                 let modifier = AnyModifier { request in
                     var r = request
                     r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
@@ -75,6 +77,23 @@ class ProfileViewController: RxBaseViewController {
 
             }
             .disposed(by: disposeBag)
+        
+        self.mainView.followingButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = FollowViewController()
+                vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        self.mainView.followerButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = FollowViewController()
+                vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
         
         self.mainView.profileEditButton.rx.tap
             .subscribe(with: self) { owner, _ in

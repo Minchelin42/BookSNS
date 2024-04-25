@@ -27,14 +27,67 @@ class OtherProfileViewController: RxBaseViewController {
     }
     
     override func bind() {
-        let input = OtherProfileViewModel.Input(loadProfile: PublishSubject<String>())
+        let input = OtherProfileViewModel.Input(loadProfile: PublishSubject<String>(), followButtonTapped: PublishSubject<String>(), unfollowButtonTapped: PublishSubject<String>(), getFollowingList: PublishSubject<Void>())
         
         let output = viewModel.transform(input: input)
+        
+        var isFollowing = false
+
+        mainView.followButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                print("Follow 버튼 클릭")
+                if isFollowing {
+                    input.unfollowButtonTapped.onNext(owner.userID)
+                } else {
+                    input.followButtonTapped.onNext(owner.userID)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.followingButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = FollowViewController()
+                vc.userID = owner.userID
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.followerButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = FollowViewController()
+                vc.userID = owner.userID
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.followList
+            .subscribe(with: self) { owner, followingList in
+
+                for index in 0..<followingList.count {
+                    let following = followingList[index]
+                    
+                    if following.user_id == owner.userID {
+                        isFollowing = true
+                        break
+                    } else {
+                        isFollowing = false
+                    }
+                    
+                }
+                
+                owner.mainView.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+                owner.mainView.followButton.backgroundColor = isFollowing ? Color.mainColor : .white
+                owner.mainView.followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
+            }
+            .disposed(by: disposeBag)
         
         output.profileInfo
             .subscribe(with: self) { owner, profile in
                 owner.mainView.profileName.text = profile.nick
-                
+                owner.mainView.postNumLabel.text = "\(profile.posts.count)"
+                owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
+                owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
+
                 let modifier = AnyModifier { request in
                     var r = request
                     r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
@@ -86,7 +139,7 @@ class OtherProfileViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         input.loadProfile.onNext(userID)
- 
+        input.getFollowingList.onNext(())
     }
 
 }

@@ -82,6 +82,22 @@
 		39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */; };
 		39C2E4CB2BD6314400885E88 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */; };
 		39C2E4CE2BD6BD5600885E88 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4CD2BD6BD5600885E88 /* Color.swift */; };
+		39C2E4D32BD6CF8F00885E88 /* ProfilePostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4D22BD6CF8F00885E88 /* ProfilePostButton.swift */; };
+		39C2E4D52BD6D1EC00885E88 /* ProfileEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4D42BD6D1EC00885E88 /* ProfileEditButton.swift */; };
+		39C2E4D72BD6D71F00885E88 /* CommentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4D62BD6D71F00885E88 /* CommentTextField.swift */; };
+		39C2E4D92BD6D7E500885E88 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4D82BD6D7E500885E88 /* CommentButton.swift */; };
+		39C2E4DB2BD6DAD500885E88 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */; };
+		39F1A2D32BD7A20700AE388A /* PostCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D22BD7A20700AE388A /* PostCreateView.swift */; };
+		39F1A2D72BD7A24F00AE388A /* InputImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D62BD7A24F00AE388A /* InputImageCollectionViewCell.swift */; };
+		39F1A2D92BD7A58300AE388A /* InputImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D82BD7A58300AE388A /* InputImageButton.swift */; };
+		39F1A2DD2BD8F6CF00AE388A /* FollowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2DC2BD8F6CF00AE388A /* FollowRouter.swift */; };
+		39F1A2E12BD8FBEE00AE388A /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 39F1A2E02BD8FBEE00AE388A /* Toast */; };
+		39F1A2E52BD9587E00AE388A /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 39F1A2E42BD9587E00AE388A /* Tabman */; };
+		39F1A2E72BD9594300AE388A /* FollowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2E62BD9594300AE388A /* FollowViewController.swift */; };
+		39F1A2E92BD96FD200AE388A /* FollowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2E82BD96FD200AE388A /* FollowListViewController.swift */; };
+		39F1A2EB2BD9702200AE388A /* FollowListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2EA2BD9702200AE388A /* FollowListView.swift */; };
+		39F1A2ED2BD9703700AE388A /* FollowListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2EC2BD9703700AE388A /* FollowListTableViewCell.swift */; };
+		39F1A2EF2BD9746E00AE388A /* FollowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2EE2BD9746E00AE388A /* FollowViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,6 +173,20 @@
 		39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		39C2E4CA2BD6314400885E88 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		39C2E4CD2BD6BD5600885E88 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		39C2E4D22BD6CF8F00885E88 /* ProfilePostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostButton.swift; sourceTree = "<group>"; };
+		39C2E4D42BD6D1EC00885E88 /* ProfileEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditButton.swift; sourceTree = "<group>"; };
+		39C2E4D62BD6D71F00885E88 /* CommentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextField.swift; sourceTree = "<group>"; };
+		39C2E4D82BD6D7E500885E88 /* CommentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
+		39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		39F1A2D22BD7A20700AE388A /* PostCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreateView.swift; sourceTree = "<group>"; };
+		39F1A2D62BD7A24F00AE388A /* InputImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		39F1A2D82BD7A58300AE388A /* InputImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputImageButton.swift; sourceTree = "<group>"; };
+		39F1A2DC2BD8F6CF00AE388A /* FollowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRouter.swift; sourceTree = "<group>"; };
+		39F1A2E62BD9594300AE388A /* FollowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewController.swift; sourceTree = "<group>"; };
+		39F1A2E82BD96FD200AE388A /* FollowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListViewController.swift; sourceTree = "<group>"; };
+		39F1A2EA2BD9702200AE388A /* FollowListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListView.swift; sourceTree = "<group>"; };
+		39F1A2EC2BD9703700AE388A /* FollowListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowListTableViewCell.swift; sourceTree = "<group>"; };
+		39F1A2EE2BD9746E00AE388A /* FollowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +194,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39F1A2E12BD8FBEE00AE388A /* Toast in Frameworks */,
 				395DEEF42BC7CF3B00488E50 /* RxSwift in Frameworks */,
+				39F1A2E52BD9587E00AE388A /* Tabman in Frameworks */,
 				395DEF022BC7DA7E00488E50 /* Alamofire in Frameworks */,
 				395DEEF22BC7CF3B00488E50 /* RxCocoa in Frameworks */,
 				395DEEE92BC7C58600488E50 /* SnapKit in Frameworks */,
@@ -259,6 +291,12 @@
 			isa = PBXGroup;
 			children = (
 				393540172BD42214008AF1D5 /* BookCardView.swift */,
+				39C2E4D22BD6CF8F00885E88 /* ProfilePostButton.swift */,
+				39C2E4D42BD6D1EC00885E88 /* ProfileEditButton.swift */,
+				39C2E4D62BD6D71F00885E88 /* CommentTextField.swift */,
+				39C2E4D82BD6D7E500885E88 /* CommentButton.swift */,
+				39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */,
+				39F1A2D82BD7A58300AE388A /* InputImageButton.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -270,6 +308,8 @@
 				3953E8482BC987BD0070E13F /* CreatePostViewModel.swift */,
 				3953E84A2BC987C80070E13F /* CreatePostViewController.swift */,
 				39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */,
+				39F1A2D22BD7A20700AE388A /* PostCreateView.swift */,
+				39F1A2D62BD7A24F00AE388A /* InputImageCollectionViewCell.swift */,
 			);
 			path = CreatePost;
 			sourceTree = "<group>";
@@ -339,6 +379,7 @@
 				393540162BD421F8008AF1D5 /* Custom */,
 				3935400D2BD385A8008AF1D5 /* Search */,
 				393540062BD3555B008AF1D5 /* SelectPost */,
+				39F1A2E22BD957F100AE388A /* FollowList */,
 				39353FFF2BD34916008AF1D5 /* OtherProfile */,
 				39353FD72BD1327D008AF1D5 /* Profile */,
 				39C2E4C52BD6303900885E88 /* EditProfile */,
@@ -387,6 +428,7 @@
 		395DEEF72BC7D47800488E50 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				39F1A2DE2BD8F6D600AE388A /* Follow */,
 				39353FDC2BD13894008AF1D5 /* Profile */,
 				39353FD02BD123C1008AF1D5 /* Comment */,
 				3953E8612BCC24BE0070E13F /* SearchBook */,
@@ -437,6 +479,26 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
+		39F1A2DE2BD8F6D600AE388A /* Follow */ = {
+			isa = PBXGroup;
+			children = (
+				39F1A2DC2BD8F6CF00AE388A /* FollowRouter.swift */,
+			);
+			path = Follow;
+			sourceTree = "<group>";
+		};
+		39F1A2E22BD957F100AE388A /* FollowList */ = {
+			isa = PBXGroup;
+			children = (
+				39F1A2E62BD9594300AE388A /* FollowViewController.swift */,
+				39F1A2E82BD96FD200AE388A /* FollowListViewController.swift */,
+				39F1A2EA2BD9702200AE388A /* FollowListView.swift */,
+				39F1A2EC2BD9703700AE388A /* FollowListTableViewCell.swift */,
+				39F1A2EE2BD9746E00AE388A /* FollowViewModel.swift */,
+			);
+			path = FollowList;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -459,6 +521,8 @@
 				395DEEF32BC7CF3B00488E50 /* RxSwift */,
 				395DEF012BC7DA7E00488E50 /* Alamofire */,
 				39353FAB2BCEC1C3008AF1D5 /* Kingfisher */,
+				39F1A2E02BD8FBEE00AE388A /* Toast */,
+				39F1A2E42BD9587E00AE388A /* Tabman */,
 			);
 			productName = BookSNS;
 			productReference = 395DEEC72BC7C08600488E50 /* BookSNS.app */;
@@ -493,6 +557,8 @@
 				395DEEF02BC7CF3B00488E50 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				39353FAA2BCEC1C3008AF1D5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				39F1A2DF2BD8FBEE00AE388A /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				39F1A2E32BD9587E00AE388A /* XCRemoteSwiftPackageReference "Tabman" */,
 			);
 			productRefGroup = 395DEEC82BC7C08600488E50 /* Products */;
 			projectDirPath = "";
@@ -522,6 +588,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39F1A2ED2BD9703700AE388A /* FollowListTableViewCell.swift in Sources */,
 				39C2E4C72BD6312B00885E88 /* EditProfileView.swift in Sources */,
 				39353FC92BD0FC12008AF1D5 /* CommentViewController.swift in Sources */,
 				393540182BD42214008AF1D5 /* BookCardView.swift in Sources */,
@@ -531,6 +598,8 @@
 				39353FD92BD132A4008AF1D5 /* ProfileView.swift in Sources */,
 				39C2E4B12BD52DA900885E88 /* EditPostViewModel.swift in Sources */,
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
+				39F1A2D72BD7A24F00AE388A /* InputImageCollectionViewCell.swift in Sources */,
+				39C2E4D52BD6D1EC00885E88 /* ProfileEditButton.swift in Sources */,
 				3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */,
 				3953E85A2BCC16DE0070E13F /* SearchBookViewController.swift in Sources */,
 				3935401A2BD42C32008AF1D5 /* TabBarController.swift in Sources */,
@@ -550,10 +619,13 @@
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
 				395DEEE62BC7C57500488E50 /* BaseView.swift in Sources */,
 				39C2E4CB2BD6314400885E88 /* EditProfileViewModel.swift in Sources */,
+				39F1A2D92BD7A58300AE388A /* InputImageButton.swift in Sources */,
+				39F1A2EB2BD9702200AE388A /* FollowListView.swift in Sources */,
 				3953E8602BCC235B0070E13F /* SearchBookViewModel.swift in Sources */,
 				393540082BD35579008AF1D5 /* SelectPostViewController.swift in Sources */,
 				39353FE02BD13E87008AF1D5 /* PostCollectionViewCell.swift in Sources */,
 				39353FDE2BD138C0008AF1D5 /* ProfileRouter.swift in Sources */,
+				39F1A2E72BD9594300AE388A /* FollowViewController.swift in Sources */,
 				39353FD42BD12427008AF1D5 /* CommentRouter.swift in Sources */,
 				3953E85C2BCC19DC0070E13F /* SearchBookView.swift in Sources */,
 				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
@@ -565,26 +637,34 @@
 				39353FA52BCE5B06008AF1D5 /* HomeView.swift in Sources */,
 				39353FCB2BD0FFBB008AF1D5 /* CommentTableViewCell.swift in Sources */,
 				39353FA12BCE4167008AF1D5 /* HomeViewController.swift in Sources */,
+				39F1A2D32BD7A20700AE388A /* PostCreateView.swift in Sources */,
 				39353FDB2BD132B0008AF1D5 /* ProfileViewModel.swift in Sources */,
 				3953E8472BC987AF0070E13F /* CreatePostView.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
 				3953E8632BCC24CF0070E13F /* SearchBook.swift in Sources */,
+				39C2E4D32BD6CF8F00885E88 /* ProfilePostButton.swift in Sources */,
 				393540052BD3496E008AF1D5 /* OtherProfileViewModel.swift in Sources */,
 				395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */,
 				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
 				3953E8532BC992CB0070E13F /* PostNetworkManager.swift in Sources */,
 				3935400F2BD39D7B008AF1D5 /* SearchViewController.swift in Sources */,
 				393540032BD3495E008AF1D5 /* OtherProfileView.swift in Sources */,
+				39F1A2DD2BD8F6CF00AE388A /* FollowRouter.swift in Sources */,
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
+				39F1A2EF2BD9746E00AE388A /* FollowViewModel.swift in Sources */,
+				39C2E4DB2BD6DAD500885E88 /* SignTextField.swift in Sources */,
 				393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */,
+				39F1A2E92BD96FD200AE388A /* FollowListViewController.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,
 				3935400C2BD35596008AF1D5 /* SelectPostViewModel.swift in Sources */,
 				39353FD22BD1240E008AF1D5 /* CreateCommentQuery.swift in Sources */,
 				39353FD62BD13273008AF1D5 /* ProfileViewController.swift in Sources */,
+				39C2E4D92BD6D7E500885E88 /* CommentButton.swift in Sources */,
 				3953E85E2BCC1F1B0070E13F /* SearchBookTableViewCell.swift in Sources */,
 				39353FA32BCE41F1008AF1D5 /* HomeViewModel.swift in Sources */,
 				39353FCF2BD10141008AF1D5 /* CommentViewModel.swift in Sources */,
 				395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */,
+				39C2E4D72BD6D71F00885E88 /* CommentTextField.swift in Sources */,
 				3953E8512BC991DC0070E13F /* PostRouter.swift in Sources */,
 				39353FA92BCE6F7D008AF1D5 /* BaseTableViewCell.swift in Sources */,
 				395DEECD2BC7C08600488E50 /* SceneDelegate.swift in Sources */,
@@ -731,6 +811,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47HVCF82JP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookSNS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -763,6 +844,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47HVCF82JP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookSNS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -844,6 +926,22 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		39F1A2DF2BD8FBEE00AE388A /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		39F1A2E32BD9587E00AE388A /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -871,6 +969,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		39F1A2E02BD8FBEE00AE388A /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39F1A2DF2BD8FBEE00AE388A /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		39F1A2E42BD9587E00AE388A /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39F1A2E32BD9587E00AE388A /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
