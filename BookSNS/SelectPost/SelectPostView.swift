@@ -156,6 +156,7 @@ class SelectPostView: BaseView {
         comment.setImage(UIImage(named: "Comment"), for: .normal)
         save.setImage(UIImage(named: "Bookmark"), for: .normal)
 
+        textView.font = .systemFont(ofSize: 13, weight: .medium)
         textView.numberOfLines = 0
         
         cardView.clipsToBounds = true

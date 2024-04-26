@@ -42,11 +42,9 @@ class CreatePostViewController: RxBaseViewController {
         mainView.addGestureRecognizer(tapGesture)
     }
     
-    deinit {
-        print("CreatePostViewController deinit")
-    }
-    
     override func bind() {
+        
+        self.navigationItem.rx.title.onNext("게시글 작성")
         
         let input = CreatePostViewModel.Input(contentText: mainView.textView.rx.text.orEmpty, imageData: PublishSubject<[Data?]>(), fileData: PublishSubject<[String]>(), imageRegisterButtonTapped: mainView.imageRegisterButton.rx.tap, searchBookButtonTapped: mainView.searchBookButton.rx.tap, createButtonTapped: mainView.createButton.rx.tap)
         
@@ -54,6 +52,7 @@ class CreatePostViewController: RxBaseViewController {
         
         if type == .edit {
             print("edit 작동")
+            self.navigationItem.rx.title.onNext("게시글 수정")
             let editInput = EditPostViewModel.Input(loadPost: PublishSubject<String>())
             
             let editOutput = editViewModel.transform(input: editInput)

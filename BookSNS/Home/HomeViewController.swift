@@ -185,12 +185,13 @@ class HomeViewController: RxBaseViewController {
                     .subscribe(with: self) { owner, _ in
                         let vc = CommentViewController()
                         vc.post_id = element.post_id
-                          if let sheet = vc.sheetPresentationController {
-                              sheet.detents = [.medium()]
+                        let nav = UINavigationController(rootViewController: vc)
+                          if let sheet = nav.sheetPresentationController {
+                              sheet.detents = [.medium(), .large()]
                               sheet.prefersGrabberVisible = true
                           }
-                          
-                          self.present(vc, animated: true)
+                    
+                        self.present(nav, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
                 

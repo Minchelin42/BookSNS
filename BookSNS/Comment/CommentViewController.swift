@@ -25,6 +25,9 @@ class CommentViewController: RxBaseViewController {
         
         view.backgroundColor = .white
         
+        navigationItem.title = "댓글"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Color.mainColor]
+        
         mainView.tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         mainView.tableView.rowHeight = UITableView.automaticDimension
     }
@@ -50,7 +53,21 @@ class CommentViewController: RxBaseViewController {
                     } else {
                         cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                     }
-              
+                
+                cell.profileButton.rx.tap
+                    .map { return element.creator.user_id }
+                    .subscribe(with: self) { owner, profileID in
+                        if profileID == UserDefaults.standard.string(forKey: "userID") {
+                            let vc = ProfileViewController()
+                            owner.navigationController?.pushViewController(vc, animated: true)
+                        } else {
+                            let vc = OtherProfileViewController()
+                            vc.userID = profileID
+                            owner.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
+                    .disposed(by: cell.disposeBag)
+                
             }
             .disposed(by: disposeBag)
         

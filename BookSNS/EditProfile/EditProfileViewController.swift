@@ -84,8 +84,11 @@ class EditProfileViewController: RxBaseViewController {
         mainView.editButton.rx.tap
             .map {
                 let nick = self.mainView.nickNameTextField.text
-                let profile = self.mainView.profileImageView.image?.pngData()
-                return ProfileQuery(nick: nick ?? "", profile: profile!)
+                guard let profile = self.mainView.profileImageView.image else {
+                    return ProfileQuery(nick: nick ?? "", profile: (UIImage(named: "defaultProfile")?.pngData())!)
+                }
+                return ProfileQuery(nick: nick ?? "", profile: profile.pngData()!)
+                
             }
             .subscribe(with: self) { owner, profileQuery in
                 print(profileQuery)

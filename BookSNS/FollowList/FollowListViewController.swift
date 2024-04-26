@@ -44,6 +44,20 @@ class FollowListViewController: RxBaseViewController {
                 ) {(row, element, cell) in
                     cell.nameLabel.text = element.nick
                     
+                    cell.profileButton.rx.tap
+                        .map { return element.user_id }
+                        .subscribe(with: self) { owner, profileID in
+                            if profileID == UserDefaults.standard.string(forKey: "userID") {
+                                let vc = ProfileViewController()
+                                owner.navigationController?.pushViewController(vc, animated: true)
+                            } else {
+                                let vc = OtherProfileViewController()
+                                vc.userID = profileID
+                                owner.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                        .disposed(by: cell.disposeBag)
+                    
                     var isFollowing = false
                     
                     let image = UIImageView()
@@ -105,6 +119,20 @@ class FollowListViewController: RxBaseViewController {
                     cellType: FollowListTableViewCell.self)
                 ) {(row, element, cell) in
                     cell.nameLabel.text = element.nick
+                    
+                    cell.profileButton.rx.tap
+                        .map { return element.user_id }
+                        .subscribe(with: self) { owner, profileID in
+                            if profileID == UserDefaults.standard.string(forKey: "userID") {
+                                let vc = ProfileViewController()
+                                owner.navigationController?.pushViewController(vc, animated: true)
+                            } else {
+                                let vc = OtherProfileViewController()
+                                vc.userID = profileID
+                                owner.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                        .disposed(by: cell.disposeBag)
                     
                     var isFollowing = false
                     

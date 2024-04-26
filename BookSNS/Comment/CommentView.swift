@@ -22,7 +22,7 @@ class CommentView: BaseView {
     
     override func configureLayout() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(30)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
             make.bottom.equalTo(textField.snp.top).offset(-12)
         }
