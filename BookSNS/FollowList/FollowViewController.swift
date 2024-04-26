@@ -22,25 +22,27 @@ class FollowViewController: TabmanViewController {
     let followingVC = FollowListViewController()
     
     var userID: String = ""
-
+    var selectType: Follow = .following
+    
     lazy var viewControllers = [followingVC, followerVC]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         followerVC.type = .follower
         followerVC.userID = self.userID
-
+        
         followingVC.userID = self.userID
-
+        
         self.dataSource = self
- 
-        settingTabman()
-
-    }
-    
-    func settingTabman() {
+        
         let bar = TMBar.ButtonBar()
+        settingTabman(bar: bar)
+        addBar(bar, dataSource: self, at: .top)
+        
+    }
+
+    func settingTabman(bar: TMBar.ButtonBar) {
         bar.layout.transitionStyle = .snap
 
         bar.indicator.weight = .custom(value: 2)
@@ -48,17 +50,18 @@ class FollowViewController: TabmanViewController {
         
         bar.layout.alignment = .centerDistributed
         bar.layout.interButtonSpacing = view.bounds.width / 4
-
+        
         bar.buttons.customize { (button) in
             button.tintColor = Color.lightPoint
             button.selectedTintColor = Color.mainColor
             button.verticalAlignment = .center
+            button.addAction(UIAction(handler: { action in
+         
+            }), for: .touchUpInside)
         }
-        
+        bar.indicator.overscrollBehavior = .compress
         bar.backgroundView.style = .clear
         bar.backgroundColor = .white
-        
-        addBar(bar, dataSource: self, at: .top)
     }
 }
 
@@ -74,15 +77,19 @@ extension FollowViewController: PageboyViewControllerDataSource, TMBarDataSource
     }
     
     func defaultPage(for pageboyViewController: PageboyViewController) -> PageboyViewController.Page? {
-        return nil
+        if (selectType == .following) {
+            return .at(index: 0)
+        } else {
+            return .at(index: 1)
+        }
     }
     
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {
         let item = TMBarItem(title: "")
         let title: String = index == 0 ? "팔로잉" : "팔로워"
         item.title = title
-
+        
         return item
     }
-
+    
 }

@@ -82,6 +82,7 @@ class ProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
                 vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                vc.selectType = .following
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
@@ -90,6 +91,7 @@ class ProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
                 vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                vc.selectType = .follower
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)

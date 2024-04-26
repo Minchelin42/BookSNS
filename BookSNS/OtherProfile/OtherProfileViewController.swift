@@ -48,6 +48,7 @@ class OtherProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
                 vc.userID = owner.userID
+                vc.selectType = .following
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
@@ -56,6 +57,7 @@ class OtherProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
                 vc.userID = owner.userID
+                vc.selectType = .follower
                 owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
@@ -83,6 +85,9 @@ class OtherProfileViewController: RxBaseViewController {
         
         output.profileInfo
             .subscribe(with: self) { owner, profile in
+                
+                owner.navigationItem.rx.title.onNext(profile.nick)
+                
                 owner.mainView.profileName.text = profile.nick
                 owner.mainView.postNumLabel.text = "\(profile.posts.count)"
                 owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
