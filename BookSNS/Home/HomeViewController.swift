@@ -24,7 +24,7 @@ class HomeViewController: RxBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         mainView.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         mainView.tableView.rowHeight = UITableView.automaticDimension
     }
@@ -36,6 +36,23 @@ class HomeViewController: RxBaseViewController {
         
         input.getPost.onNext(())
         input.getProfile.onNext(())
+        
+        viewModel.storyList
+            .bind(to: mainView.collectionView.rx.items(cellIdentifier: HomeCollectionViewCell.identifier, cellType: HomeCollectionViewCell.self)
+            ) { row, element, cell in
+                
+                cell.storyButton.backgroundColor = element.color
+                cell.storyLabel.text = element.title
+                
+                cell.storyButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        let vc = StoryViewController()
+                        vc.searchType = element.searchType
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
         
         output.editButtonTapped
             .subscribe(with: self) { owner, id in
@@ -77,7 +94,7 @@ class HomeViewController: RxBaseViewController {
                 cellIdentifier: HomeTableViewCell.identifier,
                 cellType: HomeTableViewCell.self)
             ) {(row, element, cell) in
-                
+                print(row)
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content
                 
