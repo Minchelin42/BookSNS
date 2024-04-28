@@ -12,6 +12,15 @@ import RxCocoa
 
 struct SearchBookModel: Decodable {
     let item: [BookModel]
+    
+    enum CodingKeys: CodingKey {
+        case item
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.item = try container.decodeIfPresent([BookModel].self, forKey: .item) ?? []
+    }
 }
 
 class SearchBookNetwork {
@@ -57,14 +66,28 @@ class SearchBookNetwork {
     
 }
 
+enum BookRankType: String {
+    case ItemNewAll = "ItemNewAll"
+    case ItemNewSpecial = "ItemNewSpecial"
+    case ItemEditorChoice = "ItemEditorChoice"
+    case Bestseller = "Bestseller"
+    case BlogBest = "BlogBest"
+
+}
+
 enum SearchBookRouter {
-    
     case searchBook(title: String)
+    case getBookRank(queryType: String)
 }
 
 extension SearchBookRouter {
     var baseURL: String {
-        return APIKey.bookURL.rawValue
+        switch self {
+        case .searchBook:
+            return APIKey.bookURL.rawValue
+        case .getBookRank:
+            return "http://www.aladin.co.kr/ttb/api/itemList.aspx"
+        }
     }
     
     var method: HTTPMethod {
@@ -75,6 +98,12 @@ extension SearchBookRouter {
         switch self {
         case .searchBook(let title):
             return ["ttbkey" : APIKey.bookKey.rawValue, "Query" : title, "Output" : "JS"]
+        case .getBookRank(let queryType):
+            if queryType == "ItemEditorChoice" {
+                return ["ttbkey" : APIKey.bookKey.rawValue, "QueryType" : queryType, "SearchTarget" : "Book", "Output" : "js", "Version" : "20131101", "Cover" : "Big", "CategoryId" : "1"]
+            } else {
+                return ["ttbkey" : APIKey.bookKey.rawValue, "QueryType" : queryType, "SearchTarget" : "Book", "Output" : "js", "Version" : "20131101", "Cover" : "Big"]
+            }
         }
     }
 }
