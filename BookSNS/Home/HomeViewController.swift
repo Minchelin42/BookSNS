@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 import Toast
+import Hero
 
 class HomeViewController: RxBaseViewController {
 
@@ -41,14 +42,18 @@ class HomeViewController: RxBaseViewController {
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: HomeCollectionViewCell.identifier, cellType: HomeCollectionViewCell.self)
             ) { row, element, cell in
                 
-                cell.storyButton.backgroundColor = element.color
+                cell.storyButton.backgroundColor = Color.lightPoint
                 cell.storyLabel.text = element.title
                 
                 cell.storyButton.rx.tap
                     .subscribe(with: self) { owner, _ in
                         let vc = StoryViewController()
+                        vc.isHeroEnabled = true
+                        vc.modalPresentationStyle = .fullScreen
+                        vc.hero.modalAnimationType = .zoom
                         vc.searchType = element.searchType
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        vc.rankTitle = element.title
+                        owner.present(vc, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
             }

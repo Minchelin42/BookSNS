@@ -11,6 +11,9 @@ import RxCocoa
 
 class StoryViewModel: ViewModelType {
     var disposeBag = DisposeBag()
+    
+    let haveMoreImage = PublishSubject<Bool>()
+    let viewTapped = PublishSubject<Bool>()
  
     struct Input {
         let searchListType: PublishSubject<String>
@@ -18,10 +21,12 @@ class StoryViewModel: ViewModelType {
     
     struct Output {
         let searchResult: PublishSubject<[BookModel]>
+        let searchListType: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
         let searchResult = PublishSubject<[BookModel]>()
+        let searchListType = PublishSubject<String>()
         
         input.searchListType
             .flatMap { type in
@@ -31,8 +36,17 @@ class StoryViewModel: ViewModelType {
                 searchResult.onNext(bookList)
             }
             .disposed(by: disposeBag)
+        
+        input.searchListType
+            .subscribe(with: self) { owner, type in
+                
+            }
+            .disposed(by: disposeBag)
 
-        return Output(searchResult: searchResult)
+
+        return Output(searchResult: searchResult, searchListType: searchListType)
     }
+    
+    
     
 }

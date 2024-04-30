@@ -3,20 +3,20 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Hero
 
 class StoryViewController: RxBaseViewController {
 
-    var imageList: [String] = []
+    var imageList: [BookModel] = []
     
     var searchType = ""
+    var rankTitle = ""
     var nowPage = 0
     var time: Float = 0.0
     var timer: Timer?
     
     let viewModel = StoryViewModel()
     let mainView = StoryView()
-    
-    let nextTapGesture = UITapGestureRecognizer()
     
     override func loadView() {
         self.view = mainView
@@ -29,6 +29,10 @@ class StoryViewController: RxBaseViewController {
         
     }
     
+    deinit {
+        print("StoryViewController Deinit")
+    }
+    
     override func bind() {
         let input = StoryViewModel.Input(searchListType: PublishSubject<String>())
         
@@ -37,28 +41,70 @@ class StoryViewController: RxBaseViewController {
         output.searchResult
             .subscribe(with: self) { owner, bookList in
                 owner.addProgressBars(count: bookList.count)
-                for index in 0..<bookList.count {
-                    owner.imageList.append(bookList[index].cover)
-                }
+                owner.imageList = bookList
                 
-                owner.mainView.testImage.kf.setImage(with: URL(string: owner.imageList[owner.nowPage])!)
+                owner.mainView.rankLabel.text = owner.rankTitle
+                owner.mainView.bookLabel.text = owner.imageList[owner.nowPage].title
+                owner.mainView.testImage.kf.setImage(with: URL(string: owner.imageList[owner.nowPage].cover)!)
                 owner.startProgress()
             }
             .disposed(by: disposeBag)
         
         input.searchListType.onNext(self.searchType)
-        
+
         mainView.prevTapGesture.rx.event
-            .subscribe(with: self) { owner, _ in
-                print("왼쪽 탭")
-                owner.leftViewTap()
-            }
+            .subscribe(with: self) { owner, _ in owner.leftViewTap() }
             .disposed(by: disposeBag)
         
         mainView.nextTapGesture.rx.event
+            .subscribe(with: self) { owner, _ in owner.rightViewTap() }
+            .disposed(by: disposeBag)
+        
+        viewModel.haveMoreImage
+            .subscribe(with: self) { owner, value in
+                if value { // nowPage < image.count
+                    // 다음 이미지로 변경
+                    owner.mainView.rankLabel.text = owner.rankTitle
+                    owner.mainView.bookLabel.text = owner.imageList[owner.nowPage].title
+                    owner.mainView.testImage.kf.setImage(with: URL(string: owner.imageList[owner.nowPage].cover)!)
+                    owner.startProgress()
+                } else {
+                    owner.navigationController?.popViewController(animated: true)
+                    owner.timer?.invalidate()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.viewTapped
+            .subscribe(with: self) { owner, value in
+                //false: leftTapped / true: rightTapped
+                if value {
+                    if owner.nowPage < owner.mainView.stackView.arrangedSubviews.count {
+                        let progressBar = owner.mainView.stackView.arrangedSubviews[owner.nowPage] as? UIProgressView
+                        progressBar?.setProgress(1.0, animated: false) // 현재 페이지에 해당하는 프로그래스 바 업데이트
+                    }
+                } else {
+                    if owner.nowPage < owner.mainView.stackView.arrangedSubviews.count {
+                        let progressBar = owner.mainView.stackView.arrangedSubviews[owner.nowPage] as? UIProgressView
+                        progressBar?.setProgress(0.0, animated: false) // 현재 페이지에 해당하는 프로그래스 바 업데이트
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.linkButton.rx.tap
             .subscribe(with: self) { owner, _ in
-                print("오른쪽 탭")
-                owner.rightViewTap()
+                owner.hero.modalAnimationType = .fade
+                owner.timer?.invalidate()
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.dismissButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                owner.hero.modalAnimationType = .fade
+                owner.timer?.invalidate()
+                owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
 
@@ -86,44 +132,28 @@ class StoryViewController: RxBaseViewController {
     }
     
     func leftViewTap() {
-        if nowPage < mainView.stackView.arrangedSubviews.count {
-            let progressBar = mainView.stackView.arrangedSubviews[nowPage] as? UIProgressView
-            progressBar?.setProgress(0.0, animated: false) // 현재 페이지에 해당하는 프로그래스 바 업데이트
-        }
+        viewModel.viewTapped.onNext(false)
         
         time = 0.0
         nowPage -= 1
         timer?.invalidate()
         if nowPage < imageList.count {
-            // 다음 이미지로 변경
-            mainView.testImage.kf.setImage(with: URL(string: imageList[nowPage])!)
-            // 다음 페이지의 프로그래스 바를 5초 동안 업데이트하기 위해 타이머 재시작
-            startProgress()
+            viewModel.haveMoreImage.onNext(true)
         } else {
-            // 이미지가 더 이상 없으면 이전 뷰 컨트롤러로 이동
-            self.navigationController?.popViewController(animated: true)
-            timer?.invalidate()
+            viewModel.haveMoreImage.onNext(false)
         }
     }
     
     func rightViewTap() {
-        if nowPage < mainView.stackView.arrangedSubviews.count {
-            let progressBar = mainView.stackView.arrangedSubviews[nowPage] as? UIProgressView
-            progressBar?.setProgress(1.0, animated: false) // 현재 페이지에 해당하는 프로그래스 바 업데이트
-        }
+        viewModel.viewTapped.onNext(true)
 
         time = 0.0
         nowPage += 1
         timer?.invalidate()
         if nowPage < imageList.count {
-            // 다음 이미지로 변경
-            mainView.testImage.kf.setImage(with: URL(string: imageList[nowPage])!)
-            // 다음 페이지의 프로그래스 바를 5초 동안 업데이트하기 위해 타이머 재시작
-            startProgress()
+            viewModel.haveMoreImage.onNext(true)
         } else {
-            // 이미지가 더 이상 없으면 이전 뷰 컨트롤러로 이동
-            self.navigationController?.popViewController(animated: true)
-            timer?.invalidate()
+            viewModel.haveMoreImage.onNext(false)
         }
     }
     
@@ -140,14 +170,9 @@ class StoryViewController: RxBaseViewController {
             nowPage += 1
             timer?.invalidate()
             if nowPage < imageList.count {
-                // 다음 이미지로 변경
-                mainView.testImage.kf.setImage(with: URL(string: imageList[nowPage])!)
-                // 다음 페이지의 프로그래스 바를 5초 동안 업데이트하기 위해 타이머 재시작
-                startProgress()
+                viewModel.haveMoreImage.onNext(true)
             } else {
-                // 이미지가 더 이상 없으면 이전 뷰 컨트롤러로 이동
-                self.navigationController?.popViewController(animated: true)
-                timer?.invalidate()
+                viewModel.haveMoreImage.onNext(false)
             }
         }
     }

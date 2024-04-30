@@ -27,7 +27,8 @@ class HomeView: BaseView {
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(4)
-            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalTo(self)
         }
     }
     

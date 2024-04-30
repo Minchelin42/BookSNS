@@ -12,7 +12,6 @@ import Foundation
 
 struct Story {
     let title: String
-    let color: UIColor
     let searchType: String
 }
 
@@ -20,7 +19,7 @@ class HomeViewModel: ViewModelType {
 
     var disposeBag = DisposeBag()
     
-    var storyList = BehaviorSubject<[Story]>(value:[Story(title: "신간 TOP10", color: Color.lightPoint!, searchType: BookRankType.ItemNewSpecial.rawValue), Story(title: "편집자 TOP10", color: Color.lightPoint!, searchType: BookRankType.ItemEditorChoice.rawValue), Story(title: "베스트 TOP10", color: Color.lightPoint!, searchType: BookRankType.Bestseller.rawValue), Story(title: "블로거 TOP10", color: Color.lightPoint!, searchType: BookRankType.BlogBest.rawValue)])
+    var storyList = BehaviorSubject<[Story]>(value:[Story(title: "신간 TOP10", searchType: BookRankType.ItemNewSpecial.rawValue), Story(title: "편집자 TOP10", searchType: BookRankType.ItemEditorChoice.rawValue), Story(title: "베스트 TOP10", searchType: BookRankType.Bestseller.rawValue), Story(title: "블로거 TOP10", searchType: BookRankType.BlogBest.rawValue)])
     var userResult: ProfileModel? = nil
     
     struct Input {
