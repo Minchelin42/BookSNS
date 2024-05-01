@@ -54,6 +54,7 @@ class SignInViewModel {
             .subscribe(with: self) { owner, signInModel in
                 signInSuccess.accept(())
                 UserDefaults.standard.set(signInModel.user_id, forKey: "userID")
+                UserDefaults.standard.set(signInModel.email, forKey: "email")
                 UserDefaults.standard.set(signInModel.nick, forKey: "nick")
                 UserDefaults.standard.set(signInModel.profileImage, forKey: "profileImage")
                 UserDefaults.standard.set(signInModel.accessToken, forKey: "accessToken")

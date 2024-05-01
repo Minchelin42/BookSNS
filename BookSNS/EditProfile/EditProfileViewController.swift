@@ -24,8 +24,8 @@ class EditProfileViewController: RxBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.profileImage.onNext(UserDefaults.standard.string(forKey: "profileImage") ?? "")
-        viewModel.nickName.onNext(UserDefaults.standard.string(forKey: "nick") ?? "")
+        
+        navigationItem.rx.title.onNext("프로필 수정")
     }
     
     override func bind() {
@@ -37,6 +37,12 @@ class EditProfileViewController: RxBaseViewController {
         viewModel.nickName
             .subscribe(with: self) { owner, nickName in
                 owner.mainView.nickNameTextField.text = nickName
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.id
+            .subscribe(with: self) { owner, id in
+                owner.mainView.userIdLabel.text = id
             }
             .disposed(by: disposeBag)
         
@@ -95,6 +101,10 @@ class EditProfileViewController: RxBaseViewController {
                 input.editButtonTapped.onNext(profileQuery)
             }
             .disposed(by: disposeBag)
+        
+        viewModel.id.onNext(UserDefaults.standard.string(forKey: "email") ?? "")
+        viewModel.profileImage.onNext(UserDefaults.standard.string(forKey: "profileImage") ?? "")
+        viewModel.nickName.onNext(UserDefaults.standard.string(forKey: "nick") ?? "")
  
     }
 

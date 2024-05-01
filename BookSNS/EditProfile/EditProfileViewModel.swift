@@ -13,9 +13,9 @@ class EditProfileViewModel: ViewModelType {
     
     var disposeBag = DisposeBag()
     
+    let id = PublishSubject<String>()
     let nickName = PublishSubject<String>()
     let profileImage = PublishSubject<String>()
-    
     
     struct Input {
         let nickNameText: ControlProperty<String>
@@ -24,14 +24,11 @@ class EditProfileViewModel: ViewModelType {
     }
     
     struct Output {
-
         let editProfileSuccess: PublishSubject<Bool>
     }
 
     func transform(input: Input) -> Output {
-        
-        let nick = UserDefaults.standard.value(forKey: "nick")
-        let profileImage = UserDefaults.standard.value(forKey: "profileImage")
+
         let editProfileSuccess = PublishSubject<Bool>()
         
         input.editButtonTapped
