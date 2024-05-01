@@ -31,6 +31,21 @@ class ProfileViewController: RxBaseViewController {
         let input = ProfileViewModel.Input(loadProfile: PublishSubject<Void>(), scrapButtonClicked: mainView.scrapButton.rx.tap, postButtonClicked: mainView.postButton.rx.tap)
 
         let output = viewModel.transform(input: input)
+        
+        output.selectPostButton.subscribe(with: self) { owner, value in
+            if value { //게시글 버튼을 눌렀을 때
+                owner.mainView.postButton.rx.backgroundColor.onNext(Color.mainColor)
+                owner.mainView.scrapButton.rx.backgroundColor.onNext(.white)
+                owner.mainView.postButton.rx.image(for: .normal).onNext(UIImage(named: "Grid.fill"))
+                owner.mainView.scrapButton.rx.image(for: .normal).onNext(UIImage(named: "Bookmark"))
+            } else { //좋아요 버튼 눌렀을 때
+                owner.mainView.scrapButton.rx.backgroundColor.onNext(Color.mainColor)
+                owner.mainView.postButton.rx.backgroundColor.onNext(.white)
+                owner.mainView.postButton.rx.image(for: .normal).onNext(UIImage(named: "Grid"))
+                owner.mainView.scrapButton.rx.image(for: .normal).onNext(UIImage(named: "Bookmark.fill"))
+            }
+        }
+        .disposed(by: disposeBag)
 
         output.profileInfo
             .subscribe(with: self) { owner, profile in

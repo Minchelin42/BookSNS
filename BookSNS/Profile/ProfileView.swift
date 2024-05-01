@@ -145,16 +145,16 @@ class ProfileView: BaseView {
         
         postButton.snp.makeConstraints { make in
             make.top.equalTo(profileEditButton.snp.bottom).offset(8)
-            make.height.equalTo(45)
-            make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
-            make.leading.equalTo(safeAreaLayoutGuide).inset(12)
+            make.height.equalTo(42)
+            make.width.equalTo((UIScreen.main.bounds.size.width - 48) / 2)
+            make.leading.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
         scrapButton.snp.makeConstraints { make in
             make.top.equalTo(profileEditButton.snp.bottom).offset(8)
-            make.height.equalTo(45)
-            make.width.equalTo((UIScreen.main.bounds.size.width - 36) / 2)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
+            make.height.equalTo(42)
+            make.width.equalTo((UIScreen.main.bounds.size.width - 48) / 2)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
         collectionView.snp.makeConstraints { make in

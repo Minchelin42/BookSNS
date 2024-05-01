@@ -22,16 +22,19 @@ class ProfileViewModel: ViewModelType {
     struct Output {
         let profileInfo: PublishSubject<ProfileModel>
         let postResult: PublishSubject<[String]>
+        let selectPostButton: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         
         let profileInfo = PublishSubject<ProfileModel>()
         let postResult = PublishSubject<[String]>()
+        let selectPostButton = PublishSubject<Bool>()
         
         input.postButtonClicked
             .subscribe(with: self) { owner, scrapPost in
                 input.loadProfile.onNext(())
+                selectPostButton.onNext(true)
             }
             .disposed(by: disposeBag)
         
@@ -48,6 +51,7 @@ class ProfileViewModel: ViewModelType {
                 }
                 
                 postResult.onNext(scrapResult.reversed())
+                selectPostButton.onNext(false)
             }
             .disposed(by: disposeBag)
         
@@ -61,7 +65,7 @@ class ProfileViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
  
-        return Output(profileInfo: profileInfo, postResult: postResult)
+        return Output(profileInfo: profileInfo, postResult: postResult, selectPostButton: selectPostButton)
     }
     
 }

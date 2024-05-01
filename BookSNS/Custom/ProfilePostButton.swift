@@ -14,7 +14,7 @@ class ProfilePostButton: UIButton {
         
         backgroundColor = .white
         clipsToBounds = true
-        layer.cornerRadius = 22
+        layer.cornerRadius = 21
         layer.borderWidth = 1
         layer.borderColor = Color.pointColor?.cgColor
     }
