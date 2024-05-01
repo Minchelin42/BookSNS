@@ -49,31 +49,65 @@ class SearchViewController: RxBaseViewController {
         setConstraints()
         configureDataSource()
         updateSnapshot(item: [])
-        bind()
         
         navigationItem.titleView = searchBar
     }
     
     override func bind() {
         
-        let input = SearchViewModel.Input(getPost: PublishSubject<Void>(), searchText: searchBar.rx.text.orEmpty, searchButtonClicked: searchBar.rx.searchButtonClicked)
+        let input = SearchViewModel.Input(getPost: PublishSubject<Void>(), getSearchPost: PublishSubject<Void>(), searchText: PublishSubject<String>(), searchButtonClicked: searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
-        input.getPost.onNext(())
-        
+        searchBar.rx.text.orEmpty.changed
+            .subscribe(with: self) { owner, text in
+                input.searchText.onNext(text)
+            }
+            .disposed(by: disposeBag)
+
         output.postResult
             .subscribe(with: self) { owner, result in
                 owner.item.removeAll()
                 for index in 0..<result.count {
                     let post = result[index]
-                    owner.item.append(Post(post_id: post.post_id, file_id: post.files[0]))
+                    if !post.files.isEmpty {
+                        owner.item.append(Post(post_id: post.post_id, file_id: post.files[0]))
+                    } else {
+                        owner.item.append(Post(post_id: post.post_id, file_id: ""))
+                    }
+                    
                 }
                 
                 owner.updateSnapshot(item: owner.item)
             }
             .disposed(by: disposeBag)
         
+        collectionView.rx.didEndDragging
+            .debounce(.seconds(0), scheduler: MainScheduler.instance)
+            .withLatestFrom(collectionView.rx.contentOffset)
+            .map { [weak self] contentOffset in
+                guard let collectionView = self?.collectionView else { return false }
+
+                return collectionView.contentSize.height - contentOffset.y < UIScreen.main.bounds.height
+            }
+            .subscribe(with: self) { owner, isScroll in
+                if isScroll {
+                    if owner.viewModel.isSearch {
+                        input.getSearchPost.onNext(())
+                    } else {
+                        if !owner.viewModel.next_cursor.isEmpty {
+                            input.getPost.onNext(())
+                        }
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        input.getPost.onNext(())
+        
+        
+        
     }
+    
     
     private func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

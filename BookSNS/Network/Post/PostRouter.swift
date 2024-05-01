@@ -12,8 +12,8 @@ enum PostRouter {
     case createPost(query: CreatePostQuery)
     case editPost(id: String, query: CreatePostQuery)
     case uploadImage
-    case getPost
-    case hashTagPost(tag: String)
+    case getPost(next: String)
+    case hashTagPost(tag: String, next: String)
     case getThisPost(id: String)
     case deletePost(id: String)
     case like(id: String, query: LikeQuery)
@@ -112,10 +112,10 @@ extension PostRouter: TargetType {
             return nil
         case .uploadImage:
             return nil
-        case .getPost:
-            return [URLQueryItem(name: "product_id", value: "test"), URLQueryItem(name: "limit", value: "10")]
-        case .hashTagPost(let tag):
-            return [URLQueryItem(name: "hashTag", value: tag)]
+        case .getPost(let next):
+            return [URLQueryItem(name: "product_id", value: "snapBook"), URLQueryItem(name: "limit", value: "15"), URLQueryItem(name: "next", value: next)]
+        case .hashTagPost(let tag, let next):
+            return [URLQueryItem(name: "hashTag", value: tag), URLQueryItem(name: "limit", value: "15"), URLQueryItem(name: "next", value: next)]
         case .getThisPost:
             return nil
         case .deletePost:

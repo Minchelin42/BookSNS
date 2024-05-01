@@ -97,6 +97,7 @@ struct CreatorModel: Decodable {
 
 struct GetPostModel: Decodable {
     let data: [PostModel]
+    let next_cursor: String
 }
 
 struct PostNetworkManager {
@@ -132,7 +133,7 @@ struct PostNetworkManager {
     static func getPost() -> Single<GetPostModel> {
         return Single<GetPostModel>.create { single in
             do {
-                let urlRequest = try PostRouter.getPost.asURLRequest()
+                let urlRequest = try PostRouter.getPost(next: "").asURLRequest()
                 
                 AF.request(urlRequest)
                     .validate(statusCode: 200..<420)

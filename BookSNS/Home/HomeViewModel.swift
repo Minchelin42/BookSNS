@@ -19,6 +19,9 @@ class HomeViewModel: ViewModelType {
 
     var disposeBag = DisposeBag()
     
+    var next_cursor = ""
+    var nowPostResult: [PostModel] = []
+    
     var storyList = BehaviorSubject<[Story]>(value:[Story(title: "신간 TOP10", searchType: BookRankType.ItemNewSpecial.rawValue), Story(title: "편집자 TOP10", searchType: BookRankType.ItemEditorChoice.rawValue), Story(title: "베스트 TOP10", searchType: BookRankType.Bestseller.rawValue), Story(title: "블로거 TOP10", searchType: BookRankType.BlogBest.rawValue)])
     var userResult: ProfileModel? = nil
     
@@ -78,12 +81,17 @@ class HomeViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.getPost
-            .flatMap { _ in
-                return PostNetworkManager.getPost()
+            .map { return self.next_cursor }
+            .flatMap { next in
+                return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.getPost(next: next))
             }
             .subscribe(with: self) { owner, postList in
-                print("getPost 구독 시작~")
-                postResult.onNext(postList.data)
+                if owner.next_cursor != "0" {
+                    owner.nowPostResult.append(contentsOf: postList.data)
+                    postResult.onNext(owner.nowPostResult)
+                    owner.next_cursor = postList.next_cursor
+                    print( owner.next_cursor)
+                }
             } onError: { owner, error in
                 print("오류 발생 \(error)")
             }

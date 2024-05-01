@@ -38,6 +38,20 @@ class HomeViewController: RxBaseViewController {
         input.getPost.onNext(())
         input.getProfile.onNext(())
         
+        mainView.tableView.rx.didEndDragging
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(mainView.tableView.rx.contentOffset)
+            .map { [weak self] contentOffset in
+                guard let tableView = self?.mainView.tableView else { return false }
+                return contentOffset.y + tableView.bounds.size.height >= tableView.contentSize.height
+            }
+            .subscribe(with: self) { owner, isScroll in
+                if isScroll {
+                    input.getPost.onNext(())
+                }
+            }
+            .disposed(by: disposeBag)
+        
         viewModel.storyList
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: HomeCollectionViewCell.identifier, cellType: HomeCollectionViewCell.self)
             ) { row, element, cell in
