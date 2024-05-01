@@ -7,8 +7,14 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class InputImageCollectionViewCell: UICollectionViewCell {
+    
+    let disposeBag = DisposeBag()
+    
+    var deleteButtonTap: (() -> Void)?
     
     static let identifier = "InputImageCollectionViewCell"
     
@@ -21,6 +27,16 @@ class InputImageCollectionViewCell: UICollectionViewCell {
         configureHierarchy()
         configureLayout()
         configureView()
+        
+        bind()
+    }
+    
+    func bind() {
+        deleteButton.rx.tap
+               .subscribe(with: self, onNext: { owner, _ in
+                   owner.deleteButtonTap?()
+               })
+               .disposed(by: disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +70,7 @@ class InputImageCollectionViewCell: UICollectionViewCell {
         deleteButton.clipsToBounds = true
         deleteButton.layer.cornerRadius = 10
         deleteButton.backgroundColor = .gray
+        deleteButton.setImage(UIImage(named: "Cancel"), for: .normal)
     }
 
 }

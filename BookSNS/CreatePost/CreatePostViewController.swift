@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxSwift
 import RxCocoa
 import Kingfisher
@@ -53,8 +54,18 @@ class CreatePostViewController: RxBaseViewController {
         if type == .edit {
             print("edit 작동")
             self.navigationItem.rx.title.onNext("게시글 수정")
-            let editInput = EditPostViewModel.Input(loadPost: PublishSubject<String>())
             
+            self.mainView.imageRegisterButton.isHidden = true
+            
+            self.mainView.collectionView.snp.remakeConstraints { make in
+                make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+                make.height.equalTo(80)
+            }
+            self.mainView.collectionView.layoutIfNeeded()
+            
+            self.mainView.createButton.rx.title(for: .normal).onNext("게시글 수정")
+            
+            let editInput = EditPostViewModel.Input(loadPost: PublishSubject<String>())
             let editOutput = editViewModel.transform(input: editInput)
             
             editOutput.postResult
@@ -97,6 +108,11 @@ class CreatePostViewController: RxBaseViewController {
                 .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
                 ) { row, element, cell in
                     cell.inputImage.image = element
+                    cell.deleteButton.tag = row
+                    cell.deleteButtonTap = {
+                        self.imageArr.remove(at: cell.deleteButton.tag)
+                        self.imageData.onNext(self.imageArr)
+                    }
                 }
                 .disposed(by: disposeBag)
         }
@@ -109,15 +125,11 @@ class CreatePostViewController: RxBaseViewController {
         
         output.imageRegisterButtonTapped
             .drive(with: self) { owner, _ in
-                if owner.type == .create {
-                    print("imageRegisterButtonTapped")
-                    let vc = UIImagePickerController()
-                    vc.delegate = self
-                    vc.allowsEditing = true
-                    owner.present(vc, animated: true)
-                } else {
-                    print("이미지 등록 불가")
-                }
+                let vc = UIImagePickerController()
+                vc.delegate = self
+                vc.allowsEditing = true
+                owner.present(vc, animated: true)
+                
             }
             .disposed(by: disposeBag)
         
