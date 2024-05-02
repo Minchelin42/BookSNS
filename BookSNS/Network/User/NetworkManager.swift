@@ -25,6 +25,10 @@ struct FollowModel: Decodable {
     let profileImage: String
 }
 
+struct TokenModel: Decodable {
+    let accessToken: String
+}
+
 struct SignInModel: Decodable {
     let user_id: String
     let email: String
@@ -119,7 +123,7 @@ struct NetworkManager {
             do {
                 let urlRequest = try router.asURLRequest()
                 
-                AF.request(urlRequest)
+                AF.request(urlRequest, interceptor: APIRequestInterceptor())
                     .validate(statusCode: 200..<420)
                     .responseDecodable(of: T.self) { response in
                         switch response.result {

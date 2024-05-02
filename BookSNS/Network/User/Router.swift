@@ -13,6 +13,7 @@ enum Router {
     case signIn(query: SignInQuery)
     case emailValidation(query: EmailValidationQuery)
     case withdraw
+    case renewToken
 }
 
 extension Router: TargetType {
@@ -25,7 +26,7 @@ extension Router: TargetType {
         switch self {
         case .signUp, .signIn, .emailValidation:
             return .post
-        case .withdraw:
+        case .withdraw, .renewToken:
             return .get
         }
     }
@@ -40,6 +41,8 @@ extension Router: TargetType {
             return "/validation/email"
         case .withdraw:
             return "/users/withdraw"
+        case .renewToken:
+            return "/auth/refresh"
         }
     }
     
@@ -51,6 +54,10 @@ extension Router: TargetType {
         case .withdraw:
             return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .renewToken:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue,
+                    HTTPHeader.refresh.rawValue : UserDefaults.standard.string(forKey: "refreshToken") ?? ""]
         }
     }
     
@@ -76,7 +83,7 @@ extension Router: TargetType {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
-        case .withdraw:
+        case .withdraw, .renewToken:
             return nil
         }
     }

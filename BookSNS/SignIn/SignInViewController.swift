@@ -34,7 +34,14 @@ class SignInViewController: RxBaseViewController {
         output.signInSuccess
             .drive(with: self) { owner, _ in
                 print("로그인 성공")
-                owner.navigationController?.pushViewController(CreatePostViewController(), animated: true)
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                
+                let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                
+                let vc = UINavigationController(rootViewController: CustomTabBarController())
+
+                sceneDelegate?.window?.rootViewController = vc
+                sceneDelegate?.window?.makeKeyAndVisible()
             }
             .disposed(by: disposeBag)
     }
