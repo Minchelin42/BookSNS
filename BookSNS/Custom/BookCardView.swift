@@ -57,7 +57,7 @@ class BookCardView: BaseView {
     
     let title = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
         label.textColor = .black
         label.numberOfLines = 0
         return label
@@ -65,7 +65,7 @@ class BookCardView: BaseView {
     
     let price = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = Color.pointColor
         return label
     }()
