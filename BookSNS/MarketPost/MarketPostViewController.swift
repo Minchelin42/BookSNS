@@ -26,8 +26,7 @@ class MarketPostViewController: RxBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        navigationItem.rx.title.onNext("판매글 작성")
     }
     
     override func bind() {

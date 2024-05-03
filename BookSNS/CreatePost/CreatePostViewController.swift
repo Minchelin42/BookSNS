@@ -41,12 +41,11 @@ class CreatePostViewController: RxBaseViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView(_:)))
         mainView.addGestureRecognizer(tapGesture)
+        navigationItem.rx.title.onNext("게시글 작성")
     }
     
     override func bind() {
-        
-        self.navigationItem.rx.title.onNext("게시글 작성")
-        
+
         let input = CreatePostViewModel.Input(contentText: mainView.textView.rx.text.orEmpty, imageData: PublishSubject<[Data?]>(), fileData: PublishSubject<[String]>(), imageRegisterButtonTapped: mainView.imageRegisterButton.rx.tap, searchBookButtonTapped: mainView.searchBookButton.rx.tap, createButtonTapped: mainView.createButton.rx.tap)
         
         let output = viewModel.transform(input: input)
