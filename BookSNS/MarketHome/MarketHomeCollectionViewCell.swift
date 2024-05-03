@@ -12,6 +12,8 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MarketHomeCollectionViewCell"
     
+    let soldOutView = SoldOutView()
+    
     let photoImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleToFill
@@ -48,6 +50,7 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(photoImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
+        contentView.addSubview(soldOutView)
     }
     
     private func configureLayout() {
@@ -67,6 +70,10 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(14)
             make.bottom.equalTo(contentView).inset(4)
         }
+        
+        soldOutView.snp.makeConstraints { make in
+            make.edges.equalTo(photoImageView)
+        }
     }
     
     private func configureView() {
@@ -80,6 +87,12 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
         photoImageView.layer.cornerRadius = 20
         photoImageView.layer.borderWidth = 1
         photoImageView.layer.borderColor = Color.lightPoint?.cgColor
+        
+        soldOutView.isHidden = true
+        soldOutView.clipsToBounds = true
+        soldOutView.layer.cornerRadius = 20
+        
+        soldOutView.soldOutLabel.font = .systemFont(ofSize: 30, weight: .bold)
     }
 
 }

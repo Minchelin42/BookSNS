@@ -37,7 +37,7 @@ class CreatePostViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let createSuccess = PublishSubject<Bool>()
-        var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", files: [], product_id: "snapBook")
+        var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "", files: [], product_id: "snapBook")
         
         input.contentText
             .subscribe(with: self) { owner, value in

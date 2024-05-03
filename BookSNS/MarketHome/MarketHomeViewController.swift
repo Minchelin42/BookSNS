@@ -18,6 +18,7 @@ struct MarketPost: Hashable, Identifiable {
     let file_id: String
     let title: String
     let price: String
+    let soldOut: String
 }
 
 class MarketHomeViewController: RxBaseViewController {
@@ -63,9 +64,9 @@ class MarketHomeViewController: RxBaseViewController {
                 for index in 0..<result.count {
                     let post = result[index]
                     if !post.files.isEmpty {
-                        owner.item.append(MarketPost(post_id: post.post_id, file_id: post.files[0], title: post.content1, price: post.content4))
+                        owner.item.append(MarketPost(post_id: post.post_id, file_id: post.files[0], title: post.content1, price: post.content4, soldOut: post.content5))
                     } else {
-                        owner.item.append(MarketPost(post_id: post.post_id, file_id: "", title: post.content1, price: post.content4))
+                        owner.item.append(MarketPost(post_id: post.post_id, file_id: "", title: post.content1, price: post.content4, soldOut: post.content5))
                     }
                     
                 }
@@ -152,6 +153,10 @@ class MarketHomeViewController: RxBaseViewController {
                  
             (cell as? MarketHomeCollectionViewCell)?.titleLabel.text = itemIdentifier.title
             (cell as? MarketHomeCollectionViewCell)?.priceLabel.text = "\(itemIdentifier.price)원"
+            
+            if itemIdentifier.soldOut == "true" {
+                (cell as? MarketHomeCollectionViewCell)?.soldOutView.isHidden = false
+            }
             
             return cell
         })

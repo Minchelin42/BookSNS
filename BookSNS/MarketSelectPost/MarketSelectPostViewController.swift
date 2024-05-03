@@ -36,6 +36,8 @@ class MarketSelectPostViewController: RxBaseViewController {
         
         view.addSubview(wkWebView)
         
+        viewModel.postID = self.postID
+        
         wkWebView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -49,6 +51,13 @@ class MarketSelectPostViewController: RxBaseViewController {
     
         output.postResult
             .subscribe(with: self) { owner, result in
+                
+                if result.content5 == "true" {
+                    owner.mainView.soldOutView.rx.isHidden.onNext(false)
+                }
+                
+                owner.viewModel.postResult = CreatePostQuery(content: result.content, content1: result.content1, content2: result.content2, content3: result.content3, content4: result.content4, content5: result.content5, files: result.files, product_id: result.product_id)
+                
                 owner.mainView.nickName.rx.text.onNext("\(result.creator?.nick ?? "")님의 한마디")
                 owner.mainView.userComment.rx.text.onNext(result.content)
                 owner.mainView.bookTitleLabel.rx.text.onNext(result.content1)

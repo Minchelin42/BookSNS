@@ -34,6 +34,7 @@ struct PostModel: Decodable {
     let content2: String
     let content3: String
     let content4: String
+    let content5: String
     let creator: CreatorModel?
     let files: [String]
     let likes: [String]
@@ -48,6 +49,7 @@ struct PostModel: Decodable {
         case content2
         case content3
         case content4
+        case content5
         case creator
         case files
         case likes
@@ -64,6 +66,7 @@ struct PostModel: Decodable {
         self.content2 = try container.decodeIfPresent(String.self, forKey: .content2) ?? ""
         self.content3 = try container.decodeIfPresent(String.self, forKey: .content3) ?? ""
         self.content4 = try container.decodeIfPresent(String.self, forKey: .content4) ?? ""
+        self.content5 = try container.decodeIfPresent(String.self, forKey: .content5) ?? ""
         self.creator = try container.decodeIfPresent(CreatorModel.self, forKey: .creator) ?? nil
         self.files = try container.decodeIfPresent([String].self, forKey: .files) ?? []
         self.likes = try container.decodeIfPresent([String].self, forKey: .likes) ?? []

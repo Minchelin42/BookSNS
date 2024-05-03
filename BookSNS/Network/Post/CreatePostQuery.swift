@@ -13,6 +13,7 @@ struct CreatePostQuery: Encodable {
     var content2: String
     var content3: String
     var content4: String
+    var content5: String
     var files: [String]
     var product_id: String
 }

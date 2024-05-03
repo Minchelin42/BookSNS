@@ -19,6 +19,10 @@ struct CreateMarketPostQuery: Encodable {
     var product_id: String
 }
 
+struct PayList: Decodable {
+    var data: [PayValidationModel]
+}
+
 struct PayValidationModel: Decodable{
     var payment_id: String
     var buyer_id: String
@@ -40,6 +44,7 @@ enum MarketRouter {
     case createPost(query: CreateMarketPostQuery)
     case getPost(next: String)
     case payValidation(query: PayQuery)
+    case getShoppingList
 }
 
 extension MarketRouter: TargetType {
@@ -56,6 +61,8 @@ extension MarketRouter: TargetType {
             return .get
         case .payValidation:
             return .post
+        case .getShoppingList:
+            return .get
         }
     }
     
@@ -67,6 +74,8 @@ extension MarketRouter: TargetType {
             return "/posts"
         case .payValidation:
             return "/payments/validation"
+        case .getShoppingList:
+            return "/payments/me"
         }
     }
     
@@ -83,6 +92,10 @@ extension MarketRouter: TargetType {
             return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
+        case .getShoppingList:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }
     }
     
@@ -92,11 +105,9 @@ extension MarketRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .createPost:
-            return nil
         case .getPost(let next):
             return [URLQueryItem(name: "product_id", value: "snapBook_market"), URLQueryItem(name: "limit", value: "15"), URLQueryItem(name: "next", value: next)]
-        case .payValidation:
+        case .createPost, .payValidation, .getShoppingList:
             return nil
         }
     }
@@ -111,8 +122,9 @@ extension MarketRouter: TargetType {
             return nil
         case .payValidation(let query):
             let encoder = JSONEncoder()
-//            encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
+        case .getShoppingList:
+            return nil
         }
     }
     

@@ -14,8 +14,12 @@ class MarketSelectPostViewModel: ViewModelType {
     
     var userResult: ProfileModel? = nil
     
+    var postID = ""
+    
     var payQuery = PayQuery(imp_uid: "", post_id: "", productName: "", price: 0)
     var payValidation = PublishSubject<Void>()
+    var saleComplete = PublishSubject<Void>()
+    var postResult: CreatePostQuery!
     
     struct Input {
         let loadPost: PublishSubject<String>
@@ -46,6 +50,19 @@ class MarketSelectPostViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, value in
                 print(value)
+                self.postResult.content5 = "true"
+                owner.saleComplete.onNext(())
+            }
+            .disposed(by: disposeBag)
+        
+        saleComplete
+            .flatMap{ _ in
+                return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.postID, query: self.postResult))
+            }
+            .subscribe(with: self) { owner, result in
+                input.loadPost.onNext(owner.postID)
+            } onError: { owner, error in
+                print("오류 발생 \(error)")
             }
             .disposed(by: disposeBag)
         

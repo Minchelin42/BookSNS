@@ -12,6 +12,8 @@ class MarketSelectPostView: BaseView {
     
     let scrollView = UIScrollView()
     let contentView = UIView()
+    
+    let soldOutView = SoldOutView()
 
     let postImage = UIScrollView()
     let pageControl = UIPageControl()
@@ -102,6 +104,7 @@ class MarketSelectPostView: BaseView {
         contentView.addSubview(nickName)
         contentView.addSubview(userComment)
         contentView.addSubview(payButton)
+        contentView.addSubview(soldOutView)
     }
     
     override func configureLayout() {
@@ -195,6 +198,10 @@ class MarketSelectPostView: BaseView {
             make.height.equalTo(45)
             make.bottom.equalTo(contentView).inset(8)
         }
+        
+        soldOutView.snp.makeConstraints { make in
+            make.edges.equalTo(contentView)
+        }
     }
     
     override func configureView() {
@@ -227,6 +234,8 @@ class MarketSelectPostView: BaseView {
         nickName.text = "min_wldms님의 한마디"
 //        userComment.backgroundColor = .cyan
         userComment.text = "사놓고 한번 완독한 후 펼쳐보지 않아 새책입니다"
+        
+        soldOutView.isHidden = true
 
     }
     
