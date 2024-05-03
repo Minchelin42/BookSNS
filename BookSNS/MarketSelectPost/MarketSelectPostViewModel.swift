@@ -14,6 +14,9 @@ class MarketSelectPostViewModel: ViewModelType {
     
     var userResult: ProfileModel? = nil
     
+    var payQuery = PayQuery(imp_uid: "", post_id: "", productName: "", price: 0)
+    var payValidation = PublishSubject<Void>()
+    
     struct Input {
         let loadPost: PublishSubject<String>
     }
@@ -34,6 +37,15 @@ class MarketSelectPostViewModel: ViewModelType {
                 postResult.onNext(post)
             } onError: { owner, error in
                 print("오류 발생 \(error)")
+            }
+            .disposed(by: disposeBag)
+        
+        payValidation
+            .flatMap { _ in
+                return NetworkManager.APIcall(type: PayValidationModel.self, router: MarketRouter.payValidation(query: self.payQuery))
+            }
+            .subscribe(with: self) { owner, value in
+                print(value)
             }
             .disposed(by: disposeBag)
         

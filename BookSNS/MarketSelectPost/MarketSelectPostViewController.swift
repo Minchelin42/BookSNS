@@ -10,11 +10,20 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 import Toast
+import WebKit
+import iamport_ios
 
 class MarketSelectPostViewController: RxBaseViewController {
     
     let mainView = MarketSelectPostView()
     let viewModel = MarketSelectPostViewModel()
+    
+    lazy var wkWebView: WKWebView = {
+        var view = WKWebView()
+        view.backgroundColor = UIColor.clear
+        view.isHidden = true
+        return view
+    }()
     
     var postID = ""
     
@@ -24,6 +33,12 @@ class MarketSelectPostViewController: RxBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(wkWebView)
+        
+        wkWebView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
 
     }
     
@@ -39,6 +54,20 @@ class MarketSelectPostViewController: RxBaseViewController {
                 owner.mainView.bookTitleLabel.rx.text.onNext(result.content1)
                 owner.mainView.standardPriceLabel.rx.text.onNext("정가: \(result.content2)원")
                 owner.mainView.marketPriceLabel.rx.text.onNext("중고 판매가: \(result.content4)원")
+                
+                owner.viewModel.payQuery.post_id = owner.postID
+                owner.viewModel.payQuery.price = Int(result.content4) ?? 0
+                owner.viewModel.payQuery.productName = result.content1
+                
+                let payment = IamportPayment(
+                    pg: PG.html5_inicis.makePgRawName(pgId: "INIpayTest"),
+                    merchant_uid: "ios_\(APIKey.sesacKey.rawValue)_\(Int(Date().timeIntervalSince1970))",
+                    amount: result.content4).then {
+                        $0.pay_method = PayMethod.card.rawValue
+                        $0.name = result.content1
+                        $0.buyer_name = UserDefaults.standard.string(forKey: "nick")
+                        $0.app_scheme = "sesac"
+                    }
                 
                 if let profileImage = result.creator?.profileImage {
                     if !profileImage.isEmpty {
@@ -110,8 +139,24 @@ class MarketSelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
                 
+                owner.mainView.payButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        print("결제버튼 클릭")
+                        owner.wkWebView.isHidden = false
+                        Iamport.shared.paymentWebView(webViewMode: owner.wkWebView, userCode: APIKey.iamPortUserCode.rawValue, payment: payment) { [weak self] IamportResponse in
+                            print(String(describing: IamportResponse))
+                            owner.viewModel.payQuery.imp_uid = IamportResponse?.imp_uid ?? ""
+                            print("imp_uid: ",IamportResponse?.imp_uid ?? "")
+                            owner.viewModel.payValidation.onNext(())
+                            owner.wkWebView.isHidden = true
+                        }
+                        
+                    }
+                    .disposed(by: owner.disposeBag)
+                
             }
             .disposed(by: disposeBag)
+        
     
         input.loadPost.onNext(postID)
     }

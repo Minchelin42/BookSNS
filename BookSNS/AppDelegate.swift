@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import iamport_ios
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+  //        Iamport.shared.receivedURL(url) // SwiftUI 사용으로 인해 SceneDelegate로 이관
+          return true
+      }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -30,6 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        Iamport.shared.close() // SDK 종료
+    }
+
 
 
 }

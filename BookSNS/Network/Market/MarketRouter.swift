@@ -19,10 +19,27 @@ struct CreateMarketPostQuery: Encodable {
     var product_id: String
 }
 
+struct PayValidationModel: Decodable{
+    var payment_id: String
+    var buyer_id: String
+    var post_id: String
+    var merchant_uid: String
+    var productName: String
+    var price: Int
+    var paidAt: String
+}
+
+struct PayQuery: Encodable {
+    var imp_uid: String
+    var post_id: String
+    var productName: String
+    var price: Int
+}
 
 enum MarketRouter {
     case createPost(query: CreateMarketPostQuery)
     case getPost(next: String)
+    case payValidation(query: PayQuery)
 }
 
 extension MarketRouter: TargetType {
@@ -37,6 +54,8 @@ extension MarketRouter: TargetType {
             return .post
         case .getPost:
             return .get
+        case .payValidation:
+            return .post
         }
     }
     
@@ -46,6 +65,8 @@ extension MarketRouter: TargetType {
             return "/posts"
         case .getPost:
             return "/posts"
+        case .payValidation:
+            return "/payments/validation"
         }
     }
     
@@ -58,6 +79,10 @@ extension MarketRouter: TargetType {
         case .getPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+        case .payValidation:
+            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                    HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
+                    HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }
     }
     
@@ -67,10 +92,12 @@ extension MarketRouter: TargetType {
     
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .createPost(let query):
+        case .createPost:
             return nil
         case .getPost(let next):
             return [URLQueryItem(name: "product_id", value: "snapBook_market"), URLQueryItem(name: "limit", value: "15"), URLQueryItem(name: "next", value: next)]
+        case .payValidation:
+            return nil
         }
     }
     
@@ -80,8 +107,12 @@ extension MarketRouter: TargetType {
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)
-        case .getPost(let next):
+        case .getPost:
             return nil
+        case .payValidation(let query):
+            let encoder = JSONEncoder()
+//            encoder.keyEncodingStrategy = .convertToSnakeCase
+            return try? encoder.encode(query)
         }
     }
     

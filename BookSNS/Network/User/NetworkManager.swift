@@ -122,7 +122,6 @@ struct NetworkManager {
         return Single<T>.create { single in
             do {
                 let urlRequest = try router.asURLRequest()
-                
                 AF.request(urlRequest, interceptor: APIRequestInterceptor())
                     .validate(statusCode: 200..<420)
                     .responseDecodable(of: T.self) { response in
