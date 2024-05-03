@@ -58,7 +58,29 @@ class ProfileView: BaseView {
         return button
     }()
     
-    let profileEditButton = ProfileEditButton()
+    let profileEditButton = {
+        let button = UIButton()
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Color.lightPoint?.cgColor
+        button.setTitle("프로필 수정", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.setTitleColor(Color.mainColor, for: .normal)
+        return button
+    }()
+    
+    let shoppingListButton = {
+        let button = UIButton()
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Color.lightPoint?.cgColor
+        button.setTitle("구매 내역", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.setTitleColor(Color.mainColor, for: .normal)
+        return button
+    }()
     
     let postButton = ProfilePostButton()
     let scrapButton = ProfilePostButton()
@@ -75,6 +97,7 @@ class ProfileView: BaseView {
         addSubview(followerLabel)
         addSubview(followerButton)
         addSubview(profileEditButton)
+        addSubview(shoppingListButton)
         addSubview(postButton)
         addSubview(scrapButton)
         addSubview(collectionView)
@@ -140,7 +163,15 @@ class ProfileView: BaseView {
         profileEditButton.snp.makeConstraints { make in
             make.top.equalTo(postNumLabel.snp.bottom).offset(24)
             make.height.equalTo(40)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
+            make.width.equalTo((UIScreen.main.bounds.width - 48) / 2)
+            make.leading.equalTo(safeAreaLayoutGuide).inset(16)
+        }
+        
+        shoppingListButton.snp.makeConstraints { make in
+            make.top.equalTo(postNumLabel.snp.bottom).offset(24)
+            make.height.equalTo(40)
+            make.width.equalTo((UIScreen.main.bounds.width - 48) / 2)
+            make.trailing.equalTo(safeAreaLayoutGuide).inset(16)
         }
         
         postButton.snp.makeConstraints { make in

@@ -11,4 +11,5 @@ enum Color {
     static let mainColor = UIColor(named: "mainColor")
     static let lightPoint = UIColor(named: "lightPoint")
     static let pointColor = UIColor(named: "pointColor")
+    static let bluePoint = UIColor(named: "bluePoint")
 }

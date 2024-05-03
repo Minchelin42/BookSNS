@@ -74,6 +74,10 @@ class ProfileViewController: RxBaseViewController {
             ) { row, element, cell in
                 
                 NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: element)).subscribe(with: self) { owner, postModel in
+                    
+                    if postModel.product_id == "snapBook_market" {
+                        cell.marketMark.isHidden = false
+                    }
 
                     let modifier = AnyModifier { request in
                         var r = request
@@ -124,16 +128,32 @@ class ProfileViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
-        self.mainView.collectionView.rx.modelSelected(String.self)
-            .subscribe(with: self) { owner, postID in
-                print("collectionView 클릭", postID)
-                let vc = SelectPostViewController()
-                vc.postID = postID
+        self.mainView.shoppingListButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                print("shoppingListButton 클릭")
+                let vc = ShoppingListViewController()
                 owner.navigationController?.pushViewController(vc, animated: true)
-                
             }
             .disposed(by: disposeBag)
         
+        self.mainView.collectionView.rx.modelSelected(String.self)
+            .subscribe(with: self) { owner, postID in
+                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID)).subscribe(with: self) { owner, postModel in
+                   
+                    if postModel.product_id == "snapBook" {
+                        let vc = SelectPostViewController()
+                        vc.postID = postID
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        let vc = MarketSelectPostViewController()
+                        vc.postID = postID
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+                .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+
         input.loadProfile.onNext(())
     }
     
