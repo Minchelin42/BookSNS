@@ -17,6 +17,7 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         postImageView.image = nil
+        marketMark.isHidden = true
     }
 
     override init(frame: CGRect) {
