@@ -26,6 +26,8 @@ class SignInViewController: RxBaseViewController {
         
         let output = viewModel.transform(input: input)
         
+        mainView.passwordTextField.rx.isSecureTextEntry.onNext(true)
+        
         mainView.signUpButton.rx.tap
             .subscribe(with: self) { owner, _ in
                 let vc = SignUpViewController()

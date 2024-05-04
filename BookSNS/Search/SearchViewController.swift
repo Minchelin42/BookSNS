@@ -58,6 +58,8 @@ class SearchViewController: RxBaseViewController {
         let input = SearchViewModel.Input(getPost: PublishSubject<Void>(), getSearchPost: PublishSubject<Void>(), searchText: PublishSubject<String>(), searchButtonClicked: searchBar.rx.searchButtonClicked)
         let output = viewModel.transform(input: input)
         
+        searchBar.rx.placeholder.onNext("태그명 검색")
+        
         searchBar.rx.text.orEmpty.changed
             .subscribe(with: self) { owner, text in
                 input.searchText.onNext(text)
@@ -103,9 +105,7 @@ class SearchViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         input.getPost.onNext(())
-        
-        
-        
+ 
     }
     
     
