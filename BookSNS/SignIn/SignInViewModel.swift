@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import UIKit
 
 class SignInViewModel {
     
@@ -35,6 +36,8 @@ class SignInViewModel {
         let signInSuccess = PublishRelay<Void>()
         let signInValid = BehaviorRelay(value: false)
         
+        let profileQuery = PublishSubject<ProfileQuery>()
+        
         signInObservable
             .bind(with: self) { owner, signIn in
                 if signIn.email.count > 5 && signIn.password.count > 8 {
@@ -53,16 +56,37 @@ class SignInViewModel {
             }
             .subscribe(with: self) { owner, signInModel in
                 signInSuccess.accept(())
+                
                 UserDefaults.standard.set(signInModel.user_id, forKey: "userID")
                 UserDefaults.standard.set(signInModel.email, forKey: "email")
                 UserDefaults.standard.set(signInModel.nick, forKey: "nick")
-                UserDefaults.standard.set(signInModel.profileImage, forKey: "profileImage")
                 UserDefaults.standard.set(signInModel.accessToken, forKey: "accessToken")
                 UserDefaults.standard.set(signInModel.refreshToken, forKey: "refreshToken")
+                
+                if signInModel.profileImage.isEmpty {
+                    profileQuery.onNext(ProfileQuery(nick: signInModel.nick, profile: (UIImage(named: "defaultProfile")?.pngData())!))
+                } else {
+                    UserDefaults.standard.set(signInModel.profileImage, forKey: "profileImage")
+                }
+    
             } onError: { owner, error in
                 print("오류 발생")
             }
             .disposed(by: disposeBag)
+        
+        profileQuery
+            .flatMap { profileQuery in
+            return NetworkManager.uploadProfile(query: profileQuery)
+        }
+        .subscribe(with: self) { owner, profileModel in
+            print(UserDefaults.standard.string(forKey: "profileImage") ?? "프로필 사진 정보 없음")
+            UserDefaults.standard.setValue(profileModel.profileImage, forKey: "profileImage")
+            print(UserDefaults.standard.string(forKey: "profileImage") ?? "프로필 사진 정보 없음")
+        } onError: { owner, error in
+            print("오류 발생 \(error)")
+        }
+        .disposed(by: disposeBag)
+        
         
         
         

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SignInViewController: RxBaseViewController {
     
@@ -24,6 +26,13 @@ class SignInViewController: RxBaseViewController {
         
         let output = viewModel.transform(input: input)
         
+        mainView.signUpButton.rx.tap
+            .subscribe(with: self) { owner, _ in
+                let vc = SignUpViewController()
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
         output.signInValidation
             .drive(with: self) { owner, valid in
                 owner.mainView.signInButton.isEnabled = valid
@@ -38,7 +47,7 @@ class SignInViewController: RxBaseViewController {
                 
                 let sceneDelegate = windowScene?.delegate as? SceneDelegate
                 
-                let vc = UINavigationController(rootViewController: CustomTabBarController())
+                let vc = CustomTabBarController()
 
                 sceneDelegate?.window?.rootViewController = vc
                 sceneDelegate?.window?.makeKeyAndVisible()

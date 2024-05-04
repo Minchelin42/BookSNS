@@ -24,10 +24,19 @@ class SignInView: BaseView {
         return button
     }()
     
+    let signUpButton = {
+        let button = UIButton()
+        button.setTitle("아직 회원이 아니신가요?", for: .normal)
+        button.setTitleColor(Color.pointColor, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        return button
+    }()
+    
     override func configureHierarchy() {
         addSubview(emailTextField)
         addSubview(passwordTextField)
         addSubview(signInButton)
+        addSubview(signUpButton)
     }
     
     override func configureLayout() {
@@ -45,6 +54,12 @@ class SignInView: BaseView {
 
         signInButton.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(35)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(50)
+        }
+        
+        signUpButton.snp.makeConstraints { make in
+            make.top.equalTo(signInButton.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
             make.height.equalTo(50)
         }

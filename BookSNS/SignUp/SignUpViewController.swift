@@ -49,7 +49,7 @@ class SignUpViewController: RxBaseViewController {
         output.signUpSuccess
             .drive(with: self) { owner, _ in
                 print("회원가입 성공")
-                owner.navigationController?.pushViewController(SignInViewController(), animated: true)
+                owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
     }
