@@ -17,7 +17,7 @@ class HomeViewController: RxBaseViewController {
     let mainView = HomeView()
     let viewModel = HomeViewModel()
     
-    let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+    var userID = UserDefaults.standard.string(forKey: "userID") ?? ""
     
     override func loadView() {
         self.view = mainView
@@ -28,6 +28,11 @@ class HomeViewController: RxBaseViewController {
 
         mainView.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         mainView.tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
     }
     
     override func bind() {
@@ -62,12 +67,15 @@ class HomeViewController: RxBaseViewController {
                 cell.storyButton.rx.tap
                     .subscribe(with: self) { owner, _ in
                         let vc = StoryViewController()
-                        vc.isHeroEnabled = true
-                        vc.modalPresentationStyle = .fullScreen
-                        vc.hero.modalAnimationType = .zoom
                         vc.searchType = element.searchType
                         vc.rankTitle = element.title
-                        owner.present(vc, animated: true)
+                        
+                        let nav = UINavigationController(rootViewController: vc)
+                        nav.isHeroEnabled = true
+                        nav.hero.modalAnimationType = .zoom
+                        nav.modalPresentationStyle = .fullScreen
+                        
+                        owner.present(nav, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
             }
@@ -160,6 +168,15 @@ class HomeViewController: RxBaseViewController {
                 cell.cardView.title.text = element.content1
                 cell.cardView.price.text = "\(element.content2)원"
                 cell.cardView.bookImage.kf.setImage(with: URL(string: element.content4))
+                
+                cell.cardView.linkButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        let vc = BookWebViewController()
+                        vc.bookTitle = element.content1
+                        vc.urlString = element.content3
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    .disposed(by: cell.disposeBag)
                 
                 cell.tapGesture.rx.event
                     .subscribe(with: self) { owner, _ in

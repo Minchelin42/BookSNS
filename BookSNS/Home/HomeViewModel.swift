@@ -60,6 +60,7 @@ class HomeViewModel: ViewModelType {
                 return NetworkManager.APIcall(type: SelectFollowModel.self, router: FollowRouter.follow(id: id))
             }
             .subscribe(with: self) { owner, _ in
+                owner.next_cursor = ""
                 followingStatus.onNext(true)
             }
             .disposed(by: disposeBag)
@@ -67,6 +68,7 @@ class HomeViewModel: ViewModelType {
         input.unfollowButtonTapped
             .subscribe(with: self) { owner, id in
                 NetworkManager.DeleteAPI(router: FollowRouter.unfollow(id: id)) { value in
+                    owner.next_cursor = ""
                     followingStatus.onNext(false)
                 }
             }
@@ -75,7 +77,7 @@ class HomeViewModel: ViewModelType {
         input.deleteButtonTapped
             .subscribe(with: self) { owner, id in
                 NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id)) { _ in }
-                                         
+                owner.next_cursor = ""
                 input.getPost.onNext(())
             }
             .disposed(by: disposeBag)
@@ -86,12 +88,17 @@ class HomeViewModel: ViewModelType {
                 return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.getPost(next: next))
             }
             .subscribe(with: self) { owner, postList in
-                if owner.next_cursor != "0" {
+                if owner.next_cursor.isEmpty {
+                    owner.nowPostResult = postList.data
+                    postResult.onNext(owner.nowPostResult)
+                    owner.next_cursor = postList.next_cursor
+                } else if owner.next_cursor != "0" {
                     owner.nowPostResult.append(contentsOf: postList.data)
                     postResult.onNext(owner.nowPostResult)
                     owner.next_cursor = postList.next_cursor
                     print( owner.next_cursor)
                 }
+
             } onError: { owner, error in
                 print("오류 발생 \(error)")
             }
