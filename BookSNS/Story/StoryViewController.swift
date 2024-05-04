@@ -26,7 +26,6 @@ class StoryViewController: RxBaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .black
-        
     }
     
     deinit {
@@ -69,8 +68,9 @@ class StoryViewController: RxBaseViewController {
                     owner.mainView.testImage.kf.setImage(with: URL(string: owner.imageList[owner.nowPage].cover)!)
                     owner.startProgress()
                 } else {
-                    owner.navigationController?.popViewController(animated: true)
+                    owner.hero.modalAnimationType = .fade
                     owner.timer?.invalidate()
+                    owner.dismiss(animated: true)
                 }
             }
             .disposed(by: disposeBag)
@@ -94,9 +94,10 @@ class StoryViewController: RxBaseViewController {
         
         mainView.linkButton.rx.tap
             .subscribe(with: self) { owner, _ in
-                owner.hero.modalAnimationType = .fade
-                owner.timer?.invalidate()
-                owner.dismiss(animated: true)
+                let vc = BookWebViewController()
+                vc.bookTitle = owner.imageList[owner.nowPage].title
+                vc.urlString = owner.imageList[owner.nowPage].link
+                owner.navigationController?.pushViewController(vc, animated: true)
             }
             .disposed(by: disposeBag)
         

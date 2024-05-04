@@ -70,12 +70,24 @@ class BookCardView: BaseView {
         return label
     }()
     
+    let linkButton = {
+        let button = UIButton()
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.backgroundColor = Color.mainColor
+        button.setTitle("상세페이지", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
+        return button
+    }()
+    
     let unknownView = UnknownView()
 
     override func configureHierarchy() {
         addSubview(bookImage)
         addSubview(title)
         addSubview(price)
+        addSubview(linkButton)
         addSubview(unknownView)
     }
     
@@ -89,14 +101,21 @@ class BookCardView: BaseView {
             make.height.equalTo(20)
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-10)
-            make.bottom.equalTo(bookImage.snp.centerY).offset(-4)
+            make.top.equalTo(bookImage.snp.top).offset(4)
         }
         
         price.snp.makeConstraints { make in
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
-            make.trailing.equalTo(safeAreaLayoutGuide).offset(-10)
+            make.trailing.equalTo(linkButton).offset(-10)
             make.height.equalTo(16)
-            make.top.equalTo(bookImage.snp.centerY).offset(4)
+            make.top.equalTo(title.snp.bottom).offset(4)
+        }
+        
+        linkButton.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-12)
+            make.trailing.equalTo(safeAreaLayoutGuide).offset(-12)
+            make.height.equalTo(32)
+            make.width.equalTo(80)
         }
         
         unknownView.snp.makeConstraints { make in

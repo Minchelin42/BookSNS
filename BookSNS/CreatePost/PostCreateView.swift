@@ -86,6 +86,7 @@ class PostCreateView: BaseView {
         cardView.layer.cornerRadius = 16
         cardView.layer.borderWidth = 1
         cardView.layer.borderColor = Color.lightPoint?.cgColor
+        cardView.linkButton.isHidden = true
         
         createButton.setTitle("게시글 등록", for: .normal)
         
