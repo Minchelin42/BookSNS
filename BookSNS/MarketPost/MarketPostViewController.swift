@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class MarketPostViewController: RxBaseViewController {
     
@@ -15,6 +16,8 @@ class MarketPostViewController: RxBaseViewController {
     let viewModel = MarketPostViewModel()
     
     var updatePost: (() -> ())?
+    
+    var id = ""
     
     var imageArr: [UIImage] = []
     let imageData = PublishSubject<[UIImage]>()
@@ -27,6 +30,8 @@ class MarketPostViewController: RxBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rx.title.onNext("판매글 작성")
+        
+        viewModel.postID.onNext(id)
     }
     
     override func bind() {
@@ -34,17 +39,65 @@ class MarketPostViewController: RxBaseViewController {
         
         let output = viewModel.transform(input: input)
         
-        self.imageData
-            .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
-            ) { row, element, cell in
-                cell.inputImage.image = element
-                cell.deleteButton.tag = row
-                cell.deleteButtonTap = {
-                    self.imageArr.remove(at: cell.deleteButton.tag)
-                    self.imageData.onNext(self.imageArr)
+        viewModel.postResult
+            .subscribe(with: self) { owner, result in
+                print("postResult 받음")
+                
+                owner.navigationItem.rx.title.onNext("판매글 수정")
+
+                owner.mainView.imageRegisterButton.isHidden = true
+//                
+                owner.mainView.textView.text = result.content
+                owner.mainView.textView.textColor = .black
+                input.fileData.onNext(result.files)
+                owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!, link: result.content3, cover: ""))
+//
+                owner.mainView.collectionView.snp.remakeConstraints { make in
+                    make.top.horizontalEdges.equalTo(owner.view.safeAreaLayoutGuide).inset(20)
+                    make.height.equalTo(80)
                 }
+                owner.mainView.collectionView.layoutIfNeeded()
+                
+                owner.mainView.priceTextField.text = result.content4
+                
+                owner.mainView.createButton.rx.title(for: .normal).onNext("판매글 수정")
             }
             .disposed(by: disposeBag)
+        
+        if !self.id.isEmpty {
+            input.fileData
+                .bind(to: self.mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
+                ) { row, element, cell in
+                    
+                    cell.deleteButton.isHidden = true
+                    
+                    let modifier = AnyModifier { request in
+                        var r = request
+                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                        return r
+                    }
+                    
+                    if !element.isEmpty {
+                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
+                        
+                        cell.inputImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                    }
+                }
+                .disposed(by: disposeBag)
+        } else {
+            self.imageData
+                .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
+                ) { row, element, cell in
+                    cell.inputImage.image = element
+                    cell.deleteButton.tag = row
+                    cell.deleteButtonTap = {
+                        self.imageArr.remove(at: cell.deleteButton.tag)
+                        self.imageData.onNext(self.imageArr)
+                    }
+                }
+                .disposed(by: disposeBag)
+        }
         
         
         viewModel.inputImageData
@@ -78,11 +131,15 @@ class MarketPostViewController: RxBaseViewController {
         
         output.createSuccesss
             .subscribe(with: self) { owner, value in
-                let alert = UIAlertController(title: value ? "게시글 등록 완료" : "게시글 등록 실패", message: nil, preferredStyle: .alert)
+                let alert = UIAlertController(title: value ? (owner.id.isEmpty ? "판매글 등록 완료" : "판매글 수정 완료") : (owner.id.isEmpty ? "판매글 등록 실패" : "판매글 수정 실패"), message: nil, preferredStyle: .alert)
                 
                 let button = UIAlertAction(title: "확인", style: .default) { action in
                     owner.updatePost?()
-                    owner.dismiss(animated: true)
+                    if owner.id.isEmpty {
+                        owner.dismiss(animated: true)
+                    } else {
+                        owner.navigationController?.popViewController(animated: true)
+                    }
                 }
                 alert.addAction(button)
                 
@@ -96,7 +153,7 @@ class MarketPostViewController: RxBaseViewController {
                 owner.mainView.cardView.unknownView.isHidden = true
                 owner.mainView.cardView.title.text = book.title
                 owner.mainView.cardView.price.text = "\(book.priceStandard)원"
-                owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: book.cover)!)
+                owner.mainView.cardView.bookImage.image = UIImage(named: "Book")
             }
             .disposed(by: disposeBag)
         

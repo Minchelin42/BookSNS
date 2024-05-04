@@ -39,6 +39,15 @@ class MarketPostView: BaseView {
     let priceTextField = SignTextField()
     
     let createButton = ProfileEditButton()
+    
+    let guideLabel = {
+       let label = UILabel()
+        label.text = "판매종료 이후 해당 게시글의 수정 및 삭제는 불가능합니다"
+        label.textColor = .red
+        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.textAlignment = .center
+        return label
+    }()
 
     let placeholderText = "구매에 도움이 될 한마디를 작성해주세요"
     
@@ -51,6 +60,7 @@ class MarketPostView: BaseView {
         addSubview(priceLabel)
         addSubview(priceTextField)
         addSubview(createButton)
+        addSubview(guideLabel)
     }
     
     override func configureLayout() {
@@ -101,6 +111,12 @@ class MarketPostView: BaseView {
             make.top.equalTo(priceLabel.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
             make.height.equalTo(50)
+        }
+        
+        guideLabel.snp.makeConstraints { make in
+            make.top.equalTo(createButton.snp.bottom).offset(8)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(16)
+            make.height.equalTo(22)
         }
         
     }

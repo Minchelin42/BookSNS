@@ -14,6 +14,10 @@ class MarketPostViewModel: ViewModelType {
 
     var disposeBag = DisposeBag()
     
+    var type: PostType = .create
+    var editID = ""
+    var postID = PublishSubject<String>()
+    var postResult = PublishSubject<PostModel>()
     var imageData: [Data?] = []
     var inputImageData = PublishSubject<[Data?]>()
     var selectedBook = PublishSubject<BookModel>()
@@ -36,7 +40,20 @@ class MarketPostViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let createSuccess = PublishSubject<Bool>()
-        var postQuery = CreateMarketPostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "false", files: [], product_id: "snapBook_market")
+        var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "false", files: [], product_id: "snapBook_market")
+        
+        postID
+            .flatMap { id in
+                if !id.isEmpty { self.type = .edit }
+                return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: id))
+            }.subscribe(with: self) { owner, post in
+                owner.editID = post.post_id
+                postQuery.content5 = post.content5
+                owner.postResult.onNext(post)
+            } onError: { owner, error in
+                print("오류 발생 \(error)")
+            }
+            .disposed(by: disposeBag)
         
         input.contentText
             .subscribe(with: self) { owner, value in
@@ -81,7 +98,11 @@ class MarketPostViewModel: ViewModelType {
         input.createButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
-                return NetworkManager.APIcall(type: PostModel.self, router: MarketRouter.createPost(query: postQuery))
+                if self.type == .create {
+                    return NetworkManager.APIcall(type: PostModel.self, router: MarketRouter.createPost(query: postQuery))
+                } else {
+                    return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.editID, query: postQuery))
+                }
             }
             .subscribe(with: self) { owner, postModel in
                 print(postModel)

@@ -8,16 +8,6 @@
 import Foundation
 import Alamofire
 
-struct CreateMarketPostQuery: Encodable {
-    var content: String //판매자 한마디
-    var content1: String //책 제목
-    var content2: String //책 정가
-    var content3: String //책 링크
-    var content4: String //판매가
-    var content5: String //판매여부
-    var files: [String] //이미지
-    var product_id: String
-}
 
 struct PayList: Decodable {
     var data: [PayValidationModel]
@@ -41,7 +31,7 @@ struct PayQuery: Encodable {
 }
 
 enum MarketRouter {
-    case createPost(query: CreateMarketPostQuery)
+    case createPost(query: CreatePostQuery)
     case getPost(next: String)
     case payValidation(query: PayQuery)
     case getShoppingList
