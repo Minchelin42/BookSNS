@@ -115,6 +115,10 @@ class OtherProfileViewController: RxBaseViewController {
             ) { row, element, cell in
                 
                 NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: element)).subscribe(with: self) { owner, postModel in
+                    
+                    if postModel.product_id == "snapBook_market" {
+                        cell.marketMark.isHidden = false
+                    }
 
                     let modifier = AnyModifier { request in
                         var r = request
@@ -136,10 +140,19 @@ class OtherProfileViewController: RxBaseViewController {
         
         self.mainView.collectionView.rx.modelSelected(String.self)
             .subscribe(with: self) { owner, postID in
-                print("collectionView 클릭", postID)
-                let vc = SelectPostViewController()
-                vc.postID = postID
-                owner.navigationController?.pushViewController(vc, animated: true)  
+                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID)).subscribe(with: self) { owner, postModel in
+                   
+                    if postModel.product_id == "snapBook" {
+                        let vc = SelectPostViewController()
+                        vc.postID = postID
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        let vc = MarketSelectPostViewController()
+                        vc.postID = postID
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+                .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
