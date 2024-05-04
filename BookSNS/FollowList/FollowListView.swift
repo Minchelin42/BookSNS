@@ -23,8 +23,6 @@ class FollowListView: BaseView {
     }
     
     override func configureView() {
-//        tableView.backgroundColor = .systemPink
-        
         tableView.rowHeight = 56
         
         tableView.register(FollowListTableViewCell.self, forCellReuseIdentifier: FollowListTableViewCell.identifier)

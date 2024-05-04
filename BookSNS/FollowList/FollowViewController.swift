@@ -29,6 +29,8 @@ class FollowViewController: TabmanViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        customBackButton()
+        
         followerVC.type = .follower
         followerVC.userID = self.userID
         
@@ -93,3 +95,5 @@ extension FollowViewController: PageboyViewControllerDataSource, TMBarDataSource
     }
     
 }
+
+

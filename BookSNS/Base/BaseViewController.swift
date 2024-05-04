@@ -17,6 +17,7 @@ class RxBaseViewController: UIViewController {
         super.viewDidLoad()
 
         bind()
+        customBackButton()
     }
     
     func bind() { }
