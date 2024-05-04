@@ -50,7 +50,7 @@ class ProfileViewModel: ViewModelType {
                     scrapResult.append(scrapPost.data[index].post_id)
                 }
                 
-                postResult.onNext(scrapResult.reversed())
+                postResult.onNext(scrapResult)
                 selectPostButton.onNext(false)
             }
             .disposed(by: disposeBag)

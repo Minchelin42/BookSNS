@@ -13,36 +13,25 @@ class WithDrawViewModel {
     
     var disposeBag = DisposeBag()
     
-    struct Input {
-        let withDrawButtonClicked: Observable<Void>
-    }
+    static let shared = WithDrawViewModel()
     
-    struct Output {
-        let withDrawButtonTapped: Driver<Void>
-        let userEmail: PublishSubject<String>
-        let userNick: PublishSubject<String>
-    }
+    let withDrawAlertButtonTapped = PublishSubject<Void>()
+    let withDrawAccess = PublishSubject<Void>()
     
-    func transform(input: Input) -> Output {
-    
-        let withDrawButtonClicked = PublishRelay<Void>()
-        let userEmail = PublishSubject<String>()
-        let userNick = PublishSubject<String>()
-
-        input.withDrawButtonClicked
+    init() {
+        withDrawAlertButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
                 return NetworkManager.APIcall(type: SignUpModel.self, router: Router.withdraw)
             }
-            .subscribe(with: self) { owner, withDrawModel in
-                userEmail.onNext(withDrawModel.email)
-                userNick.onNext(withDrawModel.nick)
-                withDrawButtonClicked.accept(())
-            } onError: { owner, error in
-                print("오류 발생")
-            }
+            .subscribe(onNext: { [weak self] withDrawModel in
+                print(withDrawModel)
+                self?.withDrawAccess.onNext(())
+            }, onError: { error in
+                // 오류 발생 시 실행되는 코드
+                print("오류 발생: \(error)")
+            })
             .disposed(by: disposeBag)
-
-        return Output(withDrawButtonTapped: withDrawButtonClicked.asDriver(onErrorJustReturn: ()), userEmail: userEmail, userNick: userNick)
     }
+
 }
