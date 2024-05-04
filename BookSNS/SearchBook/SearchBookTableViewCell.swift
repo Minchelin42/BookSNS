@@ -26,15 +26,17 @@ class SearchBookTableViewCell: BaseTableViewCell {
     
     let title = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.numberOfLines = 0
         label.textColor = .black
         return label
     }()
     
     let price = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = .black
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.textColor = Color.mainColor
+        label.textAlignment = .right
         return label
     }()
     
@@ -66,14 +68,9 @@ class SearchBookTableViewCell: BaseTableViewCell {
         price.snp.makeConstraints { make in
             make.bottom.equalTo(bookImage.snp.bottom).inset(4)
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
-            make.trailing.equalTo(contentView).offset(-10)
+            make.trailing.equalTo(contentView).offset(-14)
             make.height.equalTo(16)
         }
-    }
-    
-    override func configureView() {
-        title.backgroundColor = .orange
-        price.backgroundColor = .brown
     }
 
 }

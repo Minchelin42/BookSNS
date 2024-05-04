@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
+import Kingfisher
 
 class SearchBookViewController: RxBaseViewController {
     
@@ -40,13 +42,22 @@ class SearchBookViewController: RxBaseViewController {
         
         let output = viewModel.transform(input: input)
         
+        mainView.searchBar.rx.searchButtonClicked
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                print("searchButtonClicked")
+                IQKeyboardManager.shared.resignFirstResponder()
+            }
+            .disposed(by: disposeBag)
+        
         output.searchResult
             .bind(to: mainView.tableView.rx.items(
                 cellIdentifier: SearchBookTableViewCell.identifier,
                 cellType: SearchBookTableViewCell.self)
             ) {(row, element, cell) in
                 cell.title.text = element.title
-                cell.price.text = "\(element.priceStandard)"
+                cell.bookImage.kf.setImage(with: URL(string: element.cover)!)
+                cell.price.text = "\(element.priceStandard.makePrice())원"
             }
             .disposed(by: disposeBag)
         

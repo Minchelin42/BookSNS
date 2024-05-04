@@ -98,17 +98,17 @@ class BookCardView: BaseView {
         }
         
         title.snp.makeConstraints { make in
-            make.height.equalTo(20)
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-10)
             make.top.equalTo(bookImage.snp.top).offset(4)
+            make.bottom.lessThanOrEqualTo(linkButton.snp.top).offset(-4)
         }
         
         price.snp.makeConstraints { make in
             make.leading.equalTo(bookImage.snp.trailing).offset(8)
             make.trailing.equalTo(linkButton).offset(-10)
             make.height.equalTo(16)
-            make.top.equalTo(title.snp.bottom).offset(4)
+            make.bottom.equalTo(bookImage.snp.bottom)
         }
         
         linkButton.snp.makeConstraints { make in

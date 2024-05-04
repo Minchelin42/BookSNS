@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import IQKeyboardManagerSwift
 
 struct Post: Hashable, Identifiable {
     let id = UUID()
@@ -45,7 +46,6 @@ class SearchViewController: RxBaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
         setConstraints()
         configureDataSource()
         updateSnapshot(item: [])
@@ -59,6 +59,14 @@ class SearchViewController: RxBaseViewController {
         let output = viewModel.transform(input: input)
         
         searchBar.rx.placeholder.onNext("태그명 검색")
+
+        searchBar.rx.searchButtonClicked
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                print("searchButtonClicked")
+                IQKeyboardManager.shared.resignFirstResponder()
+            }
+            .disposed(by: disposeBag)
         
         searchBar.rx.text.orEmpty.changed
             .subscribe(with: self) { owner, text in

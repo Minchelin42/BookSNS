@@ -30,7 +30,8 @@ class SearchBookView: BaseView {
     }
     
     override func configureView() {
-        tableView.backgroundColor = .yellow
+        tableView.backgroundColor = .clear
+        searchBar.placeholder = "태그할 책 제목을 입력해주세요"
     }
     
     
