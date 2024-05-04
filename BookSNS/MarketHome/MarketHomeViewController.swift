@@ -152,7 +152,7 @@ class MarketHomeViewController: RxBaseViewController {
             }
                  
             (cell as? MarketHomeCollectionViewCell)?.titleLabel.text = itemIdentifier.title
-            (cell as? MarketHomeCollectionViewCell)?.priceLabel.text = "\(itemIdentifier.price)원"
+            (cell as? MarketHomeCollectionViewCell)?.priceLabel.text = "\(itemIdentifier.price.makePrice)원"
             
             if itemIdentifier.soldOut == "true" {
                 (cell as? MarketHomeCollectionViewCell)?.soldOutView.isHidden = false

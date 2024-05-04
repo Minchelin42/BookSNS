@@ -152,7 +152,7 @@ class MarketPostViewController: RxBaseViewController {
                 print(book)
                 owner.mainView.cardView.unknownView.isHidden = true
                 owner.mainView.cardView.title.text = book.title
-                owner.mainView.cardView.price.text = "\(book.priceStandard)원"
+                owner.mainView.cardView.price.text = "\(book.priceStandard.makePrice())원"
                 owner.mainView.cardView.bookImage.image = UIImage(named: "Book")
             }
             .disposed(by: disposeBag)

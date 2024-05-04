@@ -166,7 +166,7 @@ class HomeViewController: RxBaseViewController {
                 cell.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
                 
                 cell.cardView.title.text = element.content1
-                cell.cardView.price.text = "\(element.content2)원"
+                cell.cardView.price.text = "\(element.content2.makePrice)원"
                 cell.cardView.bookImage.kf.setImage(with: URL(string: element.content4))
                 
                 cell.cardView.linkButton.rx.tap

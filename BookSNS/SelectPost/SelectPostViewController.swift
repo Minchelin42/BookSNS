@@ -143,7 +143,7 @@ class SelectPostViewController: RxBaseViewController {
                     .disposed(by: owner.disposeBag)
 
                 owner.mainView.cardView.title.text = result.content1
-                owner.mainView.cardView.price.text = "\(result.content2)원"
+                owner.mainView.cardView.price.text = "\(result.content2.makePrice)원"
                 owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: result.content4))
                 
                 owner.mainView.tapGesture.rx.event

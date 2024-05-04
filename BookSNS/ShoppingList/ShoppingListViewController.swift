@@ -36,7 +36,7 @@ class ShoppingListViewController: RxBaseViewController {
             ) {(row, element, cell) in
                 
                 cell.titleLabel.rx.text.onNext(element.productName)
-                cell.priceLabel.rx.text.onNext("\(element.price)원")
+                cell.priceLabel.rx.text.onNext("\(element.price.makePrice())원")
                 cell.dateLabel.rx.text.onNext(convertUTCtoKST(utcString: element.paidAt))
 
             }
