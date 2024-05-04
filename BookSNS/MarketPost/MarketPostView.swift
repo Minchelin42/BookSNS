@@ -132,6 +132,7 @@ class MarketPostView: BaseView {
         cardView.layer.borderColor = Color.lightPoint?.cgColor
         
         priceTextField.textAlignment = .right
+        priceTextField.keyboardType = .numberPad
         
         createButton.setTitle("판매글 등록", for: .normal)
         
