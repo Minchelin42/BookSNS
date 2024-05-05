@@ -40,15 +40,17 @@ class MarketPostViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let createSuccess = PublishSubject<Bool>()
-        var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "false", files: [], product_id: "snapBook_market")
+        var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "", files: [], product_id: "snapBook_market")
         
         postID
             .flatMap { id in
                 if !id.isEmpty { self.type = .edit }
                 return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: id))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
             }.subscribe(with: self) { owner, post in
                 owner.editID = post.post_id
-                postQuery.content5 = post.content5
                 owner.postResult.onNext(post)
             } onError: { owner, error in
                 print("오류 발생 \(error)")
@@ -92,6 +94,7 @@ class MarketPostViewModel: ViewModelType {
             postQuery.content1 = book.title
             postQuery.content2 = String(book.priceStandard)
             postQuery.content3 = book.link
+            postQuery.content5 = book.cover
         }
         .disposed(by: disposeBag)
 
@@ -100,8 +103,14 @@ class MarketPostViewModel: ViewModelType {
             .flatMap { _ in
                 if self.type == .create {
                     return NetworkManager.APIcall(type: PostModel.self, router: MarketRouter.createPost(query: postQuery))
+                        .catch { error in
+                            return Single<PostModel>.never()
+                        }
                 } else {
                     return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.editID, query: postQuery))
+                        .catch { error in
+                            return Single<PostModel>.never()
+                        }
                 }
             }
             .subscribe(with: self) { owner, postModel in

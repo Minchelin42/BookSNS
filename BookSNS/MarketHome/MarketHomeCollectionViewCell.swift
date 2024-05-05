@@ -25,6 +25,7 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
     let titleLabel = {
        let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.numberOfLines = 2
         return label
     }()
     
@@ -61,7 +62,7 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
         
         titleLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(contentView).inset(12)
-            make.height.greaterThanOrEqualTo(14)
+            make.height.equalTo(20)
             make.bottom.equalTo(priceLabel.snp.top).offset(-4)
         }
         
@@ -77,12 +78,11 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureView() {
-        
-        titleLabel.numberOfLines = 2
+
         titleLabel.textAlignment = .right
         
         priceLabel.textAlignment = .right
-        
+
         photoImageView.clipsToBounds = true
         photoImageView.layer.cornerRadius = 20
         photoImageView.layer.borderWidth = 1

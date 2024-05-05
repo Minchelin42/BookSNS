@@ -18,7 +18,8 @@ struct MarketPost: Hashable, Identifiable {
     let file_id: String
     let title: String
     let price: String
-    let soldOut: String
+    let cover: String
+    let soldOut: Bool
 }
 
 class MarketHomeViewController: RxBaseViewController {
@@ -64,9 +65,9 @@ class MarketHomeViewController: RxBaseViewController {
                 for index in 0..<result.count {
                     let post = result[index]
                     if !post.files.isEmpty {
-                        owner.item.append(MarketPost(post_id: post.post_id, file_id: post.files[0], title: post.content1, price: post.content4, soldOut: post.content5))
+                        owner.item.append(MarketPost(post_id: post.post_id, file_id: post.files[0], title: post.content1, price: post.content4, cover: post.content5, soldOut: !post.likes2.isEmpty))
                     } else {
-                        owner.item.append(MarketPost(post_id: post.post_id, file_id: "", title: post.content1, price: post.content4, soldOut: post.content5))
+                        owner.item.append(MarketPost(post_id: post.post_id, file_id: "", title: post.content1, price: post.content4, cover:post.content5, soldOut: !post.likes2.isEmpty))
                     }
                     
                 }
@@ -137,24 +138,17 @@ class MarketHomeViewController: RxBaseViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MarketHomeCollectionViewCell.identifier, for: indexPath)
-            
-            let modifier = AnyModifier { request in
-                var r = request
-                r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                return r
-            }
-            
-            if !itemIdentifier.file_id.isEmpty {
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + itemIdentifier.file_id)!
-                
-                (cell as? MarketHomeCollectionViewCell)?.photoImageView.kf.setImage(with: url, options: [.requestModifier(modifier)])
+
+            if let url = URL(string: itemIdentifier.cover) {
+                (cell as? MarketHomeCollectionViewCell)?.photoImageView.kf.setImage(with: url)
+            } else {
+                (cell as? MarketHomeCollectionViewCell)?.photoImageView.image = UIImage(named: "Book")
             }
                  
             (cell as? MarketHomeCollectionViewCell)?.titleLabel.text = itemIdentifier.title
             (cell as? MarketHomeCollectionViewCell)?.priceLabel.text = "\(itemIdentifier.price.makePrice)원"
             
-            if itemIdentifier.soldOut == "true" {
+            if itemIdentifier.soldOut {
                 (cell as? MarketHomeCollectionViewCell)?.soldOutView.isHidden = false
             }
             

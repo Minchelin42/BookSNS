@@ -153,7 +153,12 @@ class MarketPostViewController: RxBaseViewController {
                 owner.mainView.cardView.unknownView.isHidden = true
                 owner.mainView.cardView.title.text = book.title
                 owner.mainView.cardView.price.text = "\(book.priceStandard.makePrice())원"
-                owner.mainView.cardView.bookImage.image = UIImage(named: "Book")
+                
+                if let url = URL(string: book.cover) {
+                    owner.mainView.cardView.bookImage.kf.setImage(with: url)
+                } else {
+                    owner.mainView.cardView.bookImage.image = UIImage(named: "Book")
+                }
             }
             .disposed(by: disposeBag)
         
