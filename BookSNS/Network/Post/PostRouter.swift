@@ -17,6 +17,7 @@ enum PostRouter {
     case getThisPost(id: String)
     case deletePost(id: String)
     case like(id: String, query: LikeQuery)
+    case like2(id: String, query: LikeQuery)
 }
 
 extension PostRouter: TargetType {
@@ -41,7 +42,7 @@ extension PostRouter: TargetType {
             return .get
         case .deletePost:
             return .delete
-        case .like:
+        case .like, .like2:
             return .post
         }
     }
@@ -64,6 +65,8 @@ extension PostRouter: TargetType {
             return "/posts/\(id)"
         case .like(let id, _):
             return "/posts/\(id)/like"
+        case .like2(let id, _):
+            return "/posts/\(id)/like-2"
         }
     }
     
@@ -93,7 +96,7 @@ extension PostRouter: TargetType {
         case .deletePost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
-        case .like:
+        case .like, .like2:
             return [ HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
                      HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
@@ -120,7 +123,7 @@ extension PostRouter: TargetType {
             return nil
         case .deletePost:
             return nil
-        case .like:
+        case .like, .like2:
             return nil
         }
     }
@@ -145,7 +148,7 @@ extension PostRouter: TargetType {
             return nil
         case .deletePost:
             return nil
-        case .like(_, let query):
+        case .like(_, let query), .like2(_, let query):
             let encoder = JSONEncoder()
             encoder.keyEncodingStrategy = .convertToSnakeCase
             return try? encoder.encode(query)

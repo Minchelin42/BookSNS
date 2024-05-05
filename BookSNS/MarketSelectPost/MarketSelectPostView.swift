@@ -18,6 +18,9 @@ class MarketSelectPostView: BaseView {
     let postImage = UIScrollView()
     let pageControl = UIPageControl()
     
+    let comment = UIButton()
+    let save = UIButton()
+    
     let optionButton = UIButton(type: .system)
     
     let bookTitleLabel = {
@@ -58,7 +61,7 @@ class MarketSelectPostView: BaseView {
     }()
     
 
-    let profileButton = UIButton(type: .custom)
+    let profileButton = UIButton()
     let nickName = {
         let label = UILabel()
          label.font = .systemFont(ofSize: 13, weight: .medium)
@@ -91,9 +94,7 @@ class MarketSelectPostView: BaseView {
         
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-
         contentView.addSubview(postImage)
-        contentView.addSubview(optionButton)
         contentView.addSubview(pageControl)
         contentView.addSubview(bookTitleLabel)
         contentView.addSubview(standardPriceLabel)
@@ -105,6 +106,9 @@ class MarketSelectPostView: BaseView {
         contentView.addSubview(userComment)
         contentView.addSubview(payButton)
         contentView.addSubview(soldOutView)
+        contentView.addSubview(comment)
+        contentView.addSubview(save)
+        contentView.addSubview(optionButton)
     }
     
     override func configureLayout() {
@@ -132,8 +136,20 @@ class MarketSelectPostView: BaseView {
             make.height.equalTo(10)
         }
         
+        comment.snp.makeConstraints { make in
+            make.leading.equalTo(contentView).inset(12)
+            make.top.equalTo(postImage.snp.bottom).offset(8)
+            make.size.equalTo(30)
+        }
+        
+        save.snp.makeConstraints { make in
+            make.trailing.equalTo(contentView).inset(12)
+            make.top.equalTo(comment.snp.top)
+            make.size.equalTo(30)
+        }
+        
         bookTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(postImage.snp.bottom).offset(24)
+            make.top.equalTo(comment.snp.bottom).offset(8)
             make.horizontalEdges.equalTo(contentView).inset(24)
             make.height.equalTo(22)
         }
@@ -179,7 +195,7 @@ class MarketSelectPostView: BaseView {
         }
         
         optionButton.snp.makeConstraints { make in
-            make.top.equalTo(nickName.snp.top)
+            make.top.equalTo(nickName.snp.top).offset(-8)
             make.size.equalTo(30)
             make.trailing.equalTo(contentView).inset(12)
         }
@@ -213,10 +229,17 @@ class MarketSelectPostView: BaseView {
         
         profileButton.clipsToBounds = true
         profileButton.layer.cornerRadius = 40
+        profileButton.layer.borderWidth = 1
+        profileButton.layer.borderColor = Color.lightPoint?.cgColor
+        
         
         pageControl.hidesForSinglePage = true
         pageControl.pageIndicatorTintColor = Color.lightPoint
         pageControl.currentPageIndicatorTintColor = Color.mainColor
+        
+        comment.setImage(UIImage(named: "Comment"), for: .normal)
+        save.setImage(UIImage(named: "Bookmark"), for: .normal)
+
         
 //        bookTitleLabel.backgroundColor = .yellow
         bookTitleLabel.text = "이 불안에서 이불 안에서"
@@ -228,8 +251,7 @@ class MarketSelectPostView: BaseView {
         optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         optionButton.tintColor = Color.mainColor
         optionButton.showsMenuAsPrimaryAction = true
-        
-        profileButton.backgroundColor = .orange
+
 //        nickName.backgroundColor = .brown
         nickName.text = "min_wldms님의 한마디"
 //        userComment.backgroundColor = .cyan
@@ -243,3 +265,6 @@ class MarketSelectPostView: BaseView {
 }
 
 
+#Preview {
+    MarketSelectPostView()
+}

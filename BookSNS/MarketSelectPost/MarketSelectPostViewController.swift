@@ -45,24 +45,86 @@ class MarketSelectPostViewController: RxBaseViewController {
     }
     
     override func bind() {
-        let input = MarketSelectPostViewModel.Input(loadPost: PublishSubject<String>())
+        let input = MarketSelectPostViewModel.Input(getProfile: PublishSubject<Void>(), loadPost: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
         
         let output = viewModel.transform(input: input)
+        
+        output.editButtonTapped
+            .subscribe(with: self) { owner, id in
+               let vc = MarketPostViewController()
+                vc.id = id
+                vc.updatePost = {
+                    input.loadPost.onNext(id)
+                }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.deleteButtonTapped
+            .subscribe(with: self) { owner, _ in
+                print("delete Button Clicked")
+                
+                let alert = UIAlertController(title: "삭제 완료", message: nil, preferredStyle: .alert)
+
+                let button = UIAlertAction(title: "확인", style: .default) { _ in
+                    owner.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(button)
+
+                owner.present(alert, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.isSoldOut
+            .subscribe(with: self) { owner, value in
+                owner.mainView.soldOutView.rx.isHidden.onNext(!value)
+            }
+            .disposed(by: disposeBag)
     
         output.postResult
             .subscribe(with: self) { owner, result in
                 
-                if result.content5 == "true" {
-                    owner.mainView.soldOutView.rx.isHidden.onNext(false)
-                }
-                
                 owner.viewModel.postResult = CreatePostQuery(content: result.content, content1: result.content1, content2: result.content2, content3: result.content3, content4: result.content4, content5: result.content5, files: result.files, product_id: result.product_id)
+                
+                owner.mainView.comment.rx.tap
+                    .map { return result.post_id }
+                    .subscribe(with: self) { owner, postID in
+                        let vc = CommentViewController()
+                        vc.post_id = postID
+                        let nav = UINavigationController(rootViewController: vc)
+                          if let sheet = nav.sheetPresentationController {
+                              sheet.detents = [.medium(), .large()]
+                              sheet.prefersGrabberVisible = true
+                          }
+                 
+                          self.present(nav, animated: true)
+                    }
+                    .disposed(by: owner.disposeBag)
+                
+                var isLike = result.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
+                
+                owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
+                
+                owner.mainView.save.rx.tap
+                    .flatMap { _ in
+                        return PostNetworkManager.like(id: owner.postID, query: LikeQuery(like_status: !isLike))
+                    }
+                    .subscribe(with: self) { owner, like in
+                        isLike = like.like_status
+
+                        owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
+                        input.loadPost.onNext(owner.postID)
+                    
+                    } onError: { owner, error in
+                        print("오류 발생 \(error)")
+                    }
+                    .disposed(by: owner.disposeBag)
                 
                 owner.mainView.nickName.rx.text.onNext("\(result.creator?.nick ?? "")님의 한마디")
                 owner.mainView.userComment.rx.text.onNext(result.content)
                 owner.mainView.bookTitleLabel.rx.text.onNext(result.content1)
-                owner.mainView.standardPriceLabel.rx.text.onNext("정가: \(result.content2)원")
-                owner.mainView.marketPriceLabel.rx.text.onNext("중고 판매가: \(result.content4)원")
+                owner.mainView.standardPriceLabel.rx.text.onNext("정가: \(result.content2.makePrice)원")
+                owner.mainView.marketPriceLabel.rx.text.onNext("중고 판매가: \(result.content4.makePrice)원")
                 
                 owner.viewModel.payQuery.post_id = owner.postID
                 owner.viewModel.payQuery.price = Int(result.content4) ?? 0
@@ -78,22 +140,35 @@ class MarketSelectPostViewController: RxBaseViewController {
                         $0.app_scheme = "sesac"
                     }
                 
-                if let profileImage = result.creator?.profileImage {
-                    if !profileImage.isEmpty {
-                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                        owner.mainView.profileButton.kf.setImage(with: imgURL, for: .normal)
-                    } else {
-                        owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
+                DispatchQueue.main.async {
+                    if let profileImage = result.creator?.profileImage {
+                            let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                            let loadImage = UIImageView()
+                            loadImage.kf.setImage(with: imgURL)
+                            loadImage.image = loadImage.image?.scale(newWidth: 90)
+                            owner.mainView.profileButton.setImage(loadImage.image, for: .normal)
                     }
-                } else {
-                    owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                 }
                 
-                owner.mainView.optionButton.isHidden = (UserDefaults.standard.string(forKey: "userID") ?? "" != result.creator?.user_id)
+                let isUser = (UserDefaults.standard.string(forKey: "userID") ?? "" == result.creator?.user_id)
+                
+                if isUser {
+                    if result.likes2.isEmpty { //사용자의 게시글이며, 팔리지 않은 상품
+                        owner.mainView.optionButton.isHidden = false
 
+                    } else { //사용자의 게시글이며, 팔린 상품
+                        owner.mainView.optionButton.isHidden = true
+                    }
+                } else { //사용자의 게시글이 X
+                    owner.mainView.optionButton.isHidden = true
+                }
+         
                 owner.mainView.profileButton.rx.tap
                     .map { return result.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
+                        
+                        print("프로필버튼 구독⭐️")
+                        
                         let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
                         let isUser: Bool = ( profileID == userID )
                         
@@ -148,6 +223,26 @@ class MarketSelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
                 
+                let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
+                    print("수정하기")
+                    input.editButtonTapped.onNext(result.post_id)
+                }
+                let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
+                    print("삭제하기")
+                    input.deleteButtonTapped.onNext(result.post_id)
+                }
+                
+                owner.mainView.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
+                
+                owner.mainView.linkButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        let vc = BookWebViewController()
+                        vc.bookTitle = result.content1
+                        vc.urlString = result.content3
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    .disposed(by: owner.disposeBag)
+                
                 owner.mainView.payButton.rx.tap
                     .subscribe(with: self) { owner, _ in
                         print("결제버튼 클릭")
@@ -166,8 +261,11 @@ class MarketSelectPostViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
-    
+        input.getProfile.onNext(())
         input.loadPost.onNext(postID)
     }
 
 }
+
+
+

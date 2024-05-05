@@ -22,16 +22,38 @@ class MarketSelectPostViewModel: ViewModelType {
     var postResult: CreatePostQuery!
     
     struct Input {
+        let getProfile: PublishSubject<Void>
         let loadPost: PublishSubject<String>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
     }
     
     struct Output {
         let postResult: PublishSubject<PostModel>
+        let editButtonTapped: PublishSubject<String>
+        let deleteButtonTapped: PublishSubject<String>
+        let isSoldOut: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         
         let postResult = PublishSubject<PostModel>()
+        let isSoldOut = PublishSubject<Bool>()
+        
+        input.getProfile
+            .flatMap { _ in
+                return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+            }
+            .subscribe(with: self) { owner, profile in
+                owner.userResult = profile
+            }
+            .disposed(by: disposeBag)
+        
+        input.deleteButtonTapped
+            .subscribe(with: self) { owner, id in
+                NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id)) { _ in }
+            }
+            .disposed(by: disposeBag)
 
         input.loadPost
             .flatMap { postID in
@@ -39,6 +61,13 @@ class MarketSelectPostViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, post in
                 postResult.onNext(post)
+                
+                if post.likes2.count != 0 {
+                    isSoldOut.onNext(true)
+                } else {
+                    isSoldOut.onNext(false)
+                }
+                
             } onError: { owner, error in
                 print("오류 발생 \(error)")
             }
@@ -49,15 +78,15 @@ class MarketSelectPostViewModel: ViewModelType {
                 return NetworkManager.APIcall(type: PayValidationModel.self, router: MarketRouter.payValidation(query: self.payQuery))
             }
             .subscribe(with: self) { owner, value in
-                print(value)
                 self.postResult.content5 = "true"
                 owner.saleComplete.onNext(())
             }
             .disposed(by: disposeBag)
         
         saleComplete
-            .flatMap{ _ in
-                return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.postID, query: self.postResult))
+            .map { return self.postID }
+            .flatMap { id in
+                return NetworkManager.APIcall(type: LikeModel.self, router: PostRouter.like2(id: id, query: LikeQuery(like_status: true)))
             }
             .subscribe(with: self) { owner, result in
                 input.loadPost.onNext(owner.postID)
@@ -66,7 +95,7 @@ class MarketSelectPostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(postResult: postResult)
+        return Output(postResult: postResult, editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped, isSoldOut: isSoldOut)
     }
     
 }
