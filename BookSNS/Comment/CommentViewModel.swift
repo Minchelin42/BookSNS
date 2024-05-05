@@ -37,6 +37,9 @@ class CommentViewModel: ViewModelType {
         input.loadCommentResult
             .flatMap { _ in
                 return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: self.post_id))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 commentResult.onNext(postList.comments)
@@ -55,6 +58,9 @@ class CommentViewModel: ViewModelType {
         input.registerButtonClicked
             .flatMap { comment in
                 return NetworkManager.APIcall(type: CommentModel.self, router: CommentRouter.createComment(id: self.post_id, query: commentQuery))
+                    .catch { error in
+                        return Single<CommentModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, comment in
                 print("등록된 댓글", comment)

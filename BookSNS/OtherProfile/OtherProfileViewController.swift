@@ -114,7 +114,11 @@ class OtherProfileViewController: RxBaseViewController {
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: PostCollectionViewCell.identifier, cellType: PostCollectionViewCell.self)
             ) { row, element, cell in
                 
-                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: element)).subscribe(with: self) { owner, postModel in
+                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: element)) 
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
+                    .subscribe(with: self) { owner, postModel in
                     
                     if postModel.product_id == "snapBook_market" {
                         cell.marketMark.isHidden = false
@@ -140,7 +144,11 @@ class OtherProfileViewController: RxBaseViewController {
         
         self.mainView.collectionView.rx.modelSelected(String.self)
             .subscribe(with: self) { owner, postID in
-                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID)).subscribe(with: self) { owner, postModel in
+                NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
+                    .subscribe(with: self) { owner, postModel in
                    
                     if postModel.product_id == "snapBook" {
                         let vc = SelectPostViewController()

@@ -23,6 +23,9 @@ class WithDrawViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
                 return NetworkManager.APIcall(type: SignUpModel.self, router: Router.withdraw)
+                    .catch { error in
+                        return Single<SignUpModel>.never()
+                    }
             }
             .subscribe(onNext: { [weak self] withDrawModel in
                 print(withDrawModel)

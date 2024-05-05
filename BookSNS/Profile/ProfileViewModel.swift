@@ -41,6 +41,9 @@ class ProfileViewModel: ViewModelType {
         input.scrapButtonClicked
             .flatMap { _ in
                 return NetworkManager.APIcall(type: GetPostModel.self, router: ProfileRouter.getScraplist)
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, scrapPost in
                 
@@ -58,6 +61,9 @@ class ProfileViewModel: ViewModelType {
         input.loadProfile
             .flatMap { _ in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 profileInfo.onNext(profile)

@@ -42,6 +42,9 @@ class FollowViewModel: ViewModelType {
         input.followButtonTapped
             .flatMap { id in
                 return NetworkManager.APIcall(type: SelectFollowModel.self, router: FollowRouter.follow(id: id))
+                    .catch { error in
+                        return Single<SelectFollowModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, _ in
                 input.afterFollowButton.onNext(())
@@ -60,6 +63,9 @@ class FollowViewModel: ViewModelType {
             .map { return self.userID }
             .flatMap { userID in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.otherProfile(id: userID))
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 owner.profileInfo = profile
@@ -77,6 +83,9 @@ class FollowViewModel: ViewModelType {
             .map { return UserDefaults.standard.string(forKey: "userID") ?? "" }
             .flatMap { userID in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.otherProfile(id: userID))
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 owner.profileInfo = profile

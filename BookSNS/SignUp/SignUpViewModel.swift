@@ -108,6 +108,9 @@ class SignUpViewModel {
             .withLatestFrom(signUpObservable)
             .flatMap { signUpQuery in
                 return NetworkManager.APIcall(type: MessageModel.self, router: Router.emailValidation(query: EmailValidationQuery(email: signUpQuery.email)))
+                    .catch { error in
+                        return Single<MessageModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, messageModel in
                 checkEmailValid = true
@@ -164,6 +167,9 @@ class SignUpViewModel {
             .withLatestFrom(signUpObservable)
             .flatMap { signUpQuery in
                 return NetworkManager.APIcall(type: SignUpModel.self, router: Router.signUp(query: signUpQuery))
+                    .catch { error in
+                        return Single<SignUpModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, loginModel in
                 print("회원가입 성공", loginModel)

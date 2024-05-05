@@ -28,6 +28,9 @@ class EditPostViewModel: ViewModelType {
         input.loadPost
             .flatMap { postID in
                 return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, post in
                 postResult.onNext(post)

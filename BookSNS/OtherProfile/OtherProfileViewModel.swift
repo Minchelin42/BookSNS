@@ -35,6 +35,9 @@ class OtherProfileViewModel: ViewModelType {
         input.getFollowingList
             .flatMap { _ in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 followList.onNext(profile.following)
@@ -44,6 +47,9 @@ class OtherProfileViewModel: ViewModelType {
         input.followButtonTapped
             .flatMap { id in
                 return NetworkManager.APIcall(type: SelectFollowModel.self, router: FollowRouter.follow(id: id))
+                    .catch { error in
+                        return Single<SelectFollowModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, _ in
                 print("팔로우 완")
@@ -63,6 +69,9 @@ class OtherProfileViewModel: ViewModelType {
         input.loadProfile
             .flatMap { userID in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.otherProfile(id: userID))
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 profileInfo.onNext(profile)

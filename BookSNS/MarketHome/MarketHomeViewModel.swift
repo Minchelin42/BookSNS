@@ -30,6 +30,9 @@ class MarketHomeViewModel: ViewModelType {
             .map { return self.next_cursor }
             .flatMap { next in
                 return NetworkManager.APIcall(type: GetPostModel.self, router: MarketRouter.getPost(next: next))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 if owner.next_cursor.isEmpty {

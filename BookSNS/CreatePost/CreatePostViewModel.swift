@@ -81,6 +81,9 @@ class CreatePostViewModel: ViewModelType {
                     return PostNetworkManager.createPost(query: postQuery)
                 } else {
                     return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.id, query: postQuery))
+                        .catch { error in
+                            return Single<PostModel>.never()
+                        }
                 }
             }
             .subscribe(with: self) { owner, postModel in

@@ -43,6 +43,9 @@ class MarketSelectPostViewModel: ViewModelType {
         input.getProfile
             .flatMap { _ in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 owner.userResult = profile
@@ -58,6 +61,9 @@ class MarketSelectPostViewModel: ViewModelType {
         input.loadPost
             .flatMap { postID in
                 return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, post in
                 postResult.onNext(post)
@@ -76,6 +82,9 @@ class MarketSelectPostViewModel: ViewModelType {
         payValidation
             .flatMap { _ in
                 return NetworkManager.APIcall(type: PayValidationModel.self, router: MarketRouter.payValidation(query: self.payQuery))
+                    .catch { error in
+                        return Single<PayValidationModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, value in
                 self.postResult.content5 = "true"
@@ -87,6 +96,9 @@ class MarketSelectPostViewModel: ViewModelType {
             .map { return self.postID }
             .flatMap { id in
                 return NetworkManager.APIcall(type: LikeModel.self, router: PostRouter.like2(id: id, query: LikeQuery(like_status: true)))
+                    .catch { error in
+                        return Single<LikeModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, result in
                 input.loadPost.onNext(owner.postID)

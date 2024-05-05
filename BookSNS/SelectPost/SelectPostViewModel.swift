@@ -39,6 +39,9 @@ class SelectPostViewModel: ViewModelType {
         input.getProfile
             .flatMap { _ in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, profile in
                 owner.userResult = profile
@@ -54,6 +57,9 @@ class SelectPostViewModel: ViewModelType {
         input.followButtonTapped
             .flatMap { id in
                 return NetworkManager.APIcall(type: SelectFollowModel.self, router: FollowRouter.follow(id: id))
+                    .catch { error in
+                        return Single<SelectFollowModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, _ in
                 followingStatus.onNext(true)
@@ -71,6 +77,9 @@ class SelectPostViewModel: ViewModelType {
         input.loadPost
             .flatMap { postID in
                 return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.getThisPost(id: postID))
+                    .catch { error in
+                        return Single<PostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, post in
                 postResult.onNext(post)

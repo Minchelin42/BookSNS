@@ -36,6 +36,9 @@ class SearchViewModel: ViewModelType {
             .map { return self.next_cursor }
             .flatMap { next in
                 return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.getPost(next: next))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 if owner.next_cursor.isEmpty {
@@ -62,6 +65,9 @@ class SearchViewModel: ViewModelType {
             }
             .flatMap { tag in
                 return  NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.hashTagPost(tag: tag, next: self.search_cursor))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 if owner.search_cursor != "0" {
@@ -84,9 +90,15 @@ class SearchViewModel: ViewModelType {
                     self.nowPostResult.removeAll()
                     self.next_cursor = ""
                     return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.getPost(next: ""))
+                        .catch { error in
+                            return Single<GetPostModel>.never()
+                        }
                 }
                 self.isSearch = true
                 return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.hashTagPost(tag: tag, next: ""))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 print("searchText")
@@ -105,6 +117,9 @@ class SearchViewModel: ViewModelType {
             .withLatestFrom(input.searchText)
             .flatMap { tag in
                 return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.hashTagPost(tag: tag, next: self.search_cursor))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, postList in
                 owner.isSearch = true
