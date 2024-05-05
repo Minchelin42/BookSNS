@@ -24,32 +24,86 @@ class SignUpViewController: RxBaseViewController {
     }
     
     override func bind() {
-        let input = SignUpViewModel.Input(idText: mainView.emailTextField.rx.text.orEmpty.asObservable(), passwordText: mainView.passwordTextField.rx.text.orEmpty.asObservable(), nicknameText: mainView.nickNameTextField.rx.text.orEmpty.asObservable(), emailValidationButtonTapped: mainView.emailValidationButton.rx.tap.asObservable(), signUpButtonTapped: mainView.signUpButton.rx.tap.asObservable())
+        let input = SignUpViewModel.Input(idText: mainView.emailTextField.rx.text.orEmpty.asObservable(), passwordText: BehaviorRelay(value: ""), nicknameText: BehaviorRelay(value: ""), emailValidationButtonTapped: mainView.emailValidationButton.rx.tap.asObservable(), signUpButtonTapped: mainView.signUpButton.rx.tap.asObservable())
         
         let output = viewModel.transfrom(input: input)
         
-        output.signUpValidation
-            .drive(with: self) { owner, valid in
-                owner.mainView.signUpButton.isEnabled = valid
-                owner.mainView.signUpButton.backgroundColor = valid ? .blue : .red
+        mainView.nickNameTextField.rx.text.orEmpty
+            .subscribe(with: self) { owner, nick in
+                input.nicknameText.accept(nick)
             }
             .disposed(by: disposeBag)
         
-        output.emailValidMessage
-            .drive(with: self) { owner, message in
-                let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        
+        mainView.passwordTextField.rx.text.orEmpty
+            .subscribe(with: self) { owner, password in
+                input.passwordText.accept(password)
+            }
+            .disposed(by: disposeBag)
 
-                let button = UIAlertAction(title: "확인", style: .default)
-                
-                alert.addAction(button)
-                self.present(alert, animated: true)
+
+        output.signUpValidation
+            .subscribe(with: self) { owner, valid in
+                owner.mainView.signUpButton.isEnabled = valid
+                owner.mainView.signUpButton.backgroundColor = valid ? Color.mainColor : Color.lightPoint
             }
             .disposed(by: disposeBag)
         
+        output.idValidation
+            .bind(to: mainView.emailLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.availableIdCheck
+            .bind(with: self, onNext: { owner, value in
+                owner.mainView.emailValidationButton.rx.isEnabled.onNext(value)
+                owner.mainView.emailValidationButton.rx.backgroundColor.onNext(value ? Color.mainColor : Color.lightPoint)
+            })
+            .disposed(by: disposeBag)
+        
+        output.idValidationSuccesss
+            .bind(with: self) { owner, value in
+                if value {
+                    owner.mainView.emailLabel.rx.textColor.onNext(Color.bluePoint)
+                } else {
+                    owner.mainView.emailLabel.rx.textColor.onNext(Color.redPoint)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        output.passwordValidation
+            .bind(to: mainView.passwordLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.passwordValidationSuccesss
+            .bind(with: self) { owner, value in
+                if value {
+                    owner.mainView.passwordLabel.rx.textColor.onNext(Color.bluePoint)
+                } else {
+                    owner.mainView.passwordLabel.rx.textColor.onNext(Color.redPoint)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        output.nickValidation
+            .bind(to: mainView.nicknameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.nickValidationSuccesss
+            .bind(with: self) { owner, value in
+                if value {
+                    owner.mainView.nicknameLabel.rx.textColor.onNext(Color.bluePoint)
+                } else {
+                    owner.mainView.nicknameLabel.rx.textColor.onNext(Color.redPoint)
+                }
+            }
+            .disposed(by: disposeBag)
+
         output.signUpSuccess
-            .drive(with: self) { owner, _ in
-                print("회원가입 성공")
-                owner.navigationController?.popViewController(animated: true)
+            .subscribe(with: self) { owner, value in
+                if value {
+                    print("회원가입 성공")
+                    owner.navigationController?.popViewController(animated: true)
+                }
             }
             .disposed(by: disposeBag)
     }

@@ -24,10 +24,15 @@ class SignUpView: BaseView {
         return label
     }()
     let nickNameTextField = SignTextField()
+    let nicknameLabel = {
+       let label = UILabel()
+        label.font = .systemFont(ofSize: 11, weight: .medium)
+        return label
+    }()
     
     let emailValidationButton = {
         let button = UIButton()
-        button.backgroundColor = Color.pointColor
+        button.backgroundColor = Color.lightPoint
         button.setTitle("중복 확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
@@ -40,7 +45,6 @@ class SignUpView: BaseView {
         let button = UIButton()
         button.setTitle("가입하기", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
-        button.backgroundColor = Color.mainColor
         button.setTitleColor(.white, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 22
@@ -54,6 +58,7 @@ class SignUpView: BaseView {
         addSubview(passwordTextField)
         addSubview(passwordLabel)
         addSubview(nickNameTextField)
+        addSubview(nicknameLabel)
         addSubview(signUpButton)
     }
     
@@ -95,9 +100,15 @@ class SignUpView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
             make.height.equalTo(45)
         }
+        
+        nicknameLabel.snp.makeConstraints { make in
+            make.top.equalTo(nickNameTextField.snp.bottom)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(22)
+        }
 
         signUpButton.snp.makeConstraints { make in
-            make.top.equalTo(nickNameTextField.snp.bottom).offset(32)
+            make.top.equalTo(nicknameLabel.snp.bottom).offset(32)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
             make.height.equalTo(45)
         }
@@ -105,9 +116,7 @@ class SignUpView: BaseView {
     
     override func configureView() {
         emailTextField.placeholder = "  이메일"
-        emailLabel.text = "사용가능한 이메일 입니다"
         passwordTextField.placeholder = "  비밀번호"
-        passwordLabel.text = "비밀번호는 8자이상으로 입력해주세요"
         nickNameTextField.placeholder = "  닉네임"
 
     }
