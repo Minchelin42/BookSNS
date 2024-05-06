@@ -26,11 +26,13 @@ class CommentViewModel: ViewModelType {
     
     struct Output {
         let commentResult: PublishSubject<[CommentModel]>
+        let commentRegisterSuccess: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         
         let commentResult = PublishSubject<[CommentModel]>()
+        let commentRegisterSuccess = PublishSubject<Bool>()
         
         var commentQuery = CreateCommentQuery(content: "")
         
@@ -64,13 +66,14 @@ class CommentViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, comment in
                 print("등록된 댓글", comment)
+                commentRegisterSuccess.onNext(true)
                 input.loadCommentResult.onNext(())
             } onError: { owner, error in
                 print("오류 발생 \(error)")
             }
             .disposed(by: disposeBag)
         
-        return Output(commentResult: commentResult)
+        return Output(commentResult: commentResult, commentRegisterSuccess: commentRegisterSuccess)
     }
     
     
