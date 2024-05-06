@@ -35,6 +35,7 @@ class FollowListTableViewCell: BaseTableViewCell {
         super.prepareForReuse()
         
         disposeBag = DisposeBag()
+        profileButton.setImage(nil, for: .normal)
     }
 
     override func configureHierarchy() {

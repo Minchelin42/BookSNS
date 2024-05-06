@@ -15,10 +15,10 @@ import Hero
 class HomeViewController: RxBaseViewController {
 
     let mainView = HomeView()
-    let viewModel = HomeViewModel()
+    let viewModel = HomeViewModel.shared
     
     var userID = UserDefaults.standard.string(forKey: "userID") ?? ""
-    
+   
     override func loadView() {
         self.view = mainView
     }
@@ -26,6 +26,7 @@ class HomeViewController: RxBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        customTitle()
         mainView.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         mainView.tableView.rowHeight = UITableView.automaticDimension
     }
@@ -116,7 +117,7 @@ class HomeViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
-        output.postResult
+        viewModel.postResult
             .bind(to: mainView.tableView.rx.items(
                 cellIdentifier: HomeTableViewCell.identifier,
                 cellType: HomeTableViewCell.self)
@@ -125,14 +126,30 @@ class HomeViewController: RxBaseViewController {
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content
                 
-                if let profileImage = element.creator?.profileImage {
-                    if !profileImage.isEmpty {
-                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                        cell.profileButton.kf.setImage(with: imgURL, for: .normal)
-                    } else {      
+                let modifier = AnyModifier { request in
+                    var r = request
+                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                    return r
+                }
+                
+                let resultImage = UIImageView()
+                
+                let profileImage = element.creator?.profileImage ?? ""
+                
+                let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                
+                resultImage.kf.setImage(with: imgURL, options: [.requestModifier(modifier)], completionHandler: { result in
+                    switch result {
+                    case .success(let imageResult):
+                        cell.profileButton.setImage(imageResult.image, for: .normal)
+                    case .failure(let error):
+                        print("이미지 로드 실패: \(error)")
+                        //이미지 변환에 실패했을 때 defaultProfile
                         cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                     }
-                }
+                })
+                
 
                 let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
                     print("수정하기")
@@ -226,6 +243,7 @@ class HomeViewController: RxBaseViewController {
                         isLike = like.like_status
 
                         cell.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
+                        owner.viewModel.next_cursor = ""
                         input.getPost.onNext(())
                         owner.mainView.tableView.reloadData()
                     
@@ -287,8 +305,7 @@ class HomeViewController: RxBaseViewController {
                         cell.pageControl.currentPage = Int(pageNumber)
                     }
                     .disposed(by: cell.disposeBag)
-                
-                
+
             }
             .disposed(by: disposeBag)
          

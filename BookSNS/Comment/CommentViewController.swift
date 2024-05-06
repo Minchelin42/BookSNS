@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Hero
+import Kingfisher
 
 class CommentViewController: RxBaseViewController {
     
@@ -45,25 +47,47 @@ class CommentViewController: RxBaseViewController {
             ) {(row, element, cell) in
                 cell.nickName.text = element.creator.nick
                 cell.comment.text = element.content
+
+                let modifier = AnyModifier { request in
+                    var r = request
+                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                    return r
+                }
                 
-                let profileImage = element.creator.profileImage
-                    if !profileImage.isEmpty {
-                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                        cell.profileButton.kf.setImage(with: imgURL, for: .normal)
-                    } else {
+                let resultImage = UIImageView()
+                
+                let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + element.creator.profileImage)!
+                
+                resultImage.kf.setImage(with: imgURL, options: [.requestModifier(modifier)], completionHandler: { result in
+                    switch result {
+                    case .success(let imageResult):
+                        cell.profileButton.setImage(imageResult.image, for: .normal)
+                    case .failure(let error):
+                        print("이미지 로드 실패: \(error)")
+                        //이미지 변환에 실패했을 때 defaultProfile
                         cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                     }
+                })
                 
+
                 cell.profileButton.rx.tap
                     .map { return element.creator.user_id }
                     .subscribe(with: self) { owner, profileID in
                         if profileID == UserDefaults.standard.string(forKey: "userID") {
                             let vc = ProfileViewController()
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            vc.isHeroEnabled = true
+                            vc.modalPresentationStyle = .fullScreen
+                            vc.hero.modalAnimationType = .autoReverse(presenting: .pull(direction: .left))
+                            owner.present(vc, animated: true)
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            vc.isHeroEnabled = true
+                            vc.modalPresentationStyle = .fullScreen
+                            vc.hero.modalAnimationType = .autoReverse(presenting: .pull(direction: .left))
+                            owner.present(vc, animated: true)
+//                            owner.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
                     .disposed(by: cell.disposeBag)

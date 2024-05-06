@@ -140,15 +140,32 @@ class MarketSelectPostViewController: RxBaseViewController {
                         $0.app_scheme = "sesac"
                     }
                 
-                DispatchQueue.main.async {
-                    if let profileImage = result.creator?.profileImage {
-                            let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                            let loadImage = UIImageView()
-                            loadImage.kf.setImage(with: imgURL)
-                            loadImage.image = loadImage.image?.scale(newWidth: 90)
-                            owner.mainView.profileButton.setImage(loadImage.image, for: .normal)
-                    }
+                let profileImage = result.creator?.profileImage ?? ""
+
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                
+                let modifier = AnyModifier { request in
+                    var r = request
+                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
+                    return r
                 }
+                
+                let image = UIImageView()
+                
+                image.kf.setImage(with: url, options: [.requestModifier(modifier)], completionHandler: { result in
+                    switch result {
+                    case .success(let imageResult):
+                        image.image = image.image?.scale(newWidth: 90)
+                        owner.mainView.profileButton.setImage(image.image, for: .normal)
+                        
+                    case .failure(let error):
+                        print("이미지 로드 실패: \(error)")
+                        //이미지 변환에 실패했을 때 defaultProfile
+                        owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
+                    }
+                })
+                
                 
                 let isUser = (UserDefaults.standard.string(forKey: "userID") ?? "" == result.creator?.user_id)
                 
@@ -230,6 +247,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                 let delete = UIAction(title: "삭제하기", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
                     print("삭제하기")
                     input.deleteButtonTapped.onNext(result.post_id)
+                    ProfileViewModel.shared.updateProfile.onNext(())
                 }
                 
                 owner.mainView.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
