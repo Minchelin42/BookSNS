@@ -22,7 +22,7 @@ class HomeView: BaseView {
         collectionView.snp.makeConstraints { make in
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
             make.top.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(100)
+            make.height.equalTo(120)
         }
         
         tableView.snp.makeConstraints { make in

@@ -73,7 +73,7 @@ class HomeViewController: RxBaseViewController {
                         
                         let nav = UINavigationController(rootViewController: vc)
                         nav.isHeroEnabled = true
-                        nav.hero.modalAnimationType = .zoom
+                        nav.hero.modalAnimationType = .autoReverse(presenting: .zoom)
                         nav.modalPresentationStyle = .fullScreen
                         
                         owner.present(nav, animated: true)
