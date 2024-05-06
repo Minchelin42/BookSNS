@@ -51,7 +51,6 @@ class BookCardView: BaseView {
         let image = UIImageView()
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
-        image.backgroundColor = .blue
         return image
     }()
     

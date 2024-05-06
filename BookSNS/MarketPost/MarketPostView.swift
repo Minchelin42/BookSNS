@@ -42,10 +42,11 @@ class MarketPostView: BaseView {
     
     let guideLabel = {
        let label = UILabel()
-        label.text = "판매종료 시 최종 거래가 파악을 위하여 게시글의 수정 및 삭제가 불가능합니다"
+        label.text = "판매종료 시 게시글의 수정 및 삭제가 불가능합니다"
         label.textColor = .red
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 

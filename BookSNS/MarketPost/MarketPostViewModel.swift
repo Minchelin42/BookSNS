@@ -35,12 +35,15 @@ class MarketPostViewModel: ViewModelType {
     struct Output {
         let imageRegisterButtonTapped: Driver<Void>
         let searchBookButtonTapped: Driver<Void>
+        let requiredMessage: PublishSubject<String>
         let createSuccesss: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         let createSuccess = PublishSubject<Bool>()
         var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "", files: [], product_id: "snapBook_market")
+        let requiredMessage = PublishSubject<String>()
+        
         
         postID
             .flatMap { id in
@@ -101,16 +104,21 @@ class MarketPostViewModel: ViewModelType {
         input.createButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
-                if self.type == .create {
-                    return NetworkManager.APIcall(type: PostModel.self, router: MarketRouter.createPost(query: postQuery))
-                        .catch { error in
-                            return Single<PostModel>.never()
-                        }
+                if postValidation(query: postQuery) {
+                    if self.type == .create {
+                        return NetworkManager.APIcall(type: PostModel.self, router: MarketRouter.createPost(query: postQuery))
+                            .catch { error in
+                                return Single<PostModel>.never()
+                            }
+                    } else {
+                        return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.editID, query: postQuery))
+                            .catch { error in
+                                return Single<PostModel>.never()
+                            }
+                    }
                 } else {
-                    return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.editID, query: postQuery))
-                        .catch { error in
-                            return Single<PostModel>.never()
-                        }
+                    requiredMessage.onNext("게시글 내용을 체워주세요")
+                    return Single<PostModel>.never()
                 }
             }
             .subscribe(with: self) { owner, postModel in
@@ -122,7 +130,7 @@ class MarketPostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
 
-        return Output(imageRegisterButtonTapped: input.imageRegisterButtonTapped.asDriver(), searchBookButtonTapped: input.searchBookButtonTapped.asDriver(), createSuccesss: createSuccess)
+        return Output(imageRegisterButtonTapped: input.imageRegisterButtonTapped.asDriver(), searchBookButtonTapped: input.searchBookButtonTapped.asDriver(), requiredMessage: requiredMessage, createSuccesss: createSuccess)
     }
 
 }

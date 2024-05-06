@@ -32,12 +32,14 @@ class CreatePostViewModel: ViewModelType {
     struct Output {
         let imageRegisterButtonTapped: Driver<Void>
         let searchBookButtonTapped: Driver<Void>
+        let requiredMessage: PublishSubject<String>
         let createSuccesss: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output {
         let createSuccess = PublishSubject<Bool>()
         var postQuery = CreatePostQuery(content: "", content1: "", content2: "", content3: "", content4: "", content5: "", files: [], product_id: "snapBook")
+        let requiredMessage = PublishSubject<String>()
         
         input.contentText
             .subscribe(with: self) { owner, value in
@@ -77,13 +79,18 @@ class CreatePostViewModel: ViewModelType {
         input.createButtonTapped
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .flatMap { _ in
-                if self.type == .create {
-                    return PostNetworkManager.createPost(query: postQuery)
+                if postValidation(query: postQuery) {
+                    if self.type == .create {
+                        return PostNetworkManager.createPost(query: postQuery)
+                    } else {
+                        return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.id, query: postQuery))
+                            .catch { error in
+                                return Single<PostModel>.never()
+                            }
+                    }
                 } else {
-                    return NetworkManager.APIcall(type: PostModel.self, router: PostRouter.editPost(id: self.id, query: postQuery))
-                        .catch { error in
-                            return Single<PostModel>.never()
-                        }
+                    requiredMessage.onNext("게시글 내용을 체워주세요")
+                    return Single<PostModel>.never()
                 }
             }
             .subscribe(with: self) { owner, postModel in
@@ -95,7 +102,13 @@ class CreatePostViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
 
-        return Output(imageRegisterButtonTapped: input.imageRegisterButtonTapped.asDriver(), searchBookButtonTapped: input.searchBookButtonTapped.asDriver(), createSuccesss: createSuccess)
+        return Output(imageRegisterButtonTapped: input.imageRegisterButtonTapped.asDriver(), searchBookButtonTapped: input.searchBookButtonTapped.asDriver(), requiredMessage: requiredMessage, createSuccesss: createSuccess)
     }
     
+}
+
+func postValidation(query: CreatePostQuery) -> Bool {
+    if query.files.isEmpty || query.content.isEmpty || query.content1.isEmpty || query.content2.isEmpty || query.content3.isEmpty || query.content4.isEmpty {
+        return false
+    } else { return true }
 }

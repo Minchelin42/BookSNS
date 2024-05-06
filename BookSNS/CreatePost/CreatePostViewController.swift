@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Toast
 
 enum PostType {
     case create
@@ -38,12 +39,10 @@ class CreatePostViewController: RxBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView(_:)))
-        mainView.addGestureRecognizer(tapGesture)
+
         navigationItem.rx.title.onNext("게시글 작성")
     }
-    
+
     override func bind() {
 
         let input = CreatePostViewModel.Input(contentText: mainView.textView.rx.text.orEmpty, imageData: PublishSubject<[Data?]>(), fileData: PublishSubject<[String]>(), imageRegisterButtonTapped: mainView.imageRegisterButton.rx.tap, searchBookButtonTapped: mainView.searchBookButton.rx.tap, createButtonTapped: mainView.createButton.rx.tap)
@@ -145,11 +144,24 @@ class CreatePostViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.requiredMessage
+            .subscribe(with: self) { owner, message in
+                var style = ToastStyle()
+
+                style.messageColor = .white
+                style.backgroundColor = Color.mainColor!
+                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
+
+                owner.view.makeToast(message, duration: 0.8, position: .bottom, style: style)
+            }
+            .disposed(by: disposeBag)
+        
         output.createSuccesss
             .subscribe(with: self) { owner, value in
                 if owner.type == .create {
                     let alert = UIAlertController(title: value ? "게시글 등록 완료" : "게시글 등록 실패", message: nil, preferredStyle: .alert)
-
+                    HomeViewModel.shared.updatePost.onNext(())
+                    SearchViewModel.shared.updatePost.onNext(())
                     let button = UIAlertAction(title: "확인", style: .default) { action in
                         owner.updatePost?()
                         owner.dismiss(animated: true)
@@ -159,7 +171,8 @@ class CreatePostViewController: RxBaseViewController {
                     owner.present(alert, animated: true)
                 } else {
                     let alert = UIAlertController(title: value ? "게시글 수정 완료" : "게시글 수정 실패", message: nil, preferredStyle: .alert)
-
+                    HomeViewModel.shared.updatePost.onNext(())
+                    SearchViewModel.shared.updatePost.onNext(())
                     let button = UIAlertAction(title: "확인", style: .default) { action in
                         owner.updatePost?()
                         owner.navigationController?.popViewController(animated: true)
@@ -183,14 +196,7 @@ class CreatePostViewController: RxBaseViewController {
         
 
     }
-    
-    
-    @objc func tapView(_ sender: UITapGestureRecognizer) {
-        print(#function)
-        view.endEditing(true)
-    }
 
-    
 }
 
 extension CreatePostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

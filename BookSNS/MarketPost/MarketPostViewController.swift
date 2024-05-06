@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Toast
 
 class MarketPostViewController: RxBaseViewController {
     
@@ -39,6 +40,18 @@ class MarketPostViewController: RxBaseViewController {
         
         let output = viewModel.transform(input: input)
         
+        output.requiredMessage
+            .subscribe(with: self) { owner, message in
+                var style = ToastStyle()
+
+                style.messageColor = .white
+                style.backgroundColor = Color.mainColor!
+                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
+
+                owner.view.makeToast(message, duration: 0.8, position: .bottom, style: style)
+            }
+            .disposed(by: disposeBag)
+        
         viewModel.postResult
             .subscribe(with: self) { owner, result in
                 print("postResult 받음")
@@ -50,7 +63,7 @@ class MarketPostViewController: RxBaseViewController {
                 owner.mainView.textView.text = result.content
                 owner.mainView.textView.textColor = .black
                 input.fileData.onNext(result.files)
-                owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!, link: result.content3, cover: ""))
+                owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!, link: result.content3, cover: result.content5))
 //
                 owner.mainView.collectionView.snp.remakeConstraints { make in
                     make.top.horizontalEdges.equalTo(owner.view.safeAreaLayoutGuide).inset(20)
@@ -135,7 +148,10 @@ class MarketPostViewController: RxBaseViewController {
                 
                 let button = UIAlertAction(title: "확인", style: .default) { action in
                     owner.updatePost?()
+                    
                     if owner.id.isEmpty {
+                        MarketHomeViewModel.shared.updatePost.onNext(())
+                        ProfileViewModel.shared.updateProfile.onNext(())
                         owner.dismiss(animated: true)
                     } else {
                         owner.navigationController?.popViewController(animated: true)
