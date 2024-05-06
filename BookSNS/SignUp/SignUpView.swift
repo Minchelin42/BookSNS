@@ -10,6 +10,13 @@ import SnapKit
 
 
 class SignUpView: BaseView {
+    
+    let logoImage = {
+        let view = UIImageView()
+        view.image = UIImage(named: "Logo")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
 
     let emailTextField = SignTextField()
     let emailLabel = {
@@ -52,6 +59,7 @@ class SignUpView: BaseView {
     }()
     
     override func configureHierarchy() {
+        addSubview(logoImage)
         addSubview(emailTextField)
         addSubview(emailValidationButton)
         addSubview(emailLabel)
@@ -63,8 +71,15 @@ class SignUpView: BaseView {
     }
     
     override func configureLayout() {
+        
+        logoImage.snp.makeConstraints { make in
+            make.bottom.equalTo(self.snp.centerY).offset(-50)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(112)
+        }
+        
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(50)
+            make.top.equalTo(logoImage.snp.bottom).offset(12)
             make.leading.equalTo(safeAreaLayoutGuide).inset(36)
             make.trailing.equalTo(emailValidationButton.snp.leading).offset(-8)
             make.height.equalTo(45)

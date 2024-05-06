@@ -9,6 +9,13 @@ import UIKit
 import SnapKit
 
 class SignInView: BaseView {
+    
+    let logoImage = {
+        let view = UIImageView()
+        view.image = UIImage(named: "Logo")
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
 
     let emailTextField = SignTextField()
     let passwordTextField = SignTextField()
@@ -33,6 +40,7 @@ class SignInView: BaseView {
     }()
     
     override func configureHierarchy() {
+        addSubview(logoImage)
         addSubview(emailTextField)
         addSubview(passwordTextField)
         addSubview(signInButton)
@@ -40,8 +48,15 @@ class SignInView: BaseView {
     }
     
     override func configureLayout() {
+        
+        logoImage.snp.makeConstraints { make in
+            make.bottom.equalTo(self.snp.centerY).offset(-30)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
+            make.height.equalTo(112)
+        }
+        
         emailTextField.snp.makeConstraints { make in
-            make.centerY.equalTo(self)
+            make.top.equalTo(logoImage.snp.bottom).offset(12)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
             make.height.equalTo(50)
         }

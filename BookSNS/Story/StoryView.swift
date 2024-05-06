@@ -82,7 +82,7 @@ class StoryView: BaseView {
     
     override func configureLayout() {
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(testImage.snp.top)
                 .offset(12)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(4)
             make.height.equalTo(2)
@@ -93,12 +93,12 @@ class StoryView: BaseView {
         }
         
         grayView.snp.makeConstraints { make in
-            make.edges.equalTo(safeAreaLayoutGuide)
+            make.edges.equalTo(testImage)
         }
         
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom).offset(12)
-            make.leading.equalTo(safeAreaLayoutGuide).inset(12)
+            make.leading.equalTo(self).inset(12)
             make.size.equalTo(50)
         }
         
@@ -113,23 +113,23 @@ class StoryView: BaseView {
             make.height.equalTo(13)
             make.top.equalTo(bookLabel.snp.bottom).offset(4)
             make.leading.equalTo(profileImage.snp.trailing).offset(8)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
+            make.trailing.equalTo(self).inset(12)
         }
         
         dismissButton.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.top)
             make.leading.equalTo(profileImage.snp.trailing).offset(8)
-            make.trailing.equalTo(safeAreaLayoutGuide).inset(12)
+            make.trailing.equalTo(self).inset(12)
             make.size.equalTo(30)
         }
         
         leftView.snp.makeConstraints { make in
-            make.leading.top.bottom.equalTo(safeAreaLayoutGuide)
+            make.leading.top.bottom.equalTo(self)
             make.trailing.equalTo(self.snp.centerX)
         }
         
         rightView.snp.makeConstraints { make in
-            make.trailing.top.bottom.equalTo(safeAreaLayoutGuide)
+            make.trailing.top.bottom.equalTo(self)
             make.leading.equalTo(self.snp.centerX)
         }
         

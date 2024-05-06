@@ -34,6 +34,7 @@ class SignUpViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
+        mainView.passwordTextField.rx.isSecureTextEntry.onNext(true)
         
         mainView.passwordTextField.rx.text.orEmpty
             .subscribe(with: self) { owner, password in
