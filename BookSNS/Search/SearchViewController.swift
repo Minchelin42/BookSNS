@@ -21,7 +21,7 @@ struct Post: Hashable, Identifiable {
 
 class SearchViewController: RxBaseViewController {
     
-    let viewModel = SearchViewModel()
+    let viewModel = SearchViewModel.shared
     let searchBar = UISearchBar()
     
     var item: [Post] = []
@@ -52,7 +52,7 @@ class SearchViewController: RxBaseViewController {
         
         navigationItem.titleView = searchBar
     }
-    
+
     override func bind() {
         
         let input = SearchViewModel.Input(getPost: PublishSubject<Void>(), getSearchPost: PublishSubject<Void>(), searchText: PublishSubject<String>(), searchButtonClicked: searchBar.rx.searchButtonClicked)
@@ -74,8 +74,8 @@ class SearchViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
 
-        output.postResult
-            .subscribe(with: self) { owner, result in
+        viewModel.postResult
+            .bind(with: self) { owner, result in
                 owner.item.removeAll()
                 for index in 0..<result.count {
                     let post = result[index]

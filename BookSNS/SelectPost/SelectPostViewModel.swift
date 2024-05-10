@@ -51,6 +51,8 @@ class SelectPostViewModel: ViewModelType {
         input.deleteButtonTapped
             .subscribe(with: self) { owner, id in
                 NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id)) { _ in }
+                SearchViewModel.shared.updatePost.onNext(())
+                ProfileViewModel.shared.updateProfile.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -63,6 +65,8 @@ class SelectPostViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, _ in
                 followingStatus.onNext(true)
+                HomeViewModel.shared.updatePost.onNext(())
+                ProfileViewModel.shared.updateProfile.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -71,6 +75,8 @@ class SelectPostViewModel: ViewModelType {
                 NetworkManager.DeleteAPI(router: FollowRouter.unfollow(id: id)) { value in
                     followingStatus.onNext(false)
                 }
+                HomeViewModel.shared.updatePost.onNext(())
+                ProfileViewModel.shared.updateProfile.onNext(())
             }
             .disposed(by: disposeBag)
         

@@ -54,6 +54,7 @@ class OtherProfileViewModel: ViewModelType {
             .subscribe(with: self) { owner, _ in
                 print("팔로우 완")
                 input.getFollowingList.onNext(())
+                ProfileViewModel.shared.updateProfile.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -62,6 +63,7 @@ class OtherProfileViewModel: ViewModelType {
                 NetworkManager.DeleteAPI(router: FollowRouter.unfollow(id: id)) { value in
                     print("언팔로우 완")
                     input.getFollowingList.onNext(())
+                    ProfileViewModel.shared.updateProfile.onNext(())
                 }
             }
             .disposed(by: disposeBag)

@@ -16,6 +16,44 @@ struct Story {
 }
 
 class HomeViewModel: ViewModelType {
+    
+    static let shared = HomeViewModel()
+    
+    let updatePost = PublishSubject<Void>()
+    let postResult = PublishSubject<[PostModel]>()
+    
+    init() {
+        updatePost
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .flatMap { _ in
+                return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
+                    .catch { error in
+                        return Single<ProfileModel>.never()
+                    }
+            }
+            .subscribe(onNext: { [weak self] userResult in
+                self?.userResult = userResult
+            }, onError: { error in
+                print("오류 발생: \(error)")
+            })
+            .disposed(by: disposeBag)
+        
+        
+        updatePost
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .flatMap { _ in
+                return NetworkManager.APIcall(type: GetPostModel.self, router: PostRouter.getPost(next: ""))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
+            }
+            .subscribe(onNext: { [weak self] getPostModel in
+                self?.postResult.onNext(getPostModel.data)
+            }, onError: { error in
+                print("오류 발생: \(error)")
+            })
+            .disposed(by: disposeBag)
+    }
 
     var disposeBag = DisposeBag()
     
@@ -23,6 +61,7 @@ class HomeViewModel: ViewModelType {
     var nowPostResult: [PostModel] = []
     
     var storyList = BehaviorSubject<[Story]>(value:[Story(title: "신간 TOP10", searchType: BookRankType.ItemNewSpecial.rawValue), Story(title: "편집자 TOP10", searchType: BookRankType.ItemEditorChoice.rawValue), Story(title: "베스트 TOP10", searchType: BookRankType.Bestseller.rawValue), Story(title: "블로거 TOP10", searchType: BookRankType.BlogBest.rawValue)])
+    
     var userResult: ProfileModel? = nil
     
     struct Input {
@@ -35,17 +74,14 @@ class HomeViewModel: ViewModelType {
     }
     
     struct Output {
-        let postResult: PublishSubject<[PostModel]>
         let editButtonTapped: PublishSubject<String>
         let deleteButtonTapped: PublishSubject<String>
         let followingStatus: PublishSubject<Bool>
     }
     
     func transform(input: Input) -> Output{
-        
-        let postResult = PublishSubject<[PostModel]>()
         let followingStatus = PublishSubject<Bool>()
-        
+
         input.getPost
             .flatMap { _ in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.myProfile)
@@ -68,6 +104,7 @@ class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, _ in
                 owner.next_cursor = ""
                 followingStatus.onNext(true)
+                ProfileViewModel.shared.updateProfile.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -76,6 +113,7 @@ class HomeViewModel: ViewModelType {
                 NetworkManager.DeleteAPI(router: FollowRouter.unfollow(id: id)) { value in
                     owner.next_cursor = ""
                     followingStatus.onNext(false)
+                    ProfileViewModel.shared.updateProfile.onNext(())
                 }
             }
             .disposed(by: disposeBag)
@@ -99,11 +137,11 @@ class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, postList in
                 if owner.next_cursor.isEmpty {
                     owner.nowPostResult = postList.data
-                    postResult.onNext(owner.nowPostResult)
+                    owner.postResult.onNext(owner.nowPostResult)
                     owner.next_cursor = postList.next_cursor
                 } else if owner.next_cursor != "0" {
                     owner.nowPostResult.append(contentsOf: postList.data)
-                    postResult.onNext(owner.nowPostResult)
+                    owner.postResult.onNext(owner.nowPostResult)
                     owner.next_cursor = postList.next_cursor
                     print( owner.next_cursor)
                 }
@@ -113,7 +151,7 @@ class HomeViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(postResult: postResult, editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped, followingStatus: followingStatus)
+        return Output(editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped, followingStatus: followingStatus)
     }
     
     func isUser(selectID: String, myID: String) -> Bool {

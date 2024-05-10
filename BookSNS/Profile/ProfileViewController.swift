@@ -13,11 +13,16 @@ import Kingfisher
 class ProfileViewController: RxBaseViewController {
 
     let mainView = ProfileView()
-    let viewModel = ProfileViewModel()
+    let viewModel = ProfileViewModel.shared
     
     lazy var logout = UIAction(title: "로그아웃", image: UIImage(named: "Logout"), handler: { action in
         print("로그아웃")
         UserDefaults.standard.setValue("", forKey: "accessToken")
+        UserDefaults.standard.set("", forKey: "refreshToken")
+        UserDefaults.standard.set("", forKey: "profileImage")
+        UserDefaults.standard.set("", forKey: "userID")
+        UserDefaults.standard.set("", forKey: "email")
+        UserDefaults.standard.set("", forKey: "nick")
         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         
         let sceneDelegate = windowScene?.delegate as? SceneDelegate
@@ -40,6 +45,11 @@ class ProfileViewController: RxBaseViewController {
             WithDrawViewModel.shared.withDrawAccess
                 .subscribe(with: self) { owner, _ in
                     UserDefaults.standard.setValue("", forKey: "accessToken")
+                    UserDefaults.standard.set("", forKey: "refreshToken")
+                    UserDefaults.standard.set("", forKey: "profileImage")
+                    UserDefaults.standard.set("", forKey: "userID")
+                    UserDefaults.standard.set("", forKey: "email")
+                    UserDefaults.standard.set("", forKey: "nick")
                     
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     
@@ -104,6 +114,9 @@ class ProfileViewController: RxBaseViewController {
                 owner.mainView.postNumLabel.text = "\(profile.posts.count)"
                 owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
                 owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
+                
+                output.selectPostButton.onNext(true)
+                
                 let modifier = AnyModifier { request in
                     var r = request
                     r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)

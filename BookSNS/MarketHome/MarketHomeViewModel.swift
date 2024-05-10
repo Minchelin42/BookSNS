@@ -10,7 +10,32 @@ import RxSwift
 import RxCocoa
 
 class MarketHomeViewModel: ViewModelType {
+
+    static let shared = MarketHomeViewModel()
+    
+    let updatePost = PublishSubject<Void>()
+    
+    init() {
+        updatePost
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .flatMap { _ in
+                return  NetworkManager.APIcall(type: GetPostModel.self, router: MarketRouter.getPost(next: ""))
+                    .catch { error in
+                        return Single<GetPostModel>.never()
+                    }
+            }
+            .subscribe(onNext: { [weak self] postResult in
+                self?.postResult.onNext(postResult.data)
+            }, onError: { error in
+                print("오류 발생: \(error)")
+            })
+            .disposed(by: disposeBag)
+    }
+    
     var disposeBag = DisposeBag()
+    
+    
+    let postResult = PublishSubject<[PostModel]>()
     
     var next_cursor = ""
     var nowPostResult:[PostModel] = []
@@ -18,13 +43,8 @@ class MarketHomeViewModel: ViewModelType {
     struct Input {
         let getPost: PublishSubject<Void>
     }
-    
-    struct Output {
-        let postResult: PublishSubject<[PostModel]>
-    }
-    
-    func transform(input: Input) -> Output {
-        let postResult = PublishSubject<[PostModel]>()
+
+    func transform(input: Input) {
 
         input.getPost
             .map { return self.next_cursor }
@@ -40,7 +60,7 @@ class MarketHomeViewModel: ViewModelType {
                 }
                 if owner.next_cursor != "0" {
                     owner.nowPostResult.append(contentsOf: postList.data)
-                    postResult.onNext(owner.nowPostResult)
+                    owner.postResult.onNext(owner.nowPostResult)
                     owner.next_cursor = postList.next_cursor
                 }
             } onError: { owner, error in
@@ -48,6 +68,5 @@ class MarketHomeViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(postResult: postResult)
     }
 }

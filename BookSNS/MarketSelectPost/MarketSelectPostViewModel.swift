@@ -102,6 +102,7 @@ class MarketSelectPostViewModel: ViewModelType {
             }
             .subscribe(with: self) { owner, result in
                 input.loadPost.onNext(owner.postID)
+                MarketHomeViewModel.shared.updatePost.onNext(())
             } onError: { owner, error in
                 print("오류 발생 \(error)")
             }

@@ -40,7 +40,7 @@ class SignInViewModel {
         
         signInObservable
             .bind(with: self) { owner, signIn in
-                if signIn.email.count > 5 && signIn.password.count > 8 {
+                if signIn.email.count > 5 && signIn.password.count >= 8 {
                     signInValid.accept(true)
                 } else {
                     signInValid.accept(false)
@@ -53,6 +53,9 @@ class SignInViewModel {
             .withLatestFrom(signInObservable)
             .flatMap { signInQuery in
                 return NetworkManager.APIcall(type: SignInModel.self, router: Router.signIn(query: signInQuery))
+                    .catch { error in
+                        return Single<SignInModel>.never()
+                    }
             }
             .subscribe(with: self) { owner, signInModel in
                 signInSuccess.accept(())
@@ -68,6 +71,10 @@ class SignInViewModel {
                 } else {
                     UserDefaults.standard.set(signInModel.profileImage, forKey: "profileImage")
                 }
+                
+                HomeViewModel.shared.updatePost.onNext(())
+                SearchViewModel.shared.updatePost.onNext(())
+                MarketHomeViewModel.shared.updatePost.onNext(())
     
             } onError: { owner, error in
                 print("오류 발생")

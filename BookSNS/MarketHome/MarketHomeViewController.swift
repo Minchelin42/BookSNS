@@ -24,7 +24,7 @@ struct MarketPost: Hashable, Identifiable {
 
 class MarketHomeViewController: RxBaseViewController {
     
-    let viewModel = MarketHomeViewModel()
+    let viewModel = MarketHomeViewModel.shared
 
     var item: [MarketPost] = []
     
@@ -51,16 +51,24 @@ class MarketHomeViewController: RxBaseViewController {
         
         setConstraints()
         configureDataSource()
+        customTitle()
         updateSnapshot(item: [])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.updatePost.onNext(())
     }
     
     override func bind() {
         
         let input = MarketHomeViewModel.Input(getPost: PublishSubject<Void>())
-        let output = viewModel.transform(input: input)
+        
+        viewModel.transform(input: input)
 
-        output.postResult
-            .subscribe(with: self) { owner, result in
+        viewModel.postResult
+            .bind(with: self) { owner, result in
                 owner.item.removeAll()
                 for index in 0..<result.count {
                     let post = result[index]

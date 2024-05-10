@@ -31,7 +31,6 @@ class WithDrawViewModel {
                 print(withDrawModel)
                 self?.withDrawAccess.onNext(())
             }, onError: { error in
-                // 오류 발생 시 실행되는 코드
                 print("오류 발생: \(error)")
             })
             .disposed(by: disposeBag)

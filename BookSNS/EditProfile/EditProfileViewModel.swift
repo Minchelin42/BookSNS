@@ -40,6 +40,7 @@ class EditProfileViewModel: ViewModelType {
                 UserDefaults.standard.setValue(profileModel.nick, forKey: "nick")
                 UserDefaults.standard.setValue(profileModel.profileImage, forKey: "profileImage")
                 editProfileSuccess.onNext(true)
+                HomeViewModel.shared.updatePost.onNext(())
             } onError: { owner, error in
                 print("오류 발생 \(error)")
                 editProfileSuccess.onNext(false)
