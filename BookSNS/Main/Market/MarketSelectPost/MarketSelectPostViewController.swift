@@ -85,13 +85,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                     .subscribe(with: self) { owner, postID in
                         let vc = CommentViewController()
                         vc.post_id = postID
-                        let nav = UINavigationController(rootViewController: vc)
-                          if let sheet = nav.sheetPresentationController {
-                              sheet.detents = [.medium(), .large()]
-                              sheet.prefersGrabberVisible = true
-                          }
-                 
-                        Transition.present(nowVC: owner, toVC: nav)
+                        Transition.sheet(nowVC: owner, toVC: vc)
                     }
                     .disposed(by: owner.disposeBag)
                 

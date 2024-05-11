@@ -232,13 +232,7 @@ class HomeViewController: RxBaseViewController {
                     .subscribe(with: self) { owner, _ in
                         let vc = CommentViewController()
                         vc.post_id = element.post_id
-                        let nav = UINavigationController(rootViewController: vc)
-                          if let sheet = nav.sheetPresentationController {
-                              sheet.detents = [.medium(), .large()]
-                              sheet.prefersGrabberVisible = true
-                          }
-                    
-                        Transition.present(nowVC: owner, toVC: nav)
+                        Transition.sheet(nowVC: owner, toVC: vc)
                     }
                     .disposed(by: cell.disposeBag)
                 

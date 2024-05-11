@@ -23,4 +23,14 @@ enum Transition {
     static func dismiss (_ nowVC: UIViewController) {
         nowVC.dismiss(animated: true)
     }
+    
+    static func sheet(nowVC: UIViewController, toVC: UIViewController) {
+        let nav = UINavigationController(rootViewController: toVC)
+          if let sheet = nav.sheetPresentationController {
+              sheet.detents = [.medium(), .large()]
+              sheet.prefersGrabberVisible = true
+          }
+    
+        nowVC.present(nav, animated: true)
+    }
 }

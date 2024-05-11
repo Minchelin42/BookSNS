@@ -16,21 +16,7 @@ class ProfileViewController: RxBaseViewController {
     let viewModel = ProfileViewModel.shared
     
     lazy var logout = UIAction(title: "로그아웃", image: UIImage(named: "Logout"), handler: { action in
-        print("로그아웃")
-        UserDefaults.standard.setValue("", forKey: "accessToken")
-        UserDefaults.standard.set("", forKey: "refreshToken")
-        UserDefaults.standard.set("", forKey: "profileImage")
-        UserDefaults.standard.set("", forKey: "userID")
-        UserDefaults.standard.set("", forKey: "email")
-        UserDefaults.standard.set("", forKey: "nick")
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        
-        let sceneDelegate = windowScene?.delegate as? SceneDelegate
-        
-        let vc = UINavigationController(rootViewController: SignInViewController())
-
-        sceneDelegate?.window?.rootViewController = vc
-        sceneDelegate?.window?.makeKeyAndVisible()
+        self.userLogout()
     })
                                
     lazy var withDraw = UIAction(title: "회원탈퇴", image: UIImage(named: "WithDraw"), attributes: .destructive, handler: { action in
@@ -186,6 +172,23 @@ class ProfileViewController: RxBaseViewController {
 }
 
 extension ProfileViewController {
+    
+    func userLogout() {
+        UserDefaults.standard.setValue("", forKey: "accessToken")
+        UserDefaults.standard.set("", forKey: "refreshToken")
+        UserDefaults.standard.set("", forKey: "profileImage")
+        UserDefaults.standard.set("", forKey: "userID")
+        UserDefaults.standard.set("", forKey: "email")
+        UserDefaults.standard.set("", forKey: "nick")
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        
+        let vc = UINavigationController(rootViewController: SignInViewController())
+
+        sceneDelegate?.window?.rootViewController = vc
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
     
     func withDrawAlert() {
         let alert = UIAlertController(title: "정말 탈퇴하시겠습니까?", message: "회원님의 모든 정보가 삭제되며,\n복구하실 수 없습니다", preferredStyle: .alert)
