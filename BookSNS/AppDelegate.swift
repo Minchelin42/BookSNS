@@ -13,15 +13,25 @@ import IQKeyboardManagerSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-  //        Iamport.shared.receivedURL(url) // SwiftUI 사용으로 인해 SceneDelegate로 이관
           return true
       }
+    
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        IQKeyboardManager.shared.enable = true
-//        IQKeyboardManager.shared.enableAutoToolbar = false
+        if #available(iOS 13.0, *) {
+            return true
+        }
         
+        IQKeyboardManager.shared.enable = true
+        
+        window = UIWindow()
+        if UserDefaults.standard.string(forKey: "accessToken") == "" {
+            window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
+        } else {
+            window?.rootViewController = CustomTabBarController()
+        }
+        window?.makeKeyAndVisible()
         return true
     }
 

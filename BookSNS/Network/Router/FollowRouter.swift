@@ -8,13 +8,6 @@
 import Foundation
 import Alamofire
 
-
-struct SelectFollowModel: Decodable {
-    let nick: String
-    let opponent_nick: String
-    let following_status: Bool
-}
-
 enum FollowRouter {
     case follow(id: String)
     case unfollow(id: String)

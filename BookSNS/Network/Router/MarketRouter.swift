@@ -8,28 +8,6 @@
 import Foundation
 import Alamofire
 
-
-struct PayList: Decodable {
-    var data: [PayValidationModel]
-}
-
-struct PayValidationModel: Decodable{
-    var payment_id: String
-    var buyer_id: String
-    var post_id: String
-    var merchant_uid: String
-    var productName: String
-    var price: Int
-    var paidAt: String
-}
-
-struct PayQuery: Encodable {
-    var imp_uid: String
-    var post_id: String
-    var productName: String
-    var price: Int
-}
-
 enum MarketRouter {
     case createPost(query: CreatePostQuery)
     case getPost(next: String)

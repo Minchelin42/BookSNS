@@ -15,8 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-    
-        window?.rootViewController = TabBarController()
+
+        if UserDefaults.standard.string(forKey: "accessToken") == "" {
+            window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
+        } else {
+            window?.rootViewController = CustomTabBarController()
+        }
+        
         window?.makeKeyAndVisible()
     }
 

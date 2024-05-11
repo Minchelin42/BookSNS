@@ -23,8 +23,6 @@ class ProfileView: BaseView {
     let followerButton = NumberButton()
     
     let profileEditButton = ProfileOptionButton(title: "프로필 수정")
-    
-    //지은
     let shoppingListButton = ProfileOptionButton(title: "구매 내역")
     
     let postButton = ProfilePostButton(image: "Grid.fill", background: Color.mainColor!)
