@@ -39,7 +39,7 @@
 		393540112BD39D87008AF1D5 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540102BD39D87008AF1D5 /* SearchViewModel.swift */; };
 		393540152BD3A658008AF1D5 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540142BD3A658008AF1D5 /* SearchCollectionViewCell.swift */; };
 		393540182BD42214008AF1D5 /* BookCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540172BD42214008AF1D5 /* BookCardView.swift */; };
-		3935401A2BD42C32008AF1D5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393540192BD42C32008AF1D5 /* TabBarController.swift */; };
+		39465E292BE8FC1B002C0FDC /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39465E282BE8FC1B002C0FDC /* Animation.swift */; };
 		395081D72BE2A0A300EF4299 /* APIRequestInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395081D62BE2A0A300EF4299 /* APIRequestInterceptor.swift */; };
 		395081DA2BE3298300EF4299 /* MarketPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395081D92BE3298300EF4299 /* MarketPostViewModel.swift */; };
 		395081DC2BE329A400EF4299 /* MarketPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395081DB2BE329A400EF4299 /* MarketPostView.swift */; };
@@ -89,9 +89,13 @@
 		395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */; };
 		395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF102BC7E81E00488E50 /* SignInQuery.swift */; };
 		395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF122BC8266300488E50 /* EmailValidationQuery.swift */; };
-		395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF152BC836B900488E50 /* WithDrawView.swift */; };
-		395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF172BC83D0300488E50 /* WithDrawViewController.swift */; };
 		395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */; };
+		396993D02BE64E5100504902 /* BookWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396993CF2BE64E5100504902 /* BookWebViewController.swift */; };
+		396993D32BE66B8300504902 /* Extension + UIVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396993D22BE66B8300504902 /* Extension + UIVC.swift */; };
+		396993D52BE66BA900504902 /* Extension + UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396993D42BE66BA900504902 /* Extension + UIImage.swift */; };
+		396993D72BE66BC300504902 /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396993D62BE66BC300504902 /* Extension + String.swift */; };
+		396993D92BE670A800504902 /* Extension + Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396993D82BE670A800504902 /* Extension + Int.swift */; };
+		396993DC2BE68A4D00504902 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 396993DB2BE68A4D00504902 /* IQKeyboardManagerSwift */; };
 		39C2E4B12BD52DA900885E88 /* EditPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */; };
 		39C2E4C72BD6312B00885E88 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C62BD6312B00885E88 /* EditProfileView.swift */; };
 		39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */; };
@@ -103,6 +107,12 @@
 		39C2E4D92BD6D7E500885E88 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4D82BD6D7E500885E88 /* CommentButton.swift */; };
 		39C2E4DB2BD6DAD500885E88 /* SignTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */; };
 		39E495E72BE405E7002780D1 /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 39E495E62BE405E7002780D1 /* iamport-ios */; };
+		39E495F52BE4CDA7002780D1 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495F42BE4CDA7002780D1 /* ShoppingListViewController.swift */; };
+		39E495F72BE4D2F7002780D1 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495F62BE4D2F7002780D1 /* ShoppingListTableViewCell.swift */; };
+		39E495F92BE4D82D002780D1 /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495F82BE4D82D002780D1 /* ShoppingListView.swift */; };
+		39E495FB2BE4D886002780D1 /* ShoppingListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495FA2BE4D886002780D1 /* ShoppingListViewModel.swift */; };
+		39E495FD2BE4E8D6002780D1 /* SoldOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495FC2BE4E8D6002780D1 /* SoldOutView.swift */; };
+		39E495FF2BE52C4E002780D1 /* MarketMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E495FE2BE52C4E002780D1 /* MarketMark.swift */; };
 		39F1A2D32BD7A20700AE388A /* PostCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D22BD7A20700AE388A /* PostCreateView.swift */; };
 		39F1A2D72BD7A24F00AE388A /* InputImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D62BD7A24F00AE388A /* InputImageCollectionViewCell.swift */; };
 		39F1A2D92BD7A58300AE388A /* InputImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F1A2D82BD7A58300AE388A /* InputImageButton.swift */; };
@@ -148,7 +158,7 @@
 		393540102BD39D87008AF1D5 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		393540142BD3A658008AF1D5 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		393540172BD42214008AF1D5 /* BookCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardView.swift; sourceTree = "<group>"; };
-		393540192BD42C32008AF1D5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		39465E282BE8FC1B002C0FDC /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		395081D62BE2A0A300EF4299 /* APIRequestInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestInterceptor.swift; sourceTree = "<group>"; };
 		395081D92BE3298300EF4299 /* MarketPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPostViewModel.swift; sourceTree = "<group>"; };
 		395081DB2BE329A400EF4299 /* MarketPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPostView.swift; sourceTree = "<group>"; };
@@ -196,9 +206,12 @@
 		395DEF0E2BC7E79900488E50 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		395DEF102BC7E81E00488E50 /* SignInQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInQuery.swift; sourceTree = "<group>"; };
 		395DEF122BC8266300488E50 /* EmailValidationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidationQuery.swift; sourceTree = "<group>"; };
-		395DEF152BC836B900488E50 /* WithDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawView.swift; sourceTree = "<group>"; };
-		395DEF172BC83D0300488E50 /* WithDrawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewController.swift; sourceTree = "<group>"; };
 		395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDrawViewModel.swift; sourceTree = "<group>"; };
+		396993CF2BE64E5100504902 /* BookWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookWebViewController.swift; sourceTree = "<group>"; };
+		396993D22BE66B8300504902 /* Extension + UIVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIVC.swift"; sourceTree = "<group>"; };
+		396993D42BE66BA900504902 /* Extension + UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIImage.swift"; sourceTree = "<group>"; };
+		396993D62BE66BC300504902 /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
+		396993D82BE670A800504902 /* Extension + Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Int.swift"; sourceTree = "<group>"; };
 		39C2E4B02BD52DA900885E88 /* EditPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewModel.swift; sourceTree = "<group>"; };
 		39C2E4C62BD6312B00885E88 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		39C2E4C82BD6313B00885E88 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +222,12 @@
 		39C2E4D62BD6D71F00885E88 /* CommentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTextField.swift; sourceTree = "<group>"; };
 		39C2E4D82BD6D7E500885E88 /* CommentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTextField.swift; sourceTree = "<group>"; };
+		39E495F42BE4CDA7002780D1 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
+		39E495F62BE4D2F7002780D1 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
+		39E495F82BE4D82D002780D1 /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
+		39E495FA2BE4D886002780D1 /* ShoppingListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewModel.swift; sourceTree = "<group>"; };
+		39E495FC2BE4E8D6002780D1 /* SoldOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoldOutView.swift; sourceTree = "<group>"; };
+		39E495FE2BE52C4E002780D1 /* MarketMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketMark.swift; sourceTree = "<group>"; };
 		39F1A2D22BD7A20700AE388A /* PostCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCreateView.swift; sourceTree = "<group>"; };
 		39F1A2D62BD7A24F00AE388A /* InputImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		39F1A2D82BD7A58300AE388A /* InputImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputImageButton.swift; sourceTree = "<group>"; };
@@ -231,6 +250,7 @@
 				395DEEF42BC7CF3B00488E50 /* RxSwift in Frameworks */,
 				39333A5E2BE0A0E40053FAD0 /* Hero in Frameworks */,
 				39F1A2E52BD9587E00AE388A /* Tabman in Frameworks */,
+				396993DC2BE68A4D00504902 /* IQKeyboardManagerSwift in Frameworks */,
 				395DEF022BC7DA7E00488E50 /* Alamofire in Frameworks */,
 				395DEEF22BC7CF3B00488E50 /* RxCocoa in Frameworks */,
 				395DEEE92BC7C58600488E50 /* SnapKit in Frameworks */,
@@ -332,8 +352,18 @@
 				39C2E4D82BD6D7E500885E88 /* CommentButton.swift */,
 				39C2E4DA2BD6DAD500885E88 /* SignTextField.swift */,
 				39F1A2D82BD7A58300AE388A /* InputImageButton.swift */,
+				39E495FC2BE4E8D6002780D1 /* SoldOutView.swift */,
+				39E495FE2BE52C4E002780D1 /* MarketMark.swift */,
 			);
 			path = Custom;
+			sourceTree = "<group>";
+		};
+		39465E272BE8FC11002C0FDC /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				39465E282BE8FC1B002C0FDC /* Animation.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		395081D82BE3293600EF4299 /* MarketPost */ = {
@@ -446,9 +476,13 @@
 		395DEEC92BC7C08600488E50 /* BookSNS */ = {
 			isa = PBXGroup;
 			children = (
+				39465E272BE8FC11002C0FDC /* Animation */,
+				396993D12BE66B7000504902 /* Extension */,
+				396993CD2BE64E3100504902 /* BookWebView */,
 				395DEEFA2BC7D95E00488E50 /* .gitignore */,
 				39C2E4CC2BD6BD0A00885E88 /* Style */,
 				393540162BD421F8008AF1D5 /* Custom */,
+				39E495F32BE4CD92002780D1 /* ShoppingList */,
 				395081E62BE3431500EF4299 /* MarketHome */,
 				395081D82BE3293600EF4299 /* MarketPost */,
 				395081DF2BE32F8000EF4299 /* MarketSelectPost */,
@@ -476,7 +510,6 @@
 				395DEED82BC7C08800488E50 /* Info.plist */,
 				395DEEEC2BC7CDD400488E50 /* Main.storyboard */,
 				3953E8542BCA235F0070E13F /* ViewModelType.swift */,
-				393540192BD42C32008AF1D5 /* TabBarController.swift */,
 				39333A552BDFFA540053FAD0 /* CustomTabBarController.swift */,
 			);
 			path = BookSNS;
@@ -533,11 +566,28 @@
 		395DEF142BC8369500488E50 /* WithDraw */ = {
 			isa = PBXGroup;
 			children = (
-				395DEF152BC836B900488E50 /* WithDrawView.swift */,
-				395DEF172BC83D0300488E50 /* WithDrawViewController.swift */,
 				395DEF192BC83D4400488E50 /* WithDrawViewModel.swift */,
 			);
 			path = WithDraw;
+			sourceTree = "<group>";
+		};
+		396993CD2BE64E3100504902 /* BookWebView */ = {
+			isa = PBXGroup;
+			children = (
+				396993CF2BE64E5100504902 /* BookWebViewController.swift */,
+			);
+			path = BookWebView;
+			sourceTree = "<group>";
+		};
+		396993D12BE66B7000504902 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				396993D22BE66B8300504902 /* Extension + UIVC.swift */,
+				396993D42BE66BA900504902 /* Extension + UIImage.swift */,
+				396993D62BE66BC300504902 /* Extension + String.swift */,
+				396993D82BE670A800504902 /* Extension + Int.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		39C2E4C52BD6303900885E88 /* EditProfile */ = {
@@ -556,6 +606,17 @@
 				39C2E4CD2BD6BD5600885E88 /* Color.swift */,
 			);
 			path = Style;
+			sourceTree = "<group>";
+		};
+		39E495F32BE4CD92002780D1 /* ShoppingList */ = {
+			isa = PBXGroup;
+			children = (
+				39E495F42BE4CDA7002780D1 /* ShoppingListViewController.swift */,
+				39E495F62BE4D2F7002780D1 /* ShoppingListTableViewCell.swift */,
+				39E495F82BE4D82D002780D1 /* ShoppingListView.swift */,
+				39E495FA2BE4D886002780D1 /* ShoppingListViewModel.swift */,
+			);
+			path = ShoppingList;
 			sourceTree = "<group>";
 		};
 		39F1A2DE2BD8F6D600AE388A /* Follow */ = {
@@ -614,6 +675,7 @@
 				39F1A2E42BD9587E00AE388A /* Tabman */,
 				39333A5D2BE0A0E40053FAD0 /* Hero */,
 				39E495E62BE405E7002780D1 /* iamport-ios */,
+				396993DB2BE68A4D00504902 /* IQKeyboardManagerSwift */,
 			);
 			productName = BookSNS;
 			productReference = 395DEEC72BC7C08600488E50 /* BookSNS.app */;
@@ -652,6 +714,7 @@
 				39F1A2E32BD9587E00AE388A /* XCRemoteSwiftPackageReference "Tabman" */,
 				39333A5C2BE0A0E40053FAD0 /* XCRemoteSwiftPackageReference "Hero" */,
 				39E495E52BE405E7002780D1 /* XCRemoteSwiftPackageReference "iamport-ios" */,
+				396993DA2BE68A4D00504902 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 395DEEC82BC7C08600488E50 /* Products */;
 			projectDirPath = "";
@@ -692,17 +755,18 @@
 				39353FD92BD132A4008AF1D5 /* ProfileView.swift in Sources */,
 				39C2E4B12BD52DA900885E88 /* EditPostViewModel.swift in Sources */,
 				395DEF132BC8266400488E50 /* EmailValidationQuery.swift in Sources */,
+				39E495FF2BE52C4E002780D1 /* MarketMark.swift in Sources */,
 				39F1A2D72BD7A24F00AE388A /* InputImageCollectionViewCell.swift in Sources */,
 				39C2E4D52BD6D1EC00885E88 /* ProfileEditButton.swift in Sources */,
 				395081F12BE3812400EF4299 /* MarketRouter.swift in Sources */,
 				3953E8492BC987BD0070E13F /* CreatePostViewModel.swift in Sources */,
 				3953E85A2BCC16DE0070E13F /* SearchBookViewController.swift in Sources */,
-				3935401A2BD42C32008AF1D5 /* TabBarController.swift in Sources */,
+				396993D32BE66B8300504902 /* Extension + UIVC.swift in Sources */,
 				39353FA72BCE6E2E008AF1D5 /* HomeTableViewCell.swift in Sources */,
-				395DEF162BC836B900488E50 /* WithDrawView.swift in Sources */,
 				3953E8552BCA235F0070E13F /* ViewModelType.swift in Sources */,
 				395DEEFF2BC7DA2700488E50 /* Router.swift in Sources */,
 				395081DC2BE329A400EF4299 /* MarketPostView.swift in Sources */,
+				39E495F92BE4D82D002780D1 /* ShoppingListView.swift in Sources */,
 				39C2E4C92BD6313B00885E88 /* EditProfileViewController.swift in Sources */,
 				393339ED2BDE693D0053FAD0 /* StoryView.swift in Sources */,
 				395DEEE32BC7C4D800488E50 /* SignUpViewController.swift in Sources */,
@@ -712,7 +776,6 @@
 				395DEF062BC7DB6F00488E50 /* HTTPHeader.swift in Sources */,
 				395DEECF2BC7C08600488E50 /* ViewController.swift in Sources */,
 				3935400A2BD35588008AF1D5 /* SelectPostView.swift in Sources */,
-				395DEF182BC83D0300488E50 /* WithDrawViewController.swift in Sources */,
 				393540112BD39D87008AF1D5 /* SearchViewModel.swift in Sources */,
 				395081E32BE32FB500EF4299 /* MarketSelectPostViewModel.swift in Sources */,
 				395DEEF62BC7CFD100488E50 /* SignUpViewModel.swift in Sources */,
@@ -723,17 +786,20 @@
 				39F1A2EB2BD9702200AE388A /* FollowListView.swift in Sources */,
 				3953E8602BCC235B0070E13F /* SearchBookViewModel.swift in Sources */,
 				393540082BD35579008AF1D5 /* SelectPostViewController.swift in Sources */,
+				396993D52BE66BA900504902 /* Extension + UIImage.swift in Sources */,
 				39353FE02BD13E87008AF1D5 /* PostCollectionViewCell.swift in Sources */,
 				39353FDE2BD138C0008AF1D5 /* ProfileRouter.swift in Sources */,
 				395081E52BE32FCB00EF4299 /* MarketSelectPostView.swift in Sources */,
 				39F1A2E72BD9594300AE388A /* FollowViewController.swift in Sources */,
 				39353FD42BD12427008AF1D5 /* CommentRouter.swift in Sources */,
 				3953E85C2BCC19DC0070E13F /* SearchBookView.swift in Sources */,
+				39E495FB2BE4D886002780D1 /* ShoppingListViewModel.swift in Sources */,
 				395DEEFD2BC7D9A900488E50 /* APIKey.swift in Sources */,
 				39C2E4CE2BD6BD5600885E88 /* Color.swift in Sources */,
 				395DEF112BC7E81E00488E50 /* SignInQuery.swift in Sources */,
 				395DEF0B2BC7E65900488E50 /* SignInViewController.swift in Sources */,
 				395DEF0F2BC7E79900488E50 /* SignInViewModel.swift in Sources */,
+				396993D02BE64E5100504902 /* BookWebViewController.swift in Sources */,
 				395DEECB2BC7C08600488E50 /* AppDelegate.swift in Sources */,
 				393339EB2BDE22B60053FAD0 /* StoryViewModel.swift in Sources */,
 				395081DA2BE3298300EF4299 /* MarketPostViewModel.swift in Sources */,
@@ -744,13 +810,17 @@
 				395081E12BE32FA400EF4299 /* MarketSelectPostViewController.swift in Sources */,
 				39353FDB2BD132B0008AF1D5 /* ProfileViewModel.swift in Sources */,
 				395081E82BE3432F00EF4299 /* MarketHomeViewController.swift in Sources */,
+				396993D92BE670A800504902 /* Extension + Int.swift in Sources */,
 				395081EC2BE3434900EF4299 /* MarketHomeViewModel.swift in Sources */,
 				395DEEEB2BC7CB8900488E50 /* SignUpView.swift in Sources */,
 				3953E8632BCC24CF0070E13F /* SearchBook.swift in Sources */,
 				395081EE2BE34D5400EF4299 /* MarketHomeCollectionViewCell.swift in Sources */,
 				39C2E4D32BD6CF8F00885E88 /* ProfilePostButton.swift in Sources */,
 				393540052BD3496E008AF1D5 /* OtherProfileViewModel.swift in Sources */,
+				39E495F72BE4D2F7002780D1 /* ShoppingListTableViewCell.swift in Sources */,
 				395DEF1A2BC83D4400488E50 /* WithDrawViewModel.swift in Sources */,
+				396993D72BE66BC300504902 /* Extension + String.swift in Sources */,
+				39E495FD2BE4E8D6002780D1 /* SoldOutView.swift in Sources */,
 				395DEF082BC7DCDA00488E50 /* NetworkManager.swift in Sources */,
 				3953E8532BC992CB0070E13F /* PostNetworkManager.swift in Sources */,
 				3935400F2BD39D7B008AF1D5 /* SearchViewController.swift in Sources */,
@@ -773,8 +843,10 @@
 				39353FCF2BD10141008AF1D5 /* CommentViewModel.swift in Sources */,
 				395DEEEF2BC7CEB000488E50 /* BaseViewController.swift in Sources */,
 				39C2E4D72BD6D71F00885E88 /* CommentTextField.swift in Sources */,
+				39E495F52BE4CDA7002780D1 /* ShoppingListViewController.swift in Sources */,
 				3953E8512BC991DC0070E13F /* PostRouter.swift in Sources */,
 				39353FA92BCE6F7D008AF1D5 /* BaseTableViewCell.swift in Sources */,
+				39465E292BE8FC1B002C0FDC /* Animation.swift in Sources */,
 				395DEECD2BC7C08600488E50 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -922,6 +994,7 @@
 				DEVELOPMENT_TEAM = 47HVCF82JP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookSNS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "LSLP민지은";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -955,6 +1028,7 @@
 				DEVELOPMENT_TEAM = 47HVCF82JP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookSNS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "LSLP민지은";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1042,6 +1116,14 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		396993DA2BE68A4D00504902 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.2;
+			};
+		};
 		39E495E52BE405E7002780D1 /* XCRemoteSwiftPackageReference "iamport-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iamport/iamport-ios?tab=readme-ov-file";
@@ -1098,6 +1180,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 395DEF002BC7DA7E00488E50 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		396993DB2BE68A4D00504902 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 396993DA2BE68A4D00504902 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 		39E495E62BE405E7002780D1 /* iamport-ios */ = {
 			isa = XCSwiftPackageProductDependency;

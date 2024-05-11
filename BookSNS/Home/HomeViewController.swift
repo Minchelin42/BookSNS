@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
-import Toast
 import Hero
 
 class HomeViewController: RxBaseViewController {
@@ -104,15 +103,10 @@ class HomeViewController: RxBaseViewController {
             .observe(on: MainScheduler.instance) 
             .subscribe(with: self) { owner, status in
                 input.getPost.onNext(())
-                var style = ToastStyle()
 
-                style.messageColor = .white
-                style.backgroundColor = Color.mainColor!
-                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
-                
                 let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
-
-                owner.view.makeToast(followMessage, duration: 0.5, position: .bottom, style: style)
+                
+                owner.makeToast(followMessage)
 
             }
             .disposed(by: disposeBag)

@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
-import Toast
 
 class MarketPostViewController: RxBaseViewController {
     
@@ -42,13 +41,7 @@ class MarketPostViewController: RxBaseViewController {
         
         output.requiredMessage
             .subscribe(with: self) { owner, message in
-                var style = ToastStyle()
-
-                style.messageColor = .white
-                style.backgroundColor = Color.mainColor!
-                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
-
-                owner.view.makeToast(message, duration: 0.8, position: .bottom, style: style)
+                owner.makeToast(message)
             }
             .disposed(by: disposeBag)
         
@@ -139,9 +132,10 @@ class MarketPostViewController: RxBaseViewController {
         
         output.createSuccesss
             .subscribe(with: self) { owner, value in
-                let alert = UIAlertController(title: value ? (owner.id.isEmpty ? "판매글 등록 완료" : "판매글 수정 완료") : (owner.id.isEmpty ? "판매글 등록 실패" : "판매글 수정 실패"), message: nil, preferredStyle: .alert)
                 
-                let button = UIAlertAction(title: "확인", style: .default) { action in
+                let alertTitle = value ? (owner.id.isEmpty ? "판매글 등록 완료" : "판매글 수정 완료") : (owner.id.isEmpty ? "판매글 등록 실패" : "판매글 수정 실패")
+                
+                self.oneButtonAlert(alertTitle) {
                     owner.updatePost?()
                     
                     if owner.id.isEmpty {
@@ -152,9 +146,6 @@ class MarketPostViewController: RxBaseViewController {
                         owner.navigationController?.popViewController(animated: true)
                     }
                 }
-                alert.addAction(button)
-                
-                owner.present(alert, animated: true)
             }
             .disposed(by: disposeBag)
         

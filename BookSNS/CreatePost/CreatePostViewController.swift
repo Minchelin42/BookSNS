@@ -10,7 +10,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import Kingfisher
-import Toast
 
 enum PostType {
     case create
@@ -138,41 +137,33 @@ class CreatePostViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         output.requiredMessage
-            .subscribe(with: self) { owner, message in
-                var style = ToastStyle()
-
-                style.messageColor = .white
-                style.backgroundColor = Color.mainColor!
-                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
-
-                owner.view.makeToast(message, duration: 0.8, position: .bottom, style: style)
+            .subscribe(with: self) { owner, message in        
+                owner.makeToast(message)
             }
             .disposed(by: disposeBag)
         
         output.createSuccesss
             .subscribe(with: self) { owner, value in
                 if owner.type == .create {
-                    let alert = UIAlertController(title: value ? "게시글 등록 완료" : "게시글 등록 실패", message: nil, preferredStyle: .alert)
-                    HomeViewModel.shared.updatePost.onNext(())
-                    SearchViewModel.shared.updatePost.onNext(())
-                    let button = UIAlertAction(title: "확인", style: .default) { action in
+                    let alertTitle = value ? "게시글 등록 완료" : "게시글 등록 실패"
+                    
+                    owner.oneButtonAlert(alertTitle) {
+                        HomeViewModel.shared.updatePost.onNext(())
+                        SearchViewModel.shared.updatePost.onNext(())
+                        
                         owner.updatePost?()
                         owner.dismiss(animated: true)
                     }
-                    alert.addAction(button)
-                
-                    owner.present(alert, animated: true)
+                    
                 } else {
-                    let alert = UIAlertController(title: value ? "게시글 수정 완료" : "게시글 수정 실패", message: nil, preferredStyle: .alert)
-                    HomeViewModel.shared.updatePost.onNext(())
-                    SearchViewModel.shared.updatePost.onNext(())
-                    let button = UIAlertAction(title: "확인", style: .default) { action in
+                    let alertTitle = value ? "게시글 수정 완료" : "게시글 수정 실패"
+                    
+                    owner.oneButtonAlert(alertTitle) {
+                        HomeViewModel.shared.updatePost.onNext(())
+                        SearchViewModel.shared.updatePost.onNext(())
                         owner.updatePost?()
                         owner.navigationController?.popViewController(animated: true)
                     }
-                    alert.addAction(button)
-                    
-                    owner.present(alert, animated: true)
                 }
             }
             .disposed(by: disposeBag)

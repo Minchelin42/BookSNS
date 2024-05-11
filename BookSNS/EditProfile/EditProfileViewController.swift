@@ -59,16 +59,11 @@ class EditProfileViewController: RxBaseViewController {
         
         output.editProfileSuccess
             .subscribe(with: self) { owner, value in
-                let alert = UIAlertController(title: value ? "프로필 수정 완료" : "프로필 수정 실패", message: nil, preferredStyle: .alert)
-                
-                
-                let button = UIAlertAction(title: "확인", style: .default) { _ in
+                let alertTitle = value ? "프로필 수정 완료" : "프로필 수정 실패"
+                owner.oneButtonAlert(alertTitle) {
                     owner.edit?(value)
                     owner.navigationController?.popViewController(animated: true)
                 }
-                alert.addAction(button)
-
-                owner.present(alert, animated: true)
             }
             .disposed(by: disposeBag)
         

@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
-import Toast
 
 class SelectPostViewController: RxBaseViewController {
     
@@ -49,16 +48,9 @@ class SelectPostViewController: RxBaseViewController {
         
         output.deleteButtonTapped
             .subscribe(with: self) { owner, _ in
-                print("delete Button Clicked")
-                
-                let alert = UIAlertController(title: "삭제 완료", message: nil, preferredStyle: .alert)
-
-                let button = UIAlertAction(title: "확인", style: .default) { _ in
+                owner.oneButtonAlert("삭제 완료") {
                     owner.navigationController?.popViewController(animated: true)
                 }
-                alert.addAction(button)
-
-                owner.present(alert, animated: true)
             }
             .disposed(by: disposeBag)
         
@@ -70,17 +62,10 @@ class SelectPostViewController: RxBaseViewController {
                 owner.mainView.followButton.setTitle(owner.isFollowing ? "팔로잉" : "팔로우",  for: .normal)
                 owner.mainView.followButton.backgroundColor = owner.isFollowing ? Color.mainColor : .white
                 owner.mainView.followButton.setTitleColor(owner.isFollowing ? .white : Color.mainColor, for: .normal)
-       
-                var style = ToastStyle()
-
-                style.messageColor = .white
-                style.backgroundColor = Color.mainColor!
-                style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
                 
                 let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
-
-                owner.view.makeToast(followMessage, duration: 0.5, position: .bottom, style: style)
-
+                
+                owner.makeToast(followMessage)
             }
             .disposed(by: disposeBag)
         

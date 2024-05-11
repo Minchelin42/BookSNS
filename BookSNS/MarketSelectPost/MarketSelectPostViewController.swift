@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
-import Toast
 import WebKit
 import iamport_ios
 
@@ -64,14 +63,9 @@ class MarketSelectPostViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 print("delete Button Clicked")
                 
-                let alert = UIAlertController(title: "삭제 완료", message: nil, preferredStyle: .alert)
-
-                let button = UIAlertAction(title: "확인", style: .default) { _ in
+                owner.oneButtonAlert("삭제 완료") {
                     owner.navigationController?.popViewController(animated: true)
                 }
-                alert.addAction(button)
-
-                owner.present(alert, animated: true)
             }
             .disposed(by: disposeBag)
         

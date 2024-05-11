@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import Toast
 
 extension UIViewController {
     func customBackButton() {
@@ -49,4 +50,27 @@ extension UIViewController {
         })
 
     }
+    
+    func makeToast(_ message: String) {
+        var style = ToastStyle()
+
+        style.messageColor = .white
+        style.backgroundColor = Color.mainColor!
+        style.messageFont = .systemFont(ofSize: 13, weight: .semibold)
+
+        self.view.makeToast(message, duration: 0.8, position: .bottom, style: style)
+    }
+    
+    func oneButtonAlert(_ title: String, completionHandler: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        
+        let button = UIAlertAction(title: "확인", style: .default) { action in
+            completionHandler()
+        }
+        alert.addAction(button)
+        
+        self.present(alert, animated: true)
+    }
+
+
 }
