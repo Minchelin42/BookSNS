@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommentButton: UIButton {
+final class CommentButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

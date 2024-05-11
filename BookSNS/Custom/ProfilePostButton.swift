@@ -7,20 +7,22 @@
 
 import UIKit
 
-class ProfilePostButton: UIButton {
+final class ProfilePostButton: UIButton {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        backgroundColor = .white
+    init(image: String, background: UIColor) {
+        super.init(frame: .zero)
+
         clipsToBounds = true
         layer.cornerRadius = 21
         layer.borderWidth = 1
         layer.borderColor = Color.pointColor?.cgColor
+        
+        setImage(UIImage(named: image), for: .normal)
+        backgroundColor = background
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
+

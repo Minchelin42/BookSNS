@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class MarketMark: BaseView {
+final class MarketMark: BaseView {
 
-    let view = {
+    private let view = {
        let view = UIView()
         view.backgroundColor = Color.mainColor
         view.clipsToBounds = true
@@ -18,7 +18,7 @@ class MarketMark: BaseView {
         return view
     }()
     
-    let image = {
+    private let image = {
         let view = UIImageView()
         view.image = UIImage(systemName: "cart.fill")
         view.tintColor = .white

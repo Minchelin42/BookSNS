@@ -7,23 +7,26 @@
 
 import Foundation
 
+extension NumberFormatter {
+    static let shared: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+}
+
 extension String {
-    
     var makePrice: String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        
         guard let price = Int(self) else {
             print("가격 변환 실패")
             return self
         }
         
-        guard let formattedPrice = numberFormatter.string(for: price) else {
+        guard let formattedPrice = NumberFormatter.shared.string(for: price) else {
             print("가격 변환 실패")
             return self
         }
         
         return formattedPrice
     }
-
 }

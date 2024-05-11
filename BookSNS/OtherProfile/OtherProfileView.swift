@@ -11,54 +11,18 @@ import SnapKit
 class OtherProfileView: BaseView {
     
     let profileImage = UIImageView()
-    let profileName = UILabel()
+    let profileName = CustomLabel(size: 24, weight: .semibold, color: .black, text: "", alignment: .center)
+
+    let postLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "게시글")
+    let postNumLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "", alignment: .center)
+
+    let followingLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "팔로잉")
+    let followingButton = NumberButton()
     
-    let postLabel = {
-        let label = UILabel()
-        label.text = "게시글"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
+    let followerLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "팔로워")
+    let followerButton = NumberButton()
     
-    let postNumLabel = {
-        let label = UILabel()
-        label.text = "0"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
-    
-    let followingLabel = {
-        let label = UILabel()
-        label.text = "팔로잉"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
-    
-    let followingButton = {
-       let button = UIButton()
-        button.setTitle("39", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
-    
-    let followerLabel = {
-        let label = UILabel()
-        label.text = "팔로워"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
-    
-    let followerButton = {
-       let button = UIButton()
-        button.setTitle("39", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
-    
-    let followButton = ProfileEditButton()
+    let followButton = ProfileEditButton(title: "팔로우")
 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
     
@@ -149,14 +113,10 @@ class OtherProfileView: BaseView {
         profileImage.layer.borderWidth = 1
         profileImage.layer.borderColor = Color.lightPoint?.cgColor
 
-        profileName.font = .systemFont(ofSize: 24, weight: .semibold)
-        profileName.textAlignment = .center
-
         followButton.layer.borderWidth = 1
         followButton.layer.borderColor = Color.mainColor?.cgColor
         
         collectionView.backgroundColor = .white
-        
         collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
     }
     

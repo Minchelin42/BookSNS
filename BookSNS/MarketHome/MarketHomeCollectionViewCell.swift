@@ -21,19 +21,14 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
         
         return view
     }()
-    
+
     let titleLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        let label = CustomLabel(size: 14, weight: .semibold, color: .black, text: "", alignment: .right)
         label.numberOfLines = 2
         return label
     }()
-    
-    let priceLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 13, weight: .medium)
-        return label
-    }()
+
+    let priceLabel = CustomLabel(size: 13, weight: .medium, color: .black, text: "", alignment: .right)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +40,12 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        soldOutView.isHidden = true
     }
     
     private func configureHierarchy() {
@@ -79,10 +80,6 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
     
     private func configureView() {
 
-        titleLabel.textAlignment = .right
-        
-        priceLabel.textAlignment = .right
-
         photoImageView.clipsToBounds = true
         photoImageView.layer.cornerRadius = 20
         photoImageView.layer.borderWidth = 1
@@ -91,8 +88,8 @@ class MarketHomeCollectionViewCell: UICollectionViewCell {
         soldOutView.isHidden = true
         soldOutView.clipsToBounds = true
         soldOutView.layer.cornerRadius = 20
-        
-        soldOutView.soldOutLabel.font = .systemFont(ofSize: 30, weight: .bold)
+
+        soldOutView.setLabelStyle(size: 30, weight: .bold)
     }
 
 }

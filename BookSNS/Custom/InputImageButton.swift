@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InputImageButton: UIButton {
+final class InputImageButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

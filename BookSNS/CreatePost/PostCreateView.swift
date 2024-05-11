@@ -24,9 +24,9 @@ class PostCreateView: BaseView {
         return textView
     }()
     
-    let searchBookButton = ProfileEditButton()
+    let searchBookButton = ProfileEditButton(title: "추천 도서 태그")
     let cardView = BookCardView()
-    let createButton = ProfileEditButton()
+    let createButton = ProfileEditButton(title: "추천글 등록")
 
     let placeholderText = "본문 내용을 입력해주세요"
     
@@ -79,7 +79,6 @@ class PostCreateView: BaseView {
     
     override func configureView() {
 
-        searchBookButton.setTitle("추천 도서 태그", for: .normal)
         textView.delegate = self
         cardView.unknownView.isHidden = false
         cardView.clipsToBounds = true
@@ -87,9 +86,7 @@ class PostCreateView: BaseView {
         cardView.layer.borderWidth = 1
         cardView.layer.borderColor = Color.lightPoint?.cgColor
         cardView.linkButton.isHidden = true
-        
-        createButton.setTitle("게시글 등록", for: .normal)
-        
+
         collectionView.register(InputImageCollectionViewCell.self, forCellWithReuseIdentifier: InputImageCollectionViewCell.identifier)
     }
     

@@ -17,8 +17,8 @@ class SignInView: BaseView {
         return view
     }()
 
-    let emailTextField = SignTextField()
-    let passwordTextField = SignTextField()
+    let emailTextField = SignTextField(placeholderText: "  아이디")
+    let passwordTextField = SignTextField(placeholderText: "  비밀번호")
     
     let signInButton = {
         let button = UIButton()
@@ -78,11 +78,6 @@ class SignInView: BaseView {
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(36)
             make.height.equalTo(50)
         }
-    }
-    
-    override func configureView() {
-        emailTextField.placeholder = "    ID"
-        passwordTextField.placeholder = "    PW"
     }
 }
 

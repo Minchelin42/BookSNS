@@ -1,23 +1,24 @@
 //
-//  ProfileEditButton.swift
+//  ProfileOptionButton.swift
 //  BookSNS
 //
-//  Created by 민지은 on 2024/04/23.
+//  Created by 민지은 on 2024/05/11.
 //
 
 import UIKit
 
-final class ProfileEditButton: UIButton {
+final class ProfileOptionButton: UIButton {
     
     init(title: String) {
         super.init(frame: .zero)
         
-        backgroundColor = Color.mainColor
         clipsToBounds = true
         layer.cornerRadius = 10
+        layer.borderWidth = 1
+        layer.borderColor = Color.lightPoint?.cgColor
         setTitle(title, for: .normal)
-        titleLabel?.textColor = .white
         titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        setTitleColor(Color.mainColor, for: .normal)
     }
     
     required init?(coder: NSCoder) {

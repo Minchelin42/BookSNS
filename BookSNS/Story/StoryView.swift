@@ -27,21 +27,10 @@ class StoryView: BaseView {
         view.layer.cornerRadius = 25
         return view
     }()
-    
-    let bookLabel = {
-       let label = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        return label
-    }()
-    
-    let rankLabel = {
-       let label = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
-        return label
-    }()
-    
+
+    let bookLabel = CustomLabel(size: 15, weight: .semibold, color: .white, text: "")
+    let rankLabel = CustomLabel(size: 12, weight: .semibold, color: .white, text: "")
+
     let dismissButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)

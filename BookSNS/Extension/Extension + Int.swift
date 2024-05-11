@@ -10,14 +10,9 @@ import Foundation
 extension Int {
     
     func makePrice() -> String {
-   
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-
-        guard let formattedPrice = numberFormatter.string(for: self) else {
+        guard let formattedPrice = NumberFormatter.shared.string(for: self) else {
             return "가격 변환 실패"
         }
-        
         return formattedPrice
     }
 }

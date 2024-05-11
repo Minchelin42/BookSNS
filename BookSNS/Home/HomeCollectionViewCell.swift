@@ -23,14 +23,9 @@ class HomeCollectionViewCell: UICollectionViewCell {
         button.layer.borderColor = Color.pointColor?.cgColor
         return button
     }()
-    
-    let storyLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textAlignment = .center
-        return label
-    }()
-    
+
+    let storyLabel = CustomLabel(size: 12, weight: .medium, color: .black, text: "", alignment: .center)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 

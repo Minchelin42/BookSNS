@@ -8,15 +8,15 @@
 import UIKit
 import SnapKit
 
-class UnknownView: BaseView {
+final class UnknownView: BaseView {
     
-    let bookImage = {
+    private let bookImage = {
        let view = UIImageView()
         view.image = UIImage(named: "Book")
         return view
     }()
     
-    let questionImage = {
+    private let questionImage = {
        let view = UIImageView()
         view.image = UIImage(named: "QuestionMark")
         return view
@@ -45,29 +45,17 @@ class UnknownView: BaseView {
     }
 }
 
-class BookCardView: BaseView {
-    
+final class BookCardView: BaseView {
+
     let bookImage = {
         let image = UIImageView()
         image.clipsToBounds = true
         image.layer.cornerRadius = 10
         return image
     }()
-    
-    let title = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.textColor = .black
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    let price = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = Color.pointColor
-        return label
-    }()
+
+    let title = CustomLabel(size: 15, weight: .semibold, color: .black, text: "")
+    let price = CustomLabel(size: 14, weight: .medium, color: Color.pointColor!, text: "")
     
     let linkButton = {
         let button = UIButton()

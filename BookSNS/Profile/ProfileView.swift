@@ -11,79 +11,24 @@ import SnapKit
 class ProfileView: BaseView {
     
     let profileImage = UIImageView()
-    let profileName = UILabel()
+    let profileName = CustomLabel(size: 24, weight: .semibold, color: .black, text: "", alignment: .center)
+
+    let postLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "게시글")
+    let postNumLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "", alignment: .center)
     
-    let postLabel = {
-        let label = UILabel()
-        label.text = "게시글"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
+    let followingLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "팔로잉")
+    let followingButton = NumberButton()
     
-    let postNumLabel = {
-        let label = UILabel()
-        label.text = "0"
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
+    let followerLabel = CustomLabel(size: 13, weight: .semibold, color: .black, text: "팔로워")
+    let followerButton = NumberButton()
     
-    let followingLabel = {
-        let label = UILabel()
-        label.text = "팔로잉"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
+    let profileEditButton = ProfileOptionButton(title: "프로필 수정")
     
-    let followingButton = {
-       let button = UIButton()
-        button.setTitle("39", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
+    //지은
+    let shoppingListButton = ProfileOptionButton(title: "구매 내역")
     
-    let followerLabel = {
-        let label = UILabel()
-        label.text = "팔로워"
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
-        return label
-    }()
-    
-    let followerButton = {
-       let button = UIButton()
-        button.setTitle("39", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
-    
-    let profileEditButton = {
-        let button = UIButton()
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.layer.borderColor = Color.lightPoint?.cgColor
-        button.setTitle("프로필 수정", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
-    
-    let shoppingListButton = {
-        let button = UIButton()
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.layer.borderColor = Color.lightPoint?.cgColor
-        button.setTitle("구매 내역", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        button.setTitleColor(Color.mainColor, for: .normal)
-        return button
-    }()
-    
-    let postButton = ProfilePostButton()
-    let scrapButton = ProfilePostButton()
+    let postButton = ProfilePostButton(image: "Grid.fill", background: Color.mainColor!)
+    let scrapButton = ProfilePostButton(image: "Bookmark", background: .white)
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
     
@@ -200,13 +145,6 @@ class ProfileView: BaseView {
         profileImage.layer.cornerRadius = 50
         profileImage.layer.borderWidth = 1
         profileImage.layer.borderColor = Color.lightPoint?.cgColor
-        
-        profileName.font = .systemFont(ofSize: 24, weight: .semibold)
-        profileName.textAlignment = .center
-        
-        postButton.setImage(UIImage(named: "Grid.fill"), for: .normal)
-        postButton.backgroundColor = Color.mainColor
-        scrapButton.setImage(UIImage(named: "Bookmark"), for: .normal)
         
         collectionView.backgroundColor = .white
         

@@ -24,22 +24,9 @@ class SearchBookTableViewCell: BaseTableViewCell {
         return image
     }()
     
-    let title = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.numberOfLines = 0
-        label.textColor = .black
-        return label
-    }()
-    
-    let price = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = Color.mainColor
-        label.textAlignment = .right
-        return label
-    }()
-    
+    let title = CustomLabel(size: 15, weight: .semibold, color: .black, text: "")
+    let price = CustomLabel(size: 15, weight: .medium, color: Color.mainColor!, text: "", alignment: .right)
+
     override func prepareForReuse() {
         super.prepareForReuse()
         

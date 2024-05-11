@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommentTextField: UITextField {
+final class CommentTextField: UITextField {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

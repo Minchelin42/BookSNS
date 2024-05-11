@@ -22,25 +22,10 @@ class MarketSelectPostView: BaseView {
     let save = UIButton()
     
     let optionButton = UIButton(type: .system)
-    
-    let bookTitleLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 17, weight: .semibold)
-        return label
-    }()
-    
-    let standardPriceLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = Color.pointColor
-        return label
-    }()
-    
-    let marketPriceLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        return label
-    }()
+
+    let bookTitleLabel = CustomLabel(size: 17, weight: .semibold, color: .black, text: "")
+    let standardPriceLabel = CustomLabel(size: 15, weight: .medium, color: Color.pointColor!, text: "")
+    let marketPriceLabel = CustomLabel(size: 16, weight: .semibold, color: .black, text: "")
     
     let linkButton = {
         let button = UIButton()
@@ -62,20 +47,9 @@ class MarketSelectPostView: BaseView {
     
 
     let profileButton = UIButton()
-    let nickName = {
-        let label = UILabel()
-         label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = .black
-         return label
-    }()
-
-    let userComment = {
-        let label = UILabel()
-         label.font = .systemFont(ofSize: 13, weight: .medium)
-        label.textColor = Color.mainColor
-        label.numberOfLines = 0
-         return label
-    }()
+    
+    let nickName = CustomLabel(size: 13, weight: .medium, color: .black, text: "")
+    let userComment = CustomLabel(size: 13, weight: .medium, color: Color.mainColor!, text: "")
 
     let payButton = {
         let button = UIButton()
@@ -225,7 +199,6 @@ class MarketSelectPostView: BaseView {
         postImage.isPagingEnabled = true
         postImage.showsHorizontalScrollIndicator = false
         postImage.backgroundColor = .yellow
-//        optionButton.backgroundColor = .blue
         
         profileButton.clipsToBounds = true
         profileButton.layer.cornerRadius = 40
@@ -240,23 +213,10 @@ class MarketSelectPostView: BaseView {
         comment.setImage(UIImage(named: "Comment"), for: .normal)
         save.setImage(UIImage(named: "Bookmark"), for: .normal)
 
-        
-//        bookTitleLabel.backgroundColor = .yellow
-        bookTitleLabel.text = "이 불안에서 이불 안에서"
-//        standardPriceLabel.backgroundColor = .blue
-        standardPriceLabel.text = "정가: 12,800원"
-//        marketPriceLabel.backgroundColor = .gray
-        marketPriceLabel.text = "중고 판매가: 9,000원"
-        
         optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         optionButton.tintColor = Color.mainColor
         optionButton.showsMenuAsPrimaryAction = true
 
-//        nickName.backgroundColor = .brown
-        nickName.text = "min_wldms님의 한마디"
-//        userComment.backgroundColor = .cyan
-        userComment.text = "사놓고 한번 완독한 후 펼쳐보지 않아 새책입니다"
-        
         soldOutView.isHidden = true
 
     }

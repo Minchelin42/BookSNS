@@ -14,7 +14,7 @@ class SelectPostView: BaseView {
     let contentView = UIView()
     
     let profileButton = UIButton(type: .custom)
-    let nickName = UILabel()
+    let nickName = CustomLabel(size: 14, weight: .medium, color: .black, text: "")
     
     let optionButton = UIButton(type: .system)
     let followButton = {
@@ -34,7 +34,7 @@ class SelectPostView: BaseView {
     
     let comment = UIButton()
     let save = UIButton()
-    let textView = UILabel()
+    let textView = CustomLabel(size: 13, weight: .medium, color: .black, text: "")
     
     let cardView = BookCardView()
     let tapGesture = UITapGestureRecognizer()
@@ -140,8 +140,6 @@ class SelectPostView: BaseView {
         profileButton.layer.borderWidth = 1
         profileButton.layer.borderColor = Color.lightPoint?.cgColor
         
-        nickName.font = .systemFont(ofSize: 14, weight: .medium)
-        
         optionButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         optionButton.tintColor = Color.mainColor
         optionButton.showsMenuAsPrimaryAction = true
@@ -156,9 +154,6 @@ class SelectPostView: BaseView {
         comment.setImage(UIImage(named: "Comment"), for: .normal)
         save.setImage(UIImage(named: "Bookmark"), for: .normal)
 
-        textView.font = .systemFont(ofSize: 13, weight: .medium)
-        textView.numberOfLines = 0
-        
         cardView.clipsToBounds = true
         cardView.layer.cornerRadius = 16
         cardView.layer.borderWidth = 1

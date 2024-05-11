@@ -28,28 +28,12 @@ class EditProfileView: BaseView {
         return button
     }()
     
-    let idLabel = {
-        let label = UILabel()
-        label.text = "아이디"
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        return label
-    }()
-    
-    let userIdLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        return label
-    }()
-    
-    let nickNameLabel = {
-        let label = UILabel()
-        label.text = "닉네임"
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        return label
-    }()
-    
-    let nickNameTextField = SignTextField()
-    let editButton = ProfileEditButton()
+    let idLabel = CustomLabel(size: 15, weight: .medium, color: .black, text: "아이디")
+    let userIdLabel = CustomLabel(size: 15, weight: .medium, color: .black, text: "")
+    let nickNameLabel = CustomLabel(size: 15, weight: .medium, color: .black, text: "닉네임")
+
+    let nickNameTextField = SignTextField(placeholderText: "  닉네임")
+    let editButton = ProfileEditButton(title: "프로필 수정")
 
     override func configureHierarchy() {
         addSubview(profileImageView)

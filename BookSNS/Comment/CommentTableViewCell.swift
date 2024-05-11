@@ -16,10 +16,16 @@ class CommentTableViewCell: BaseTableViewCell {
     
     var disposeBag = DisposeBag()
     
-    let profileButton = UIButton()
-    let nickName = UILabel()
-
-    let comment = UILabel()
+    let profileButton = {
+       let button = UIButton()
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 17
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Color.lightPoint?.cgColor
+        return button
+    }()
+    let nickName = CustomLabel(size: 12, weight: .medium, color: .black, text: "")
+    let comment = CustomLabel(size: 11, weight: .regular, color: .black, text: "")
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -56,16 +62,4 @@ class CommentTableViewCell: BaseTableViewCell {
         
     }
 
-    override func configureView() {
-        super.configureView()
-        profileButton.clipsToBounds = true
-        profileButton.layer.cornerRadius = 17
-        profileButton.layer.borderWidth = 1
-        profileButton.layer.borderColor = Color.lightPoint?.cgColor
-        
-        nickName.font = .systemFont(ofSize: 12, weight: .medium)
-
-        comment.font = .systemFont(ofSize: 11, weight: .regular)
-        comment.numberOfLines = 0
-    }
 }

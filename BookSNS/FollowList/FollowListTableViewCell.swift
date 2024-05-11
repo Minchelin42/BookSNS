@@ -55,7 +55,6 @@ class FollowListTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(profileButton)
             make.leading.equalTo(profileButton.snp.trailing).offset(8)
             make.width.equalTo(100)
-//            make.trailing.equalTo(followButton.snp.leading).offset(-8)
             make.height.equalTo(20)
         }
         
@@ -70,12 +69,10 @@ class FollowListTableViewCell: BaseTableViewCell {
     override func configureView() {
         super.configureView()
 
-//        profileButton.backgroundColor = .blue
         profileButton.clipsToBounds = true
         profileButton.layer.cornerRadius = 20
         profileButton.layer.borderWidth = 1
         profileButton.layer.borderColor = Color.lightPoint?.cgColor
-//        nameLabel.backgroundColor = .orange
         
     }
 

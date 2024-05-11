@@ -25,36 +25,11 @@ class ShoppingListTableViewCell: BaseTableViewCell {
         view.layer.borderColor = Color.lightPoint?.cgColor
         return view
     }()
-    
-    let titleLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = Color.mainColor
-        return label
-    }()
-    
-    let priceLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = .black
-        return label
-    }()
-    
-    let dateLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.textColor = Color.pointColor
-        return label
-    }()
-    
-    let completeLabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.textColor = Color.bluePoint
-        label.text = "결제완료"
-        return label
-    }()
-    
+
+    let titleLabel = CustomLabel(size: 15, weight: .medium, color: Color.mainColor!, text: "")
+    let priceLabel = CustomLabel(size: 15, weight: .medium, color: .black, text: "")
+    let dateLabel = CustomLabel(size: 15, weight: .medium, color: Color.pointColor!, text: "")
+    let completeLabel = CustomLabel(size: 15, weight: .semibold, color: Color.bluePoint!, text: "결제완료")
 
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -7,11 +7,12 @@
 
 import UIKit
 
-class SignTextField: UITextField {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+final class SignTextField: UITextField {
+
+    init(placeholderText: String) {
+        super.init(frame: .zero)
         
+        placeholder = placeholderText
         backgroundColor = .white
         clipsToBounds = true
         layer.cornerRadius = 8

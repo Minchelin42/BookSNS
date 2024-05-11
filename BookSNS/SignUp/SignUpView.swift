@@ -18,25 +18,15 @@ class SignUpView: BaseView {
         return view
     }()
 
-    let emailTextField = SignTextField()
-    let emailLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .medium)
-        return label
-    }()
-    let passwordTextField = SignTextField()
-    let passwordLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .medium)
-        return label
-    }()
-    let nickNameTextField = SignTextField()
-    let nicknameLabel = {
-       let label = UILabel()
-        label.font = .systemFont(ofSize: 11, weight: .medium)
-        return label
-    }()
-    
+    let emailTextField = SignTextField(placeholderText: "  이메일")
+    let emailLabel = CustomLabel(size: 11, weight: .medium, color: .black, text: "")
+
+    let passwordTextField = SignTextField(placeholderText: "  비밀번호")
+    let passwordLabel = CustomLabel(size: 11, weight: .medium, color: .black, text: "")
+
+    let nickNameTextField = SignTextField(placeholderText: "  닉네임")
+    let nicknameLabel = CustomLabel(size: 11, weight: .medium, color: .black, text: "")
+
     let emailValidationButton = {
         let button = UIButton()
         button.backgroundColor = Color.lightPoint
@@ -128,11 +118,5 @@ class SignUpView: BaseView {
             make.height.equalTo(45)
         }
     }
-    
-    override func configureView() {
-        emailTextField.placeholder = "  이메일"
-        passwordTextField.placeholder = "  비밀번호"
-        nickNameTextField.placeholder = "  닉네임"
 
-    }
 }

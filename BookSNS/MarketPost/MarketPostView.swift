@@ -26,29 +26,12 @@ class MarketPostView: BaseView {
         return textView
     }()
     
-    let searchBookButton = ProfileEditButton()
+    let searchBookButton = ProfileEditButton(title: "판매 도서 태그")
     let cardView = BookCardView()
-    
-    let priceLabel = {
-        let label = UILabel()
-        label.text = "판매 금액"
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        return label
-    }()
-    
-    let priceTextField = SignTextField()
-    
-    let createButton = ProfileEditButton()
-    
-    let guideLabel = {
-       let label = UILabel()
-        label.text = "판매종료 시 게시글의 수정 및 삭제가 불가능합니다"
-        label.textColor = .red
-        label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
+    let priceLabel = CustomLabel(size: 15, weight: .semibold, color: .black, text: "판매 금액")
+    let priceTextField = SignTextField(placeholderText: "원 단위로 입력해주세요")
+    let createButton = ProfileEditButton(title: "판매글 등록")
+    let guideLabel = CustomLabel(size: 13, weight: .regular, color: Color.redPoint!, text: "판매종료 시 게시글의 수정 및 삭제가 불가능합니다", alignment: .center)
 
     let placeholderText = "구매에 도움이 될 한마디를 작성해주세요"
     
@@ -124,7 +107,6 @@ class MarketPostView: BaseView {
     
     override func configureView() {
 
-        searchBookButton.setTitle("판매 도서 태그", for: .normal)
         textView.delegate = self
         cardView.unknownView.isHidden = false
         cardView.clipsToBounds = true
@@ -134,9 +116,7 @@ class MarketPostView: BaseView {
         
         priceTextField.textAlignment = .right
         priceTextField.keyboardType = .numberPad
-        
-        createButton.setTitle("판매글 등록", for: .normal)
-        
+
         collectionView.register(InputImageCollectionViewCell.self, forCellWithReuseIdentifier: InputImageCollectionViewCell.identifier)
     }
     
