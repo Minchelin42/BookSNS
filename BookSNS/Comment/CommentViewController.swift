@@ -11,7 +11,7 @@ import RxCocoa
 import Hero
 import Kingfisher
 
-class CommentViewController: RxBaseViewController {
+class CommentViewController: RxBaseViewController, UIViewControllerTransitioningDelegate {
     
     var post_id = ""
     
@@ -39,6 +39,12 @@ class CommentViewController: RxBaseViewController {
         let input = CommentViewModel.Input(loadCommentResult: PublishSubject<Void>(), commentText: mainView.textField.rx.text.orEmpty, registerButtonClicked: mainView.registerButton.rx.tap)
         
         let output = viewModel.transform(input: input)
+        
+        output.commentRegisterSuccess
+            .subscribe(with: self) { owner, _ in
+                owner.mainView.textField.rx.text.onNext("")
+            }
+            .disposed(by: disposeBag)
 
         output.commentResult
             .bind(to: mainView.tableView.rx.items(
@@ -47,47 +53,24 @@ class CommentViewController: RxBaseViewController {
             ) {(row, element, cell) in
                 cell.nickName.text = element.creator.nick
                 cell.comment.text = element.content
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + element.creator.profileImage)!
 
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
+                self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    cell.profileButton.setImage(resultImage, for: .normal)
                 }
-                
-                let resultImage = UIImageView()
-                
-                let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + element.creator.profileImage)!
-                
-                resultImage.kf.setImage(with: imgURL, options: [.requestModifier(modifier)], completionHandler: { result in
-                    switch result {
-                    case .success(let imageResult):
-                        cell.profileButton.setImage(imageResult.image, for: .normal)
-                    case .failure(let error):
-                        print("이미지 로드 실패: \(error)")
-                        //이미지 변환에 실패했을 때 defaultProfile
-                        cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                    }
-                })
                 
 
                 cell.profileButton.rx.tap
                     .map { return element.creator.user_id }
                     .subscribe(with: self) { owner, profileID in
                         if profileID == UserDefaults.standard.string(forKey: "userID") {
-                            let vc = ProfileViewController()
-                            vc.isHeroEnabled = true
-                            vc.modalPresentationStyle = .fullScreen
-                            vc.hero.modalAnimationType = .autoReverse(presenting: .pull(direction: .left))
+                            let vc = UINavigationController(rootViewController: ProfileViewController())
                             owner.present(vc, animated: true)
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
-                            vc.isHeroEnabled = true
-                            vc.modalPresentationStyle = .fullScreen
-                            vc.hero.modalAnimationType = .autoReverse(presenting: .pull(direction: .left))
-                            owner.present(vc, animated: true)
-//                            owner.navigationController?.pushViewController(vc, animated: true)
+                            let nav = UINavigationController(rootViewController: vc)
+                            owner.present(nav, animated: true)
                         }
                     }
                     .disposed(by: cell.disposeBag)

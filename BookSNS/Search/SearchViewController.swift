@@ -159,19 +159,12 @@ class SearchViewController: RxBaseViewController {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath)
             
-            let modifier = AnyModifier { request in
-                var r = request
-                r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                return r
-            }
+            let url = URL(string: APIKey.baseURL.rawValue + "/" + itemIdentifier.file_id)!
             
-            if !itemIdentifier.file_id.isEmpty {
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + itemIdentifier.file_id)!
-                
-                (cell as? SearchCollectionViewCell)?.photoImageView.kf.setImage(with: url, options: [.requestModifier(modifier)])
+            self.loadImage(loadURL: url, defaultImg: "defaultProfile") { image in
+                (cell as? SearchCollectionViewCell)?.photoImageView.image = image
             }
-            
+
             return cell
         })
     }

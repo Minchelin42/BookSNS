@@ -80,20 +80,13 @@ class CreatePostViewController: RxBaseViewController {
                 .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
                 ) { row, element, cell in
                     
-                    cell.deleteButton.isHidden = true
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
                     
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
+                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                        cell.inputImage.image = resultImage
                     }
-
-                    if !element.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
-                        
-                        cell.inputImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                    }
+                    
+                    cell.deleteButton.isHidden = true
                 }
                 .disposed(by: disposeBag)
             

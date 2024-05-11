@@ -59,12 +59,12 @@ class MarketPostViewController: RxBaseViewController {
                 owner.navigationItem.rx.title.onNext("판매글 수정")
 
                 owner.mainView.imageRegisterButton.isHidden = true
-//                
+              
                 owner.mainView.textView.text = result.content
                 owner.mainView.textView.textColor = .black
                 input.fileData.onNext(result.files)
                 owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!, link: result.content3, cover: result.content5))
-//
+
                 owner.mainView.collectionView.snp.remakeConstraints { make in
                     make.top.horizontalEdges.equalTo(owner.view.safeAreaLayoutGuide).inset(20)
                     make.height.equalTo(80)
@@ -84,17 +84,12 @@ class MarketPostViewController: RxBaseViewController {
                     
                     cell.deleteButton.isHidden = true
                     
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
-                    }
+                    let putImage = UIImageView()
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
                     
-                    if !element.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
-                        
-                        cell.inputImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                        print("completionHandler")
+                        cell.inputImage.image = resultImage
                     }
                 }
                 .disposed(by: disposeBag)

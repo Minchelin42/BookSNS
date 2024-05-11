@@ -116,18 +116,11 @@ class ProfileViewController: RxBaseViewController {
                 owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
                 
                 output.selectPostButton.onNext(true)
-                
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
-                }
 
-                if !profile.profileImage.isEmpty {
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
-                    
-                    owner.mainView.profileImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
+                
+                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    owner.mainView.profileImage.image = resultImage
                 }
                
             }
@@ -142,24 +135,16 @@ class ProfileViewController: RxBaseViewController {
                         return Single<PostModel>.never()
                     }
                     .subscribe(with: self) { owner, postModel in
-                    
-                    if postModel.product_id == "snapBook_market" {
-                        cell.marketMark.isHidden = false
-                    }
-
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
-                    }
-
-                    if !postModel.files.isEmpty {
+                        if postModel.product_id == "snapBook_market" {
+                            cell.marketMark.isHidden = false
+                        }
+                        
                         let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[0])!
                         
-                        cell.postImageView.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                        owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                            cell.postImageView.image = resultImage
+                        }
                     }
-                }
                 .disposed(by: self.disposeBag)
 
             }

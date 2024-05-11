@@ -59,31 +59,11 @@ class FollowListViewController: RxBaseViewController {
                         .disposed(by: cell.disposeBag)
                     
                     var isFollowing = false
+
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
                     
-                    let image = UIImageView()
-                    
-                  
-                    
-                    if !element.profileImage.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
-                        
-                        let modifier = AnyModifier { request in
-                            var r = request
-                            r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                            r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                            return r
-                        }
-                        
-                        image.kf.setImage(with: url, options: [.requestModifier(modifier)], completionHandler: { result in
-                            switch result {
-                            case .success(let imageResult):
-                                cell.profileButton.setImage(image.image, for: .normal)
-                            case .failure(let error):
-                                print("이미지 로드 실패: \(error)")
-                                //이미지 변환에 실패했을 때 defaultProfile
-                                cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                            }
-                        })
+                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                        cell.profileButton.setImage(resultImage, for: .normal)
                     }
                     
                     let userFollowing = self.viewModel.profileInfo?.following ?? []
@@ -145,31 +125,12 @@ class FollowListViewController: RxBaseViewController {
                     
                     var isFollowing = false
                     
-                    let image = UIImageView()
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
                     
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
+                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                        cell.profileButton.setImage(resultImage, for: .normal)
                     }
-                    
-                    if !element.profileImage.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
 
-                        image.kf.setImage(with: url, options: [.requestModifier(modifier)], completionHandler: { result in
-                            switch result {
-                            case .success(let imageResult):
-                                cell.profileButton.setImage(image.image, for: .normal)
-                            case .failure(let error):
-                                print("이미지 로드 실패: \(error)")
-                                //이미지 변환에 실패했을 때 defaultProfile
-                                cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                            }
-                        })
-                  
-                    }
- 
                     let userFollowing = self.viewModel.profileInfo?.following ?? []
                     
                     for index in 0..<userFollowing.count {

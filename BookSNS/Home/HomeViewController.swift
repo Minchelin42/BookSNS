@@ -126,30 +126,12 @@ class HomeViewController: RxBaseViewController {
                 cell.nickName.text = element.creator?.nick
                 cell.textView.text = element.content
                 
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
-                }
-                
-                let resultImage = UIImageView()
-                
                 let profileImage = element.creator?.profileImage ?? ""
                 
-                let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                
-                resultImage.kf.setImage(with: imgURL, options: [.requestModifier(modifier)], completionHandler: { result in
-                    switch result {
-                    case .success(let imageResult):
-                        cell.profileButton.setImage(imageResult.image, for: .normal)
-                    case .failure(let error):
-                        print("이미지 로드 실패: \(error)")
-                        //이미지 변환에 실패했을 때 defaultProfile
-                        cell.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                    }
-                })
-                
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                self.loadImage(loadURL: url, defaultImg: "defaultImage") { resultImage in
+                    cell.profileButton.setImage(resultImage, for: .normal)
+                }
 
                 let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
                     print("수정하기")
@@ -276,26 +258,17 @@ class HomeViewController: RxBaseViewController {
                     .disposed(by: cell.disposeBag)
                 
                 for index in 0..<element.files.count {
-                    
-                    let image = UIImageView()
-                    image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
-                    
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
-                    }
-                    
-                    if !element.files.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + element.files[index])!
 
-                        image.kf.setImage(with: url, options: [.requestModifier(modifier)])
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.files[index])!
+                    
+                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                        let image = UIImageView()
+                        image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
                         
+                        image.image = resultImage
+                    
                         cell.postImage.addSubview(image)
-                        
                         cell.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
-
                     }
                 }
                 

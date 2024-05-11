@@ -64,17 +64,20 @@ class OtherProfileViewController: RxBaseViewController {
         
         output.followList
             .subscribe(with: self) { owner, followingList in
-
-                for index in 0..<followingList.count {
-                    let following = followingList[index]
-                    
-                    if following.user_id == owner.userID {
-                        isFollowing = true
-                        break
-                    } else {
-                        isFollowing = false
+                
+                if followingList.isEmpty {
+                    isFollowing = false
+                } else {
+                    for index in 0..<followingList.count {
+                        let following = followingList[index]
+                        
+                        if following.user_id == owner.userID {
+                            isFollowing = true
+                            break
+                        } else {
+                            isFollowing = false
+                        }
                     }
-                    
                 }
                 
                 owner.mainView.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
@@ -92,20 +95,11 @@ class OtherProfileViewController: RxBaseViewController {
                 owner.mainView.postNumLabel.text = "\(profile.posts.count)"
                 owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
                 owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
-
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
-                }
-
-                if !profile.profileImage.isEmpty {
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
-                    
-                    owner.mainView.profileImage.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                } else {
-                    owner.mainView.profileImage.image = UIImage(systemName: "person")
+                
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
+                
+                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    owner.mainView.profileImage.image = resultImage
                 }
             }
             .disposed(by: disposeBag)
@@ -120,22 +114,16 @@ class OtherProfileViewController: RxBaseViewController {
                     }
                     .subscribe(with: self) { owner, postModel in
                     
-                    if postModel.product_id == "snapBook_market" {
-                        cell.marketMark.isHidden = false
-                    }
-
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
-                    }
-
-                    if !postModel.files.isEmpty {
+                        if postModel.product_id == "snapBook_market" {
+                            cell.marketMark.isHidden = false
+                        }
+                        
                         let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[0])!
                         
-                        cell.postImageView.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                    }
+                        owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                            cell.postImageView.image = resultImage
+                        }
+
                 }
                 .disposed(by: self.disposeBag)
 

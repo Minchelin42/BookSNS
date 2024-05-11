@@ -47,19 +47,13 @@ class EditProfileViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.profileImage
-            .subscribe(with: self) { owner, profileImage in
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
+            .subscribe(with: self) { owner, profileImage in  
+                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+                
+                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    owner.mainView.profileImageView.image = resultImage
                 }
                 
-                if !profileImage.isEmpty {
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-
-                    owner.mainView.profileImageView.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                }
             }
             .disposed(by: disposeBag)
         

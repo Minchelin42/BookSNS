@@ -143,29 +143,10 @@ class MarketSelectPostViewController: RxBaseViewController {
                 let profileImage = result.creator?.profileImage ?? ""
 
                 let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                
-                let modifier = AnyModifier { request in
-                    var r = request
-                    r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                    r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                    return r
+    
+                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    owner.mainView.profileButton.setImage(resultImage, for: .normal)
                 }
-                
-                let image = UIImageView()
-                
-                image.kf.setImage(with: url, options: [.requestModifier(modifier)], completionHandler: { result in
-                    switch result {
-                    case .success(let imageResult):
-                        image.image = image.image?.scale(newWidth: 90)
-                        owner.mainView.profileButton.setImage(image.image, for: .normal)
-                        
-                    case .failure(let error):
-                        print("이미지 로드 실패: \(error)")
-                        //이미지 변환에 실패했을 때 defaultProfile
-                        owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                    }
-                })
-                
                 
                 let isUser = (UserDefaults.standard.string(forKey: "userID") ?? "" == result.creator?.user_id)
                 
@@ -210,27 +191,18 @@ class MarketSelectPostViewController: RxBaseViewController {
                     .disposed(by: owner.disposeBag)
                 
                 for index in 0..<result.files.count {
-                    
-                    let image = UIImageView()
-                    image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
-                    
-                    let modifier = AnyModifier { request in
-                        var r = request
-                        r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
-                        r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
-                        return r
-                    }
-                    
-                    if !result.files.isEmpty {
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[index])!
 
-                        image.kf.setImage(with: url, options: [.requestModifier(modifier)])
-                        
+                    let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[index])!
+
+                    owner.loadImage(loadURL: url, defaultImg: "defaultProfile", completionHandler: { resultImage in
+                        let image = UIImageView()
+                        image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
+                        image.image = resultImage
                         owner.mainView.postImage.addSubview(image)
-                        
-                        owner.mainView.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+                    })
 
-                    }
+                    owner.mainView.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+
                 }
                 
                 owner.mainView.postImage.rx.didEndDecelerating
