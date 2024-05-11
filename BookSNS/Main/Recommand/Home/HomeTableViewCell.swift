@@ -161,5 +161,50 @@ class HomeTableViewCell: BaseTableViewCell {
         cardView.layer.borderWidth = 1
         cardView.layer.borderColor = Color.lightPoint?.cgColor
     }
+    
+    func updateCell(_ postModel: PostModel, isLike: Bool, isFollowing: Bool) {
+    
+        nickName.text = postModel.creator?.nick
+        textView.text = postModel.content
+        
+        let profileImage = postModel.creator?.profileImage ?? ""
+        
+        let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
+        loadImage(loadURL: url, defaultImg: "defaultImage") { resultImage in
+            self.profileButton.setImage(resultImage, for: .normal)
+        }
+
+        cardView.title.text = postModel.content1
+        cardView.price.text = "\(postModel.content2.makePrice)원"
+        cardView.bookImage.kf.setImage(with: URL(string: postModel.content4))
+        
+        optionButton.isHidden = (UserDefaultsInfo.userID != postModel.creator?.user_id)
+        followButton.isHidden = (UserDefaultsInfo.userID == postModel.creator?.user_id)
+        
+        followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+        followButton.backgroundColor = isFollowing ? Color.mainColor : .white
+        followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
+
+
+        save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
+        
+        pageControl.numberOfPages = postModel.files.count
+        
+        for index in 0..<postModel.files.count {
+
+            let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[index])!
+            
+            self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                let image = UIImageView()
+                image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
+                
+                image.image = resultImage
+            
+                self.postImage.addSubview(image)
+                self.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+            }
+        }
+
+    }
 
 }

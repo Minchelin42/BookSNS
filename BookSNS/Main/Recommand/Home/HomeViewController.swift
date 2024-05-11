@@ -15,9 +15,9 @@ class HomeViewController: RxBaseViewController {
 
     let mainView = HomeView()
     let viewModel = HomeViewModel.shared
+    var userID = UserDefaultsInfo.userID
     
-    var userID = UserDefaults.standard.string(forKey: "userID") ?? ""
-   
+    
     override func loadView() {
         self.view = mainView
     }
@@ -32,12 +32,12 @@ class HomeViewController: RxBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+        self.userID = UserDefaultsInfo.userID
     }
     
     override func bind() {
         
-        let input = HomeViewModel.Input(getPost: PublishSubject<Void>(), getProfile: PublishSubject<Void>(), followButtonTapped: PublishSubject<String>(), unfollowButtonTapped: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>())
+        var input = HomeViewModel.Input(getPost: PublishSubject<Void>(), getProfile: PublishSubject<Void>(), followButtonTapped: PublishSubject<String>(), unfollowButtonTapped: PublishSubject<String>(), editButtonTapped: PublishSubject<String>(), deleteButtonTapped: PublishSubject<String>(), storyButtonTapped: PublishSubject<Story>())
         let output = viewModel.transform(input: input)
         
         input.getPost.onNext(())
@@ -63,24 +63,32 @@ class HomeViewController: RxBaseViewController {
                 
                 cell.storyButton.backgroundColor = Color.lightPoint
                 cell.storyLabel.text = element.title
-                
+
                 cell.storyButton.rx.tap
-                    .subscribe(with: self) { owner, _ in
-                        let vc = StoryViewController()
-                        vc.searchType = element.searchType
-                        vc.rankTitle = element.title
-                        
-                        let nav = UINavigationController(rootViewController: vc)
-                        nav.isHeroEnabled = true
-                        nav.hero.modalAnimationType = .autoReverse(presenting: .zoom)
-                        nav.modalPresentationStyle = .fullScreen
-                        
-                        Transition.present(nowVC: owner, toVC: nav)
+                    .map { element }
+                    .subscribe(with: self) { owner, story in
+                        input.storyButtonTapped.onNext(story)
                     }
                     .disposed(by: cell.disposeBag)
+  
             }
             .disposed(by: disposeBag)
         
+        output.storyButtonTapped
+            .subscribe(with: self) { owner, story in
+                let vc = StoryViewController()
+                vc.searchType = story.searchType
+                vc.rankTitle = story.title
+                
+                let nav = UINavigationController(rootViewController: vc)
+                nav.isHeroEnabled = true
+                nav.hero.modalAnimationType = .autoReverse(presenting: .zoom)
+                nav.modalPresentationStyle = .fullScreen
+                
+                Transition.present(nowVC: owner, toVC: nav)
+            }
+            .disposed(by: disposeBag)
+            
         output.editButtonTapped
             .subscribe(with: self) { owner, id in
                let vc = CreatePostViewController()
@@ -94,8 +102,9 @@ class HomeViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         output.deleteButtonTapped
-            .subscribe(with: self) { owenr, _ in
+            .subscribe(with: self) { owner, _ in
                 print("delete Button Clicked")
+                owner.oneButtonAlert("삭제 완료") { input.getPost.onNext(()) }
             }
             .disposed(by: disposeBag)
         
@@ -103,9 +112,7 @@ class HomeViewController: RxBaseViewController {
             .observe(on: MainScheduler.instance) 
             .subscribe(with: self) { owner, status in
                 input.getPost.onNext(())
-
                 let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
-                
                 owner.makeToast(followMessage)
 
             }
@@ -115,17 +122,13 @@ class HomeViewController: RxBaseViewController {
             .bind(to: mainView.tableView.rx.items(
                 cellIdentifier: HomeTableViewCell.identifier,
                 cellType: HomeTableViewCell.self)
-            ) {(row, element, cell) in
-                print(row)
-                cell.nickName.text = element.creator?.nick
-                cell.textView.text = element.content
+            ) { [weak self] (row, element, cell) in
+                guard let self else { return }
                 
-                let profileImage = element.creator?.profileImage ?? ""
-                
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                self.loadImage(loadURL: url, defaultImg: "defaultImage") { resultImage in
-                    cell.profileButton.setImage(resultImage, for: .normal)
-                }
+                var isLike = element.likes.contains { $0 == UserDefaultsInfo.userID }
+                let creatorID = element.creator?.user_id ?? ""
+                let isFollowing = self.viewModel.isFollowing(creatorID: creatorID)
+                cell.updateCell(element, isLike: isLike, isFollowing: isFollowing)
 
                 let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
                     print("수정하기")
@@ -135,32 +138,7 @@ class HomeViewController: RxBaseViewController {
                     print("삭제하기")
                     input.deleteButtonTapped.onNext(element.post_id)
                 }
-                
-                cell.optionButton.isHidden = (self.userID != element.creator?.user_id)
-                cell.followButton.isHidden = (self.userID == element.creator?.user_id)
-                
-                var isFollowing = false
-                
-                let userFollowing = self.viewModel.userResult?.following ?? []
-                
-                for index in 0..<userFollowing.count {
-                    let following = userFollowing[index]
-                    
-                    if following.user_id == element.creator?.user_id {
-                        isFollowing = true
-                        break
-                    }
-                }
-                
-                cell.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
-                cell.followButton.backgroundColor = isFollowing ? Color.mainColor : .white
-                cell.followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
-
                 cell.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
-                
-                cell.cardView.title.text = element.content1
-                cell.cardView.price.text = "\(element.content2.makePrice)원"
-                cell.cardView.bookImage.kf.setImage(with: URL(string: element.content4))
                 
                 cell.cardView.linkButton.rx.tap
                     .subscribe(with: self) { owner, _ in
@@ -177,8 +155,6 @@ class HomeViewController: RxBaseViewController {
                         UIView.transition(with: cell.cardView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: nil)
                     }
                     .disposed(by: cell.disposeBag)
-                
-                var isLike = element.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
                 
                 cell.followButton.rx.tap
                     .map { return element.creator?.user_id ?? "" }
@@ -208,9 +184,7 @@ class HomeViewController: RxBaseViewController {
                         }
                     }
                     .disposed(by: cell.disposeBag)
-                
-                cell.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
-                
+
                 cell.save.rx.tap
                     .flatMap { _ in
                         return PostNetworkManager.like(id: element.post_id, query: LikeQuery(like_status: !isLike))
@@ -236,29 +210,12 @@ class HomeViewController: RxBaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
                 
-                cell.pageControl.numberOfPages = element.files.count
-                
                 cell.pageControl.rx.controlEvent(.valueChanged)
                     .map { return cell.pageControl.currentPage }
                     .subscribe(with: self) { owner, page in
                         cell.postImage.contentOffset.x = UIScreen.main.bounds.width * CGFloat(page)
                     }
                     .disposed(by: cell.disposeBag)
-                
-                for index in 0..<element.files.count {
-
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.files[index])!
-                    
-                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
-                        let image = UIImageView()
-                        image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
-                        
-                        image.image = resultImage
-                    
-                        cell.postImage.addSubview(image)
-                        cell.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
-                    }
-                }
                 
                 cell.postImage.rx.didEndDecelerating
                     .subscribe(with: self) { owner, _ in

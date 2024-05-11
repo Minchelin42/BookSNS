@@ -71,12 +71,14 @@ class HomeViewModel: ViewModelType {
         let unfollowButtonTapped: PublishSubject<String>
         let editButtonTapped: PublishSubject<String>
         let deleteButtonTapped: PublishSubject<String>
+        var storyButtonTapped: PublishSubject<Story>
     }
     
     struct Output {
         let editButtonTapped: PublishSubject<String>
         let deleteButtonTapped: PublishSubject<String>
         let followingStatus: PublishSubject<Bool>
+        let storyButtonTapped: PublishSubject<Story>
     }
     
     func transform(input: Input) -> Output{
@@ -122,7 +124,6 @@ class HomeViewModel: ViewModelType {
             .subscribe(with: self) { owner, id in
                 NetworkManager.DeleteAPI(router: PostRouter.deletePost(id: id)) { _ in }
                 owner.next_cursor = ""
-                input.getPost.onNext(())
             }
             .disposed(by: disposeBag)
         
@@ -151,7 +152,7 @@ class HomeViewModel: ViewModelType {
             }
             .disposed(by: disposeBag)
         
-        return Output(editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped, followingStatus: followingStatus)
+        return Output(editButtonTapped: input.editButtonTapped, deleteButtonTapped: input.deleteButtonTapped, followingStatus: followingStatus, storyButtonTapped: input.storyButtonTapped)
     }
     
     func isUser(selectID: String, myID: String) -> Bool {
@@ -164,6 +165,18 @@ class HomeViewModel: ViewModelType {
         }
     }
     
+    func isFollowing(creatorID: String) -> Bool {
+        let userFollowing = userResult?.following ?? []
+        
+        for index in 0..<userFollowing.count {
+            let following = userFollowing[index]
+            if following.user_id == creatorID {
+                return true
+            }
+        }
+        
+        return false
+    }
 }
 
 
