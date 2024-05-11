@@ -95,10 +95,8 @@ class OtherProfileViewController: RxBaseViewController {
                 owner.mainView.postNumLabel.text = "\(profile.posts.count)"
                 owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
                 owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
-                
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
-                
-                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+ 
+                owner.loadImage(loadURL: owner.makeURL(profile.profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileImage.image = resultImage
                 }
             }
@@ -117,10 +115,8 @@ class OtherProfileViewController: RxBaseViewController {
                         if postModel.product_id == "snapBook_market" {
                             cell.marketMark.isHidden = false
                         }
-                        
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[0])!
-                        
-                        owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+
+                        owner.loadImage(loadURL: owner.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
                             cell.postImageView.image = resultImage
                         }
 

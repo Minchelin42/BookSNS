@@ -72,9 +72,7 @@ class ProfileViewController: RxBaseViewController {
                 
                 output.selectPostButton.onNext(true)
 
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + profile.profileImage)!
-                
-                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                owner.loadImage(loadURL: owner.makeURL(profile.profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileImage.image = resultImage
                 }
                
@@ -93,10 +91,8 @@ class ProfileViewController: RxBaseViewController {
                         if postModel.product_id == "snapBook_market" {
                             cell.marketMark.isHidden = false
                         }
-                        
-                        let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[0])!
-                        
-                        owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+
+                        owner.loadImage(loadURL: owner.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
                             cell.postImageView.image = resultImage
                         }
                     }

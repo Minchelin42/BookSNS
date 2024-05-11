@@ -47,13 +47,10 @@ class EditProfileViewController: RxBaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.profileImage
-            .subscribe(with: self) { owner, profileImage in  
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                
-                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+            .subscribe(with: self) { owner, profileImage in
+                owner.loadImage(loadURL: owner.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileImageView.image = resultImage
                 }
-                
             }
             .disposed(by: disposeBag)
         

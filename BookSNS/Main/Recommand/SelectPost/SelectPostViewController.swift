@@ -76,8 +76,7 @@ class SelectPostViewController: RxBaseViewController {
                 
                 if let profileImage = result.creator?.profileImage {
                     if !profileImage.isEmpty {
-                        let imgURL = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-                        owner.mainView.profileButton.kf.setImage(with: imgURL, for: .normal)
+                        owner.mainView.profileButton.kf.setImage(with: owner.makeURL(profileImage), for: .normal)
                     } else {
                         owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
                     }
@@ -193,10 +192,7 @@ class SelectPostViewController: RxBaseViewController {
                     .disposed(by: owner.disposeBag)
                 
                 for index in 0..<result.files.count {
-
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[index])!
-                    
-                    owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    owner.loadImage(loadURL: owner.makeURL(result.files[index]), defaultImg: "defaultProfile") { resultImage in
                         let image = UIImageView()
                         image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
                        

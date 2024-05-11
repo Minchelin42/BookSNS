@@ -72,5 +72,8 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
 
+    func makeURL(_ imageURL: String) -> URL {
+        return URL(string: APIKey.baseURL.rawValue + "/" + imageURL)!
+    }
 
 }

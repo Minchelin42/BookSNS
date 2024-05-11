@@ -145,24 +145,25 @@ class MarketHomeViewController: RxBaseViewController {
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MarketHomeCollectionViewCell.identifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MarketHomeCollectionViewCell.identifier, for: indexPath) as! MarketHomeCollectionViewCell
 
             if let url = URL(string: itemIdentifier.cover) {
-                (cell as? MarketHomeCollectionViewCell)?.photoImageView.kf.setImage(with: url)
+                cell.photoImageView.kf.setImage(with: url)
             } else {
-                (cell as? MarketHomeCollectionViewCell)?.photoImageView.image = UIImage(named: "Book")
+                cell.photoImageView.image = UIImage(named: "Book")
             }
                  
-            (cell as? MarketHomeCollectionViewCell)?.titleLabel.text = itemIdentifier.title
-            (cell as? MarketHomeCollectionViewCell)?.priceLabel.text = "\(itemIdentifier.price.makePrice)원"
+            cell.titleLabel.text = itemIdentifier.title
+            cell.priceLabel.text = "\(itemIdentifier.price.makePrice)원"
             
             if itemIdentifier.soldOut {
-                (cell as? MarketHomeCollectionViewCell)?.soldOutView.isHidden = false
+                cell.soldOutView.isHidden = false
             }
             
             return cell
         })
     }
+    
     
     
     private func updateSnapshot(item: [MarketPost]) {

@@ -53,9 +53,8 @@ class CommentViewController: RxBaseViewController, UIViewControllerTransitioning
             ) {(row, element, cell) in
                 cell.nickName.text = element.creator.nick
                 cell.comment.text = element.content
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + element.creator.profileImage)!
 
-                self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                self.loadImage(loadURL: self.makeURL(element.creator.profileImage), defaultImg: "defaultProfile") { resultImage in
                     cell.profileButton.setImage(resultImage, for: .normal)
                 }
                 

@@ -60,9 +60,7 @@ class FollowListViewController: RxBaseViewController {
                     
                     var isFollowing = false
 
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
-                    
-                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    self.loadImage(loadURL: self.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
                         cell.profileButton.setImage(resultImage, for: .normal)
                     }
                     
@@ -124,10 +122,8 @@ class FollowListViewController: RxBaseViewController {
                         .disposed(by: cell.disposeBag)
                     
                     var isFollowing = false
-                    
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element.profileImage)!
-                    
-                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+
+                    self.loadImage(loadURL: self.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
                         cell.profileButton.setImage(resultImage, for: .normal)
                     }
 

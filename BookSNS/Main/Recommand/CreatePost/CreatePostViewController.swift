@@ -79,9 +79,7 @@ class CreatePostViewController: RxBaseViewController {
                 .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
                 ) { row, element, cell in
                     
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
-                    
-                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                    self.loadImage(loadURL: self.makeURL(element), defaultImg: "defaultProfile") { resultImage in
                         cell.inputImage.image = resultImage
                     }
                     

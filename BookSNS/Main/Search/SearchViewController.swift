@@ -158,10 +158,8 @@ class SearchViewController: RxBaseViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath)
-            
-            let url = URL(string: APIKey.baseURL.rawValue + "/" + itemIdentifier.file_id)!
-            
-            self.loadImage(loadURL: url, defaultImg: "defaultProfile") { image in
+
+            self.loadImage(loadURL: self.makeURL(itemIdentifier.file_id), defaultImg: "defaultProfile") { image in
                 (cell as? SearchCollectionViewCell)?.photoImageView.image = image
             }
 

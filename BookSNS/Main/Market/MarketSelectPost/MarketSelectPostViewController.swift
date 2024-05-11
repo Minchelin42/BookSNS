@@ -130,9 +130,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                 
                 let profileImage = result.creator?.profileImage ?? ""
 
-                let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-    
-                owner.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+                owner.loadImage(loadURL: owner.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileButton.setImage(resultImage, for: .normal)
                 }
                 
@@ -180,10 +178,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                     .disposed(by: owner.disposeBag)
                 
                 for index in 0..<result.files.count {
-
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + result.files[index])!
-
-                    owner.loadImage(loadURL: url, defaultImg: "defaultProfile", completionHandler: { resultImage in
+                    owner.loadImage(loadURL: owner.makeURL(result.files[index]), defaultImg: "defaultProfile", completionHandler: { resultImage in
                         let image = UIImageView()
                         image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
                         image.image = resultImage
