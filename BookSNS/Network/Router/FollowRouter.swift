@@ -38,7 +38,7 @@ extension FollowRouter: TargetType {
     }
 
     var header: [String : String] {
-        return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+        return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                 HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
     }

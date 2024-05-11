@@ -13,7 +13,7 @@ class APIRequestInterceptor: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         print("으아앙 들어옴")
         var urlRequest = urlRequest
-        urlRequest.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: "Authorization")
+        urlRequest.setValue(UserDefaultsInfo.accessToken, forHTTPHeaderField: "Authorization")
         
         print("adator 적용 \(urlRequest.headers)")
         completion(.success(urlRequest))

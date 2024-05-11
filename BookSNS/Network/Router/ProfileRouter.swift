@@ -51,19 +51,19 @@ extension ProfileRouter: TargetType {
         
         switch self {
         case .myProfile:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .otherProfile:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .getScraplist:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .editProfile:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue: "multipart/form-data",
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }

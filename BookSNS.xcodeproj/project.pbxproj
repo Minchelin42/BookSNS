@@ -27,6 +27,7 @@
 		3907F7C32BEF4BDE006139DF /* ProfileQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907F7C22BEF4BDE006139DF /* ProfileQuery.swift */; };
 		3907F7C62BEF4C14006139DF /* PayValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907F7C52BEF4C14006139DF /* PayValidationModel.swift */; };
 		3907F7C82BEF4C2D006139DF /* PayQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907F7C72BEF4C2D006139DF /* PayQuery.swift */; };
+		3907F7CB2BEFB9E7006139DF /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907F7CA2BEFB9E7006139DF /* UserDefaults.swift */; };
 		393339E72BDDFF870053FAD0 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393339E62BDDFF870053FAD0 /* HomeCollectionViewCell.swift */; };
 		393339EB2BDE22B60053FAD0 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393339EA2BDE22B60053FAD0 /* StoryViewModel.swift */; };
 		393339ED2BDE693D0053FAD0 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393339EC2BDE693D0053FAD0 /* StoryView.swift */; };
@@ -164,6 +165,7 @@
 		3907F7C22BEF4BDE006139DF /* ProfileQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileQuery.swift; sourceTree = "<group>"; };
 		3907F7C52BEF4C14006139DF /* PayValidationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayValidationModel.swift; sourceTree = "<group>"; };
 		3907F7C72BEF4C2D006139DF /* PayQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayQuery.swift; sourceTree = "<group>"; };
+		3907F7CA2BEFB9E7006139DF /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		393339E62BDDFF870053FAD0 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		393339EA2BDE22B60053FAD0 /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
 		393339EC2BDE693D0053FAD0 /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				3907F7912BEF1E31006139DF /* Transition.swift */,
+				3907F7CA2BEFB9E7006139DF /* UserDefaults.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -976,6 +979,7 @@
 				395DEF0D2BC7E6F800488E50 /* SignInView.swift in Sources */,
 				39F1A2EF2BD9746E00AE388A /* FollowViewModel.swift in Sources */,
 				39C2E4DB2BD6DAD500885E88 /* SignTextField.swift in Sources */,
+				3907F7CB2BEFB9E7006139DF /* UserDefaults.swift in Sources */,
 				393540012BD3494F008AF1D5 /* OtherProfileViewController.swift in Sources */,
 				39F1A2E92BD96FD200AE388A /* FollowListViewController.swift in Sources */,
 				395DEEF92BC7D48600488E50 /* SignUpQuery.swift in Sources */,

@@ -47,7 +47,7 @@ class FollowListViewController: RxBaseViewController {
                     cell.profileButton.rx.tap
                         .map { return element.user_id }
                         .subscribe(with: self) { owner, profileID in
-                            if profileID == UserDefaults.standard.string(forKey: "userID") {
+                            if profileID == UserDefaultsInfo.userID {
                                 let vc = ProfileViewController()
                                 Transition.push(nowVC: owner, toVC: vc)
                             } else {
@@ -77,7 +77,7 @@ class FollowListViewController: RxBaseViewController {
                         }
                     }
                     
-                    if element.user_id == (UserDefaults.standard.string(forKey: "userID") ?? "") {
+                    if element.user_id == (UserDefaultsInfo.userID) {
                         cell.followButton.rx.isHidden.onNext(true)
                     }
                     
@@ -112,7 +112,7 @@ class FollowListViewController: RxBaseViewController {
                     cell.profileButton.rx.tap
                         .map { return element.user_id }
                         .subscribe(with: self) { owner, profileID in
-                            if profileID == UserDefaults.standard.string(forKey: "userID") {
+                            if profileID == UserDefaultsInfo.userID {
                                 let vc = ProfileViewController()
                                 Transition.push(nowVC: owner, toVC: vc)
                             } else {
@@ -144,7 +144,7 @@ class FollowListViewController: RxBaseViewController {
                         }
                     }
                     
-                    if element.user_id == (UserDefaults.standard.string(forKey: "userID") ?? "") {
+                    if element.user_id == (UserDefaultsInfo.userID) {
                         print("이거 되고있나;", element.nick)
                         cell.followButton.rx.isHidden.onNext(true)
                     }

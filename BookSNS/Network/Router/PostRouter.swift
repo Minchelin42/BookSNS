@@ -73,33 +73,33 @@ extension PostRouter: TargetType {
     var header: [String : String] {
         switch self {
         case .createPost:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .editPost:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .uploadImage:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                      HTTPHeader.contentType.rawValue: "multipart/form-data" ]
         case .getPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         case .hashTagPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         case .getThisPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         case .deletePost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         case .like, .like2:
             return [ HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                 HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         }
     }
     

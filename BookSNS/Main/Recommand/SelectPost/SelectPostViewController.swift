@@ -12,7 +12,7 @@ import Kingfisher
 
 class SelectPostViewController: RxBaseViewController {
     
-    let userID = UserDefaults.standard.string(forKey: "userID")
+    let userID = UserDefaultsInfo.userID
     var isFollowing = false
     
     let mainView = SelectPostView()
@@ -150,7 +150,7 @@ class SelectPostViewController: RxBaseViewController {
                 owner.mainView.profileButton.rx.tap
                     .map { return result.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
-                        let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                        let userID = UserDefaultsInfo.userID
                         let isUser: Bool = ( profileID == userID )
                         
                         if isUser { //userID가 자신일 경우
@@ -164,7 +164,7 @@ class SelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
                 
-                var isLike = result.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
+                var isLike = result.likes.contains { $0 == UserDefaultsInfo.userID}
                 
                 owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
                 

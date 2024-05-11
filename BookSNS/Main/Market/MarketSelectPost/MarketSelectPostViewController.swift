@@ -89,7 +89,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
                 
-                var isLike = result.likes.contains { $0 == UserDefaults.standard.string(forKey: "userID")}
+                var isLike = result.likes.contains { $0 == UserDefaultsInfo.userID}
                 
                 owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
                 
@@ -124,7 +124,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                     amount: result.content4).then {
                         $0.pay_method = PayMethod.card.rawValue
                         $0.name = result.content1
-                        $0.buyer_name = UserDefaults.standard.string(forKey: "nick")
+                        $0.buyer_name = UserDefaultsInfo.userID
                         $0.app_scheme = "sesac"
                     }
                 
@@ -136,7 +136,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                     owner.mainView.profileButton.setImage(resultImage, for: .normal)
                 }
                 
-                let isUser = (UserDefaults.standard.string(forKey: "userID") ?? "" == result.creator?.user_id)
+                let isUser = (UserDefaultsInfo.userID == result.creator?.user_id)
                 
                 if isUser {
                     if result.likes2.isEmpty { //사용자의 게시글이며, 팔리지 않은 상품
@@ -155,7 +155,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                         
                         print("프로필버튼 구독⭐️")
                         
-                        let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                        let userID = UserDefaultsInfo.userID
                         let isUser: Bool = ( profileID == userID )
                         
                         if isUser { //userID가 자신일 경우

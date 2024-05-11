@@ -50,18 +50,18 @@ extension MarketRouter: TargetType {
     var header: [String : String] {
         switch self {
         case .createPost:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken ?? "",
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .getPost:
             return [ HTTPHeader.sesacKey.rawValue: APIKey.sesacKey.rawValue,
-                     HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? ""]
+                     HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken]
         case .payValidation:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .getShoppingList:
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }

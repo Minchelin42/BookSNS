@@ -63,7 +63,7 @@ class CommentViewController: RxBaseViewController, UIViewControllerTransitioning
                 cell.profileButton.rx.tap
                     .map { return element.creator.user_id }
                     .subscribe(with: self) { owner, profileID in
-                        if profileID == UserDefaults.standard.string(forKey: "userID") {
+                        if profileID == UserDefaultsInfo.userID {
                             let vc = UINavigationController(rootViewController: ProfileViewController())
                             Transition.present(nowVC: owner, toVC: vc)
                         } else {
@@ -107,7 +107,7 @@ extension CommentViewController: UITableViewDelegate {
 
    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
        
-       let userID = UserDefaults.standard.string(forKey: "userID")
+       let userID = UserDefaultsInfo.userID
        
        if self.viewModel.commentResult[indexPath.row].creator.user_id == userID {
            

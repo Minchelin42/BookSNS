@@ -86,9 +86,9 @@ class SignInViewModel {
             return NetworkManager.uploadProfile(query: profileQuery)
         }
         .subscribe(with: self) { owner, profileModel in
-            print(UserDefaults.standard.string(forKey: "profileImage") ?? "프로필 사진 정보 없음")
+            print(UserDefaultsInfo.profileImage ?? "프로필 사진 정보 없음")
             UserDefaults.standard.setValue(profileModel.profileImage, forKey: "profileImage")
-            print(UserDefaults.standard.string(forKey: "profileImage") ?? "프로필 사진 정보 없음")
+            print(UserDefaultsInfo.profileImage ?? "프로필 사진 정보 없음")
         } onError: { owner, error in
             print("오류 발생 \(error)")
         }

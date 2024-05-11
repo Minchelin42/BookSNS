@@ -30,7 +30,7 @@ extension UIViewController {
         
         let modifier = AnyModifier { request in
             var r = request
-            r.setValue(UserDefaults.standard.string(forKey: "accessToken"), forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+            r.setValue(UserDefaultsInfo.accessToken, forHTTPHeaderField: HTTPHeader.authorization.rawValue)
             r.setValue(APIKey.sesacKey.rawValue, forHTTPHeaderField: HTTPHeader.sesacKey.rawValue)
             return r
         }

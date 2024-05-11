@@ -80,7 +80,7 @@ class FollowViewModel: ViewModelType {
             .disposed(by: disposeBag)
         
         input.afterFollowButton
-            .map { return UserDefaults.standard.string(forKey: "userID") ?? "" }
+            .map { return UserDefaultsInfo.userID }
             .flatMap { userID in
                 return NetworkManager.APIcall(type: ProfileModel.self, router: ProfileRouter.otherProfile(id: userID))
                     .catch { error in

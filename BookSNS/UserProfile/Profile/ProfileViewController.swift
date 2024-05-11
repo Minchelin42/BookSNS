@@ -108,7 +108,7 @@ class ProfileViewController: RxBaseViewController {
         self.mainView.followingButton.rx.tap
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
-                vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                vc.userID = UserDefaultsInfo.userID
                 vc.selectType = .following
                 Transition.push(nowVC: owner, toVC: vc)
             }
@@ -117,7 +117,7 @@ class ProfileViewController: RxBaseViewController {
         self.mainView.followerButton.rx.tap
             .subscribe(with: self) { owner, _ in
                 let vc = FollowViewController()
-                vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                vc.userID = UserDefaultsInfo.userID
                 vc.selectType = .follower
                 Transition.push(nowVC: owner, toVC: vc)
             }
@@ -201,11 +201,11 @@ extension ProfileViewController {
             WithDrawViewModel.shared.withDrawAccess
                 .subscribe(with: self) { owner, _ in
                     UserDefaults.standard.setValue("", forKey: "accessToken")
-                    UserDefaults.standard.set("", forKey: "refreshToken")
-                    UserDefaults.standard.set("", forKey: "profileImage")
-                    UserDefaults.standard.set("", forKey: "userID")
-                    UserDefaults.standard.set("", forKey: "email")
-                    UserDefaults.standard.set("", forKey: "nick")
+                    UserDefaults.standard.setValue("", forKey: "refreshToken")
+                    UserDefaults.standard.setValue("", forKey: "profileImage")
+                    UserDefaults.standard.setValue("", forKey: "userID")
+                    UserDefaults.standard.setValue("", forKey: "email")
+                    UserDefaults.standard.setValue("", forKey: "nick")
                     
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     

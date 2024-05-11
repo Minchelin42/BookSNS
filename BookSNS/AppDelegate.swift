@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         
         window = UIWindow()
-        if UserDefaults.standard.string(forKey: "accessToken") == "" {
+        if UserDefaultsInfo.accessToken.isEmpty {
             window?.rootViewController = UINavigationController(rootViewController: SignInViewController())
         } else {
             window?.rootViewController = CustomTabBarController()

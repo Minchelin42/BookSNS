@@ -91,9 +91,9 @@ class EditProfileViewController: RxBaseViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.id.onNext(UserDefaults.standard.string(forKey: "email") ?? "")
-        viewModel.profileImage.onNext(UserDefaults.standard.string(forKey: "profileImage") ?? "")
-        viewModel.nickName.onNext(UserDefaults.standard.string(forKey: "nick") ?? "")
+        viewModel.id.onNext(UserDefaultsInfo.email)
+        viewModel.profileImage.onNext(UserDefaultsInfo.profileImage)
+        viewModel.nickName.onNext(UserDefaultsInfo.nick)
  
     }
 

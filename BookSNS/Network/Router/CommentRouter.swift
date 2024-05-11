@@ -40,11 +40,11 @@ extension CommentRouter: TargetType {
     var header: [String : String] {
         switch self {
         case .createComment(let id, let query):
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.contentType.rawValue : HTTPHeader.json.rawValue,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         case .deleteComment(let id, let commentID):
-            return [HTTPHeader.authorization.rawValue: UserDefaults.standard.string(forKey: "accessToken") ?? "",
+            return [HTTPHeader.authorization.rawValue: UserDefaultsInfo.accessToken,
                     HTTPHeader.sesacKey.rawValue : APIKey.sesacKey.rawValue]
         }
     }
