@@ -118,7 +118,7 @@ class CreatePostViewController: RxBaseViewController {
                 let vc = UIImagePickerController()
                 vc.delegate = self
                 vc.allowsEditing = true
-                owner.present(vc, animated: true)
+                Transition.present(nowVC: owner, toVC: vc)
                 
             }
             .disposed(by: disposeBag)
@@ -132,7 +132,7 @@ class CreatePostViewController: RxBaseViewController {
                         owner.viewModel.selectedBook.onNext(book)
                     }
                 }
-                owner.present(vc, animated: true)
+                Transition.present(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -152,7 +152,7 @@ class CreatePostViewController: RxBaseViewController {
                         SearchViewModel.shared.updatePost.onNext(())
                         
                         owner.updatePost?()
-                        owner.dismiss(animated: true)
+                        Transition.dismiss(owner)
                     }
                     
                 } else {
@@ -162,7 +162,7 @@ class CreatePostViewController: RxBaseViewController {
                         HomeViewModel.shared.updatePost.onNext(())
                         SearchViewModel.shared.updatePost.onNext(())
                         owner.updatePost?()
-                        owner.navigationController?.popViewController(animated: true)
+                        Transition.pop(owner)
                     }
                 }
             }

@@ -49,7 +49,7 @@ class OtherProfileViewController: RxBaseViewController {
                 let vc = FollowViewController()
                 vc.userID = owner.userID
                 vc.selectType = .following
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -58,7 +58,7 @@ class OtherProfileViewController: RxBaseViewController {
                 let vc = FollowViewController()
                 vc.userID = owner.userID
                 vc.selectType = .follower
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -141,11 +141,11 @@ class OtherProfileViewController: RxBaseViewController {
                     if postModel.product_id == "snapBook" {
                         let vc = SelectPostViewController()
                         vc.postID = postID
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     } else {
                         let vc = MarketSelectPostViewController()
                         vc.postID = postID
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     }
                 }
                 .disposed(by: owner.disposeBag)

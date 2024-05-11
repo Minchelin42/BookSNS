@@ -70,7 +70,7 @@ class StoryViewController: RxBaseViewController {
                 } else {
                     owner.hero.modalAnimationType = .fade
                     owner.timer?.invalidate()
-                    owner.dismiss(animated: true)
+                    Transition.dismiss(owner)
                 }
             }
             .disposed(by: disposeBag)
@@ -97,7 +97,7 @@ class StoryViewController: RxBaseViewController {
                 let vc = BookWebViewController()
                 vc.bookTitle = owner.imageList[owner.nowPage].title
                 vc.urlString = owner.imageList[owner.nowPage].link
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -105,7 +105,7 @@ class StoryViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 owner.hero.modalAnimationType = .fade
                 owner.timer?.invalidate()
-                owner.dismiss(animated: true)
+                Transition.dismiss(owner)
             }
             .disposed(by: disposeBag)
 

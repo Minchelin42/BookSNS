@@ -55,7 +55,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                 vc.updatePost = {
                     input.loadPost.onNext(id)
                 }
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -64,7 +64,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                 print("delete Button Clicked")
                 
                 owner.oneButtonAlert("삭제 완료") {
-                    owner.navigationController?.popViewController(animated: true)
+                    Transition.pop(owner)
                 }
             }
             .disposed(by: disposeBag)
@@ -91,7 +91,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                               sheet.prefersGrabberVisible = true
                           }
                  
-                          self.present(nav, animated: true)
+                        Transition.present(nowVC: owner, toVC: nav)
                     }
                     .disposed(by: owner.disposeBag)
                 
@@ -166,11 +166,12 @@ class MarketSelectPostViewController: RxBaseViewController {
                         
                         if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
+               
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
                         }
                     }
                     .disposed(by: owner.disposeBag)
@@ -223,7 +224,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                         let vc = BookWebViewController()
                         vc.bookTitle = result.content1
                         vc.urlString = result.content3
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     }
                     .disposed(by: owner.disposeBag)
                 

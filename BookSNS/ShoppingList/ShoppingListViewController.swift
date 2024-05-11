@@ -47,7 +47,8 @@ class ShoppingListViewController: RxBaseViewController {
             .subscribe(with: self) { owner, result in
                 let vc = MarketSelectPostViewController()
                 vc.postID = result.post_id
-                owner.navigationController?.pushViewController(vc, animated: true)
+
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         

@@ -42,14 +42,14 @@ class SelectPostViewController: RxBaseViewController {
                 vc.updatePost = {
                     input.loadPost.onNext(id)
                 }
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
         output.deleteButtonTapped
             .subscribe(with: self) { owner, _ in
                 owner.oneButtonAlert("삭제 완료") {
-                    owner.navigationController?.popViewController(animated: true)
+                    Transition.pop(owner)
                 }
             }
             .disposed(by: disposeBag)
@@ -149,7 +149,7 @@ class SelectPostViewController: RxBaseViewController {
                               sheet.prefersGrabberVisible = true
                           }
                  
-                          self.present(nav, animated: true)
+                        Transition.present(nowVC: owner, toVC: nav)
                     }
                     .disposed(by: owner.disposeBag)
                 
@@ -161,11 +161,11 @@ class SelectPostViewController: RxBaseViewController {
                         
                         if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
                         }
                     }
                     .disposed(by: owner.disposeBag)

@@ -49,11 +49,11 @@ class FollowListViewController: RxBaseViewController {
                         .subscribe(with: self) { owner, profileID in
                             if profileID == UserDefaults.standard.string(forKey: "userID") {
                                 let vc = ProfileViewController()
-                                owner.navigationController?.pushViewController(vc, animated: true)
+                                Transition.push(nowVC: owner, toVC: vc)
                             } else {
                                 let vc = OtherProfileViewController()
                                 vc.userID = profileID
-                                owner.navigationController?.pushViewController(vc, animated: true)
+                                Transition.push(nowVC: owner, toVC: vc)
                             }
                         }
                         .disposed(by: cell.disposeBag)
@@ -114,11 +114,11 @@ class FollowListViewController: RxBaseViewController {
                         .subscribe(with: self) { owner, profileID in
                             if profileID == UserDefaults.standard.string(forKey: "userID") {
                                 let vc = ProfileViewController()
-                                owner.navigationController?.pushViewController(vc, animated: true)
+                                Transition.push(nowVC: owner, toVC: vc)
                             } else {
                                 let vc = OtherProfileViewController()
                                 vc.userID = profileID
-                                owner.navigationController?.pushViewController(vc, animated: true)
+                                Transition.push(nowVC: owner, toVC: vc)
                             }
                         }
                         .disposed(by: cell.disposeBag)

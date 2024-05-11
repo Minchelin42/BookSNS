@@ -75,7 +75,7 @@ class HomeViewController: RxBaseViewController {
                         nav.hero.modalAnimationType = .autoReverse(presenting: .zoom)
                         nav.modalPresentationStyle = .fullScreen
                         
-                        owner.present(nav, animated: true)
+                        Transition.present(nowVC: owner, toVC: nav)
                     }
                     .disposed(by: cell.disposeBag)
             }
@@ -89,7 +89,7 @@ class HomeViewController: RxBaseViewController {
                 vc.updatePost = {
                     input.getPost.onNext(())
                 }
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -167,7 +167,7 @@ class HomeViewController: RxBaseViewController {
                         let vc = BookWebViewController()
                         vc.bookTitle = element.content1
                         vc.urlString = element.content3
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -200,11 +200,11 @@ class HomeViewController: RxBaseViewController {
                         
                         if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
-                            owner.navigationController?.pushViewController(vc, animated: true)
+                            Transition.push(nowVC: owner, toVC: vc)
                         }
                     }
                     .disposed(by: cell.disposeBag)
@@ -238,7 +238,7 @@ class HomeViewController: RxBaseViewController {
                               sheet.prefersGrabberVisible = true
                           }
                     
-                        self.present(nav, animated: true)
+                        Transition.present(nowVC: owner, toVC: nav)
                     }
                     .disposed(by: cell.disposeBag)
                 

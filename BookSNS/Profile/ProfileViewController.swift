@@ -124,7 +124,7 @@ class ProfileViewController: RxBaseViewController {
                 let vc = FollowViewController()
                 vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
                 vc.selectType = .following
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -133,7 +133,7 @@ class ProfileViewController: RxBaseViewController {
                 let vc = FollowViewController()
                 vc.userID = UserDefaults.standard.string(forKey: "userID") ?? ""
                 vc.selectType = .follower
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -146,7 +146,7 @@ class ProfileViewController: RxBaseViewController {
                         input.loadProfile.onNext(())
                     }
                 }
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -154,7 +154,7 @@ class ProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, _ in
                 print("shoppingListButton 클릭")
                 let vc = ShoppingListViewController()
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -169,11 +169,11 @@ class ProfileViewController: RxBaseViewController {
                     if postModel.product_id == "snapBook" {
                         let vc = SelectPostViewController()
                         vc.postID = postID
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     } else {
                         let vc = MarketSelectPostViewController()
                         vc.postID = postID
-                        owner.navigationController?.pushViewController(vc, animated: true)
+                        Transition.push(nowVC: owner, toVC: vc)
                     }
                 }
                 .disposed(by: owner.disposeBag)

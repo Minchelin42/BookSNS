@@ -65,12 +65,12 @@ class CommentViewController: RxBaseViewController, UIViewControllerTransitioning
                     .subscribe(with: self) { owner, profileID in
                         if profileID == UserDefaults.standard.string(forKey: "userID") {
                             let vc = UINavigationController(rootViewController: ProfileViewController())
-                            owner.present(vc, animated: true)
+                            Transition.present(nowVC: owner, toVC: vc)
                         } else {
                             let vc = OtherProfileViewController()
                             vc.userID = profileID
                             let nav = UINavigationController(rootViewController: vc)
-                            owner.present(nav, animated: true)
+                            Transition.present(nowVC: owner, toVC: vc)
                         }
                     }
                     .disposed(by: cell.disposeBag)

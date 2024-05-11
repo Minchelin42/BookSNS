@@ -183,7 +183,7 @@ extension MarketHomeViewController: UICollectionViewDelegate {
         
         let vc = MarketSelectPostViewController()
         vc.postID = data.post_id
-        navigationController?.pushViewController(vc, animated: true)
+        Transition.push(nowVC: self, toVC: vc)
     }
 }
 

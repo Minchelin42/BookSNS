@@ -64,7 +64,7 @@ class SearchBookViewController: RxBaseViewController {
         mainView.tableView.rx.modelSelected(BookModel.self)
             .subscribe(with: self) { owner, book in
                 owner.viewModel.selectedBook = book
-                owner.dismiss(animated: true)
+                Transition.dismiss(owner)
             }
             .disposed(by: disposeBag)
 

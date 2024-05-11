@@ -62,7 +62,7 @@ class EditProfileViewController: RxBaseViewController {
                 let alertTitle = value ? "프로필 수정 완료" : "프로필 수정 실패"
                 owner.oneButtonAlert(alertTitle) {
                     owner.edit?(value)
-                    owner.navigationController?.popViewController(animated: true)
+                    Transition.pop(owner)
                 }
             }
             .disposed(by: disposeBag)
@@ -72,7 +72,7 @@ class EditProfileViewController: RxBaseViewController {
                 let vc = UIImagePickerController()
                 vc.delegate = self
                 vc.allowsEditing = true
-                owner.present(vc, animated: true)
+                Transition.present(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         

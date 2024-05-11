@@ -103,7 +103,7 @@ class SignUpViewController: RxBaseViewController {
             .subscribe(with: self) { owner, value in
                 if value {
                     print("회원가입 성공")
-                    owner.navigationController?.popViewController(animated: true)
+                    Transition.pop(owner)
                 }
             }
             .disposed(by: disposeBag)

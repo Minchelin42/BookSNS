@@ -16,10 +16,10 @@ class CustomTabBarController : UITabBarController {
         btn.layer.shadowColor = UIColor.black.cgColor
         btn.layer.shadowOpacity = 0.2
         btn.layer.shadowOffset = CGSize(width: 4, height: 4)
-        btn.setImage(UIImage(named: "Book"), for: .normal)
+        btn.setImage(UIImage(named: "Plus"), for: .normal)
         return btn
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -55,8 +55,7 @@ class CustomTabBarController : UITabBarController {
         let createVC = UINavigationController(rootViewController: CreatePostViewController())
         let marketVC = UINavigationController(rootViewController: MarketHomeViewController())
         let myProfileVC = UINavigationController(rootViewController: ProfileViewController())
-     
-
+   
         setViewControllers([homeVC, searchVC, createVC, marketVC, myProfileVC], animated: false)
         guard let items = tabBar.items else { return }
         items[0].image = UIImage(systemName: "house.fill")
@@ -102,11 +101,11 @@ extension CustomTabBarController: UITabBarControllerDelegate {
  
             let postButton = UIAlertAction(title: "내 책 소개", style: .default) { action in
                 let nav = UINavigationController(rootViewController: CreatePostViewController())
-                self.present(nav, animated: true)
+                Transition.present(nowVC: self, toVC: nav)
             }
             let marketButton = UIAlertAction(title: "내 책 팔기", style: .default) { action in
                 let nav = UINavigationController(rootViewController: MarketPostViewController())
-                self.present(nav, animated: true)
+                Transition.present(nowVC: self, toVC: nav)
             }
             let cancelButton = UIAlertAction(title: "취소", style: .cancel)
             

@@ -31,7 +31,7 @@ class SignInViewController: RxBaseViewController {
         mainView.signUpButton.rx.tap
             .subscribe(with: self) { owner, _ in
                 let vc = SignUpViewController()
-                owner.navigationController?.pushViewController(vc, animated: true)
+                Transition.push(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         

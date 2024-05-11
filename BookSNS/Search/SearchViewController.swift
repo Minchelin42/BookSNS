@@ -188,7 +188,7 @@ extension SearchViewController: UICollectionViewDelegate {
         
         let vc = SelectPostViewController()
         vc.postID = data.post_id
-        navigationController?.pushViewController(vc, animated: true)
+        Transition.push(nowVC: self, toVC: vc)
     }
 }
 

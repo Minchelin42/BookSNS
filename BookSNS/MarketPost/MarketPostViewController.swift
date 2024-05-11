@@ -112,7 +112,7 @@ class MarketPostViewController: RxBaseViewController {
                 let vc = UIImagePickerController()
                 vc.delegate = self
                 vc.allowsEditing = true
-                owner.present(vc, animated: true)
+                Transition.present(nowVC: owner, toVC: vc)
                 
             }
             .disposed(by: disposeBag)
@@ -126,7 +126,7 @@ class MarketPostViewController: RxBaseViewController {
                         owner.viewModel.selectedBook.onNext(book)
                     }
                 }
-                owner.present(vc, animated: true)
+                Transition.present(nowVC: owner, toVC: vc)
             }
             .disposed(by: disposeBag)
         
@@ -141,9 +141,9 @@ class MarketPostViewController: RxBaseViewController {
                     if owner.id.isEmpty {
                         MarketHomeViewModel.shared.updatePost.onNext(())
                         ProfileViewModel.shared.updateProfile.onNext(())
-                        owner.dismiss(animated: true)
+                        Transition.dismiss(owner)
                     } else {
-                        owner.navigationController?.popViewController(animated: true)
+                        Transition.pop(owner)
                     }
                 }
             }
