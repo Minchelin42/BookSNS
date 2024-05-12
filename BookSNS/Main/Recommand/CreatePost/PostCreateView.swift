@@ -102,6 +102,30 @@ class PostCreateView: BaseView {
         
     }
     
+    func updateBook(_ book: BookModel) {
+        cardView.unknownView.isHidden = true
+        cardView.title.text = book.title
+        cardView.price.text = "\(book.priceStandard.makePrice())원"
+        cardView.bookImage.kf.setImage(with: URL(string: book.cover)!)
+    }
+    
+    func makeUIEditType() {
+        imageRegisterButton.isHidden = true
+        
+        collectionView.snp.remakeConstraints { make in
+            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(80)
+        }
+        collectionView.layoutIfNeeded()
+        
+        createButton.setTitle("게시글 수정", for: .normal)
+    }
+    
+    func loadEditData(_ postModel: PostModel) {
+        textView.text = postModel.content
+        textView.textColor = .black
+    }
+    
 }
 
 extension PostCreateView: UITextViewDelegate {

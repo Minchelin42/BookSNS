@@ -178,7 +178,6 @@ class MarketSelectPostView: BaseView {
             make.top.equalTo(nickName.snp.bottom)
             make.leading.equalTo(profileButton.snp.trailing).offset(12)
             make.trailing.equalTo(contentView).inset(20)
-//            make.height.greaterThanOrEqualTo(22)
             make.bottom.lessThanOrEqualTo(payButton.snp.top).offset(-16)
         }
 
@@ -219,6 +218,52 @@ class MarketSelectPostView: BaseView {
 
         soldOutView.isHidden = true
 
+    }
+    
+    func updateView(_ postModel: PostModel, isLike: Bool) {
+
+        save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
+        
+        userComment.text = postModel.content
+        bookTitleLabel.text = postModel.content1
+        standardPriceLabel.text = "정가: \(postModel.content2.makePrice)원"
+        marketPriceLabel.text = "중고 판매가: \(postModel.content4.makePrice)원"
+        
+        nickName.text = "\(postModel.creator?.nick ?? "")님의 한마디"
+        
+        let profileImage = postModel.creator?.profileImage ?? ""
+
+        MakeUI.loadImage(loadURL: MakeUI.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
+            self.profileButton.setImage(resultImage, for: .normal)
+        }
+        
+        let isUser = UserClassification.isUser(compareID: postModel.creator?.user_id ?? "")
+        
+        if isUser {
+            if postModel.likes2.isEmpty { //사용자의 게시글이며, 팔리지 않은 상품
+                optionButton.isHidden = false
+
+            } else { //사용자의 게시글이며, 팔린 상품
+                optionButton.isHidden = true
+            }
+        } else { //사용자의 게시글이 X
+            optionButton.isHidden = true
+        }
+        
+        pageControl.numberOfPages = postModel.files.count
+        
+        for index in 0..<postModel.files.count {
+            MakeUI.loadImage(loadURL: MakeUI.makeURL(postModel.files[index]), defaultImg: "defaultProfile", completionHandler: { resultImage in
+                let image = UIImageView()
+                image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
+                image.image = resultImage
+                self.postImage.addSubview(image)
+            })
+
+            postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
+
+        }
+ 
     }
     
     

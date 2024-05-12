@@ -168,9 +168,8 @@ class HomeTableViewCell: BaseTableViewCell {
         textView.text = postModel.content
         
         let profileImage = postModel.creator?.profileImage ?? ""
-        
-        let url = URL(string: APIKey.baseURL.rawValue + "/" + profileImage)!
-        loadImage(loadURL: url, defaultImg: "defaultImage") { resultImage in
+
+        MakeUI.loadImage(loadURL: MakeUI.makeURL(profileImage), defaultImg: "defaultImage") { resultImage in
             self.profileButton.setImage(resultImage, for: .normal)
         }
 
@@ -192,9 +191,7 @@ class HomeTableViewCell: BaseTableViewCell {
         
         for index in 0..<postModel.files.count {
 
-            let url = URL(string: APIKey.baseURL.rawValue + "/" + postModel.files[index])!
-            
-            self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+            MakeUI.loadImage(loadURL: MakeUI.makeURL(postModel.files[index]), defaultImg: "defaultProfile") { resultImage in
                 let image = UIImageView()
                 image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
                 

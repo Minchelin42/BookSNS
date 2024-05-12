@@ -57,32 +57,24 @@ class SelectPostViewController: RxBaseViewController {
         output.followingStatus
             .observe(on: MainScheduler.instance)
             .subscribe(with: self) { owner, status in
-                owner.isFollowing = status
                 
-                owner.mainView.followButton.setTitle(owner.isFollowing ? "팔로잉" : "팔로우",  for: .normal)
-                owner.mainView.followButton.backgroundColor = owner.isFollowing ? Color.mainColor : .white
-                owner.mainView.followButton.setTitleColor(owner.isFollowing ? .white : Color.mainColor, for: .normal)
+                owner.isFollowing = status
+                owner.mainView.updateFollowButton(isFollowing: owner.isFollowing)
                 
                 let followMessage = status ? "팔로우를 시작합니다" : "팔로잉 취소되었습니다"
-                
                 owner.makeToast(followMessage)
             }
             .disposed(by: disposeBag)
         
         output.postResult
             .subscribe(with: self) { owner, result in
-                owner.mainView.nickName.text = result.creator?.nick
-                owner.mainView.textView.text = result.content
-                
-                if let profileImage = result.creator?.profileImage {
-                    if !profileImage.isEmpty {
-                        owner.mainView.profileButton.kf.setImage(with: owner.makeURL(profileImage), for: .normal)
-                    } else {
-                        owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                    }
-                } else {
-                    owner.mainView.profileButton.setImage(UIImage(named: "defaultProfile"), for: .normal)
-                }
+
+                let isUser = UserClassification.isUser(compareID: result.creator?.user_id ?? "")
+                var isLike = UserClassification.isUserLike(likes: result.likes)
+                owner.isFollowing = UserClassification.isUserFollowing(followModel: owner.viewModel.userResult?.following ?? [], id: result.creator?.user_id ?? "")
+  
+                owner.mainView.updateView(result, isLike: isLike, isUser: isUser)
+                owner.mainView.updateFollowButton(isFollowing: owner.isFollowing)
                 
                 let edit = UIAction(title: "수정하기", image: UIImage(systemName: "pencil")) { action in
                     print("수정하기")
@@ -92,28 +84,9 @@ class SelectPostViewController: RxBaseViewController {
                     print("삭제하기")
                     input.deleteButtonTapped.onNext(result.post_id)
                 }
-                
-                owner.mainView.optionButton.isHidden = (owner.userID != result.creator?.user_id)
+
                 owner.mainView.optionButton.menu = UIMenu(options: .displayInline, children: [edit, delete])
-                
-                owner.mainView.optionButton.isHidden = (owner.userID != result.creator?.user_id)
-                owner.mainView.followButton.isHidden = (owner.userID == result.creator?.user_id)
-  
-                let userFollowing = owner.viewModel.userResult?.following ?? []
-                
-                for index in 0..<userFollowing.count {
-                    let following = userFollowing[index]
-                    
-                    if following.user_id == result.creator?.user_id {
-                        owner.isFollowing = true
-                        break
-                    }
-                }
-                
-                owner.mainView.followButton.setTitle(owner.isFollowing ? "팔로잉" : "팔로우",  for: .normal)
-                owner.mainView.followButton.backgroundColor = owner.isFollowing ? Color.mainColor : .white
-                owner.mainView.followButton.setTitleColor(owner.isFollowing ? .white : Color.mainColor, for: .normal)
-                
+
                 owner.mainView.followButton.rx.tap
                     .map { return result.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
@@ -125,11 +98,7 @@ class SelectPostViewController: RxBaseViewController {
                         }
                     }
                     .disposed(by: owner.disposeBag)
-
-                owner.mainView.cardView.title.text = result.content1
-                owner.mainView.cardView.price.text = "\(result.content2.makePrice)원"
-                owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: result.content4))
-                
+ 
                 owner.mainView.tapGesture.rx.event
                     .subscribe(with: self) { owner, _ in
                         owner.mainView.cardView.unknownView.isHidden.toggle()
@@ -162,11 +131,7 @@ class SelectPostViewController: RxBaseViewController {
                         }
                     }
                     .disposed(by: owner.disposeBag)
-                
-                var isLike = result.likes.contains { $0 == UserDefaultsInfo.userID}
-                
-                owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
-                
+
                 owner.mainView.save.rx.tap
                     .flatMap { _ in
                         return PostNetworkManager.like(id: owner.postID, query: LikeQuery(like_status: !isLike))
@@ -181,28 +146,14 @@ class SelectPostViewController: RxBaseViewController {
                         print("오류 발생 \(error)")
                     }
                     .disposed(by: owner.disposeBag)
-                
-                owner.mainView.pageControl.numberOfPages = result.files.count
-                
+
                 owner.mainView.pageControl.rx.controlEvent(.valueChanged)
                     .map { return owner.mainView.pageControl.currentPage }
                     .subscribe(with: self) { owner, page in
                         owner.mainView.postImage.contentOffset.x = UIScreen.main.bounds.width * CGFloat(page)
                     }
                     .disposed(by: owner.disposeBag)
-                
-                for index in 0..<result.files.count {
-                    owner.loadImage(loadURL: owner.makeURL(result.files[index]), defaultImg: "defaultProfile") { resultImage in
-                        let image = UIImageView()
-                        image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
-                       
-                        image.image = resultImage
-                        owner.mainView.postImage.addSubview(image)
-                        owner.mainView.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
-                    }
-            
-                }
-                
+
                 owner.mainView.postImage.rx.didEndDecelerating
                     .subscribe(with: self) { owner, _ in
                         let pageNumber = owner.mainView.postImage.contentOffset.x / UIScreen.main.bounds.width

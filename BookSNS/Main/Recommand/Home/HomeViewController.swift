@@ -125,7 +125,7 @@ class HomeViewController: RxBaseViewController {
             ) { [weak self] (row, element, cell) in
                 guard let self else { return }
                 
-                var isLike = element.likes.contains { $0 == UserDefaultsInfo.userID }
+                var isLike = UserClassification.isUserLike(likes: element.likes)
                 let creatorID = element.creator?.user_id ?? ""
                 let isFollowing = self.viewModel.isFollowing(creatorID: creatorID)
                 cell.updateCell(element, isLike: isLike, isFollowing: isFollowing)
@@ -172,7 +172,7 @@ class HomeViewController: RxBaseViewController {
                     .map { return element.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
 
-                        let isUser = owner.viewModel.isUser(selectID: profileID, myID: owner.userID)
+                        let isUser = UserClassification.isUser(compareID: profileID)
                         
                         if isUser { //userID가 자신일 경우
                             let vc = ProfileViewController()

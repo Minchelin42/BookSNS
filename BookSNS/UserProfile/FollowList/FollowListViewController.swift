@@ -58,24 +58,14 @@ class FollowListViewController: RxBaseViewController {
                         }
                         .disposed(by: cell.disposeBag)
                     
-                    var isFollowing = false
+                    let userFollowing = self.viewModel.profileInfo?.following ?? []
+                    var isFollowing = UserClassification.isUserFollowing(followModel: userFollowing, id: element.user_id)
 
-                    self.loadImage(loadURL: self.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
+                    MakeUI.loadImage(loadURL: MakeUI.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
                         cell.profileButton.setImage(resultImage, for: .normal)
                     }
-                    
-                    let userFollowing = self.viewModel.profileInfo?.following ?? []
-                    
-                    for index in 0..<userFollowing.count {
-                        let following = userFollowing[index]
-                        
-                        if following.user_id == element.user_id {
-                            isFollowing = true
-                            break
-                        }
-                    }
-                    
-                    if element.user_id == (UserDefaultsInfo.userID) {
+                    let isUser = UserClassification.isUser(compareID: element.user_id)
+                    if isUser {
                         cell.followButton.rx.isHidden.onNext(true)
                     }
                     
@@ -121,30 +111,18 @@ class FollowListViewController: RxBaseViewController {
                         }
                         .disposed(by: cell.disposeBag)
                     
-                    var isFollowing = false
+                    let userFollowing = self.viewModel.profileInfo?.following ?? []
+                    var isFollowing = UserClassification.isUserFollowing(followModel: userFollowing, id: element.user_id)
 
-                    self.loadImage(loadURL: self.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
+                    let isUser = UserClassification.isUser(compareID: element.user_id)
+                    if isUser {
+                        cell.followButton.rx.isHidden.onNext(true)
+                    }
+
+                    MakeUI.loadImage(loadURL: MakeUI.makeURL(element.profileImage), defaultImg: "defaultProfile") { resultImage in
                         cell.profileButton.setImage(resultImage, for: .normal)
                     }
 
-                    let userFollowing = self.viewModel.profileInfo?.following ?? []
-                    
-                    for index in 0..<userFollowing.count {
-                        let following = userFollowing[index]
-                        
-                        if following.user_id == element.user_id {
-                            isFollowing = true
-                            break
-                        } else {
-                            isFollowing = false
-                        }
-                    }
-                    
-                    if element.user_id == (UserDefaultsInfo.userID) {
-                        print("이거 되고있나;", element.nick)
-                        cell.followButton.rx.isHidden.onNext(true)
-                    }
-                    
                     cell.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
                     cell.followButton.backgroundColor = isFollowing ? Color.mainColor : .white
                     cell.followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)

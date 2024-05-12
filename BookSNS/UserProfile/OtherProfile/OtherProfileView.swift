@@ -120,6 +120,24 @@ class OtherProfileView: BaseView {
         collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
     }
     
+    func updateProfileInfo(_ profile: ProfileModel) {
+        profileName.text = profile.nick
+        postNumLabel.text = "\(profile.posts.count)"
+        followerButton.setTitle("\(profile.followers.count)", for: .normal)
+        followingButton.setTitle("\(profile.following.count)", for: .normal)
+
+        MakeUI.loadImage(loadURL: MakeUI.makeURL(profile.profileImage), defaultImg: "defaultProfile") { [weak self] resultImage in
+            guard let self else { return }
+            self.profileImage.image = resultImage
+        }
+    }
+    
+    func updateFollowButton(_ isFollowing: Bool) {
+        followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
+        followButton.backgroundColor = isFollowing ? Color.mainColor : .white
+        followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
+    }
+    
     private func configureCollectionViewLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 8) / 3, height: (UIScreen.main.bounds.width - 8) / 3)

@@ -47,26 +47,11 @@ class MarketPostViewController: RxBaseViewController {
         
         viewModel.postResult
             .subscribe(with: self) { owner, result in
-                print("postResult 받음")
-                
+                owner.mainView.updateView(result)
                 owner.navigationItem.rx.title.onNext("판매글 수정")
 
-                owner.mainView.imageRegisterButton.isHidden = true
-              
-                owner.mainView.textView.text = result.content
-                owner.mainView.textView.textColor = .black
                 input.fileData.onNext(result.files)
                 owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!, link: result.content3, cover: result.content5))
-
-                owner.mainView.collectionView.snp.remakeConstraints { make in
-                    make.top.horizontalEdges.equalTo(owner.view.safeAreaLayoutGuide).inset(20)
-                    make.height.equalTo(80)
-                }
-                owner.mainView.collectionView.layoutIfNeeded()
-                
-                owner.mainView.priceTextField.text = result.content4
-                
-                owner.mainView.createButton.rx.title(for: .normal).onNext("판매글 수정")
             }
             .disposed(by: disposeBag)
         
@@ -76,11 +61,8 @@ class MarketPostViewController: RxBaseViewController {
                 ) { row, element, cell in
                     
                     cell.deleteButton.isHidden = true
-                    
-                    let putImage = UIImageView()
-                    let url = URL(string: APIKey.baseURL.rawValue + "/" + element)!
-                    
-                    self.loadImage(loadURL: url, defaultImg: "defaultProfile") { resultImage in
+
+                    MakeUI.loadImage(loadURL: MakeUI.makeURL(element), defaultImg: "defaultProfile") { resultImage in
                         print("completionHandler")
                         cell.inputImage.image = resultImage
                     }
@@ -151,16 +133,7 @@ class MarketPostViewController: RxBaseViewController {
         
         viewModel.selectedBook
             .subscribe(with: self) { owner, book in
-                print(book)
-                owner.mainView.cardView.unknownView.isHidden = true
-                owner.mainView.cardView.title.text = book.title
-                owner.mainView.cardView.price.text = "\(book.priceStandard.makePrice())원"
-                
-                if let url = URL(string: book.cover) {
-                    owner.mainView.cardView.bookImage.kf.setImage(with: url)
-                } else {
-                    owner.mainView.cardView.bookImage.image = UIImage(named: "Book")
-                }
+                owner.mainView.updateCardView(book)
             }
             .disposed(by: disposeBag)
         

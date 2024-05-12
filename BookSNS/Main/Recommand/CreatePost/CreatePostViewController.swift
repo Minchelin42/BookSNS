@@ -51,38 +51,27 @@ class CreatePostViewController: RxBaseViewController {
         if type == .edit {
             print("edit 작동")
             self.navigationItem.rx.title.onNext("게시글 수정")
-            
-            self.mainView.imageRegisterButton.isHidden = true
-            
-            self.mainView.collectionView.snp.remakeConstraints { make in
-                make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-                make.height.equalTo(80)
-            }
-            self.mainView.collectionView.layoutIfNeeded()
-            
-            self.mainView.createButton.rx.title(for: .normal).onNext("게시글 수정")
+            mainView.makeUIEditType()
             
             let editInput = EditPostViewModel.Input(loadPost: PublishSubject<String>())
             let editOutput = editViewModel.transform(input: editInput)
             
             editOutput.postResult
                 .subscribe(with: self) { owner, result in
-                    owner.mainView.textView.text = result.content
-                    owner.mainView.textView.textColor = .black
+                    owner.mainView.loadEditData(result)
                     input.fileData.onNext(result.files)
-                    owner.viewModel.selectedBook.onNext(BookModel(title: result.content1, priceStandard: Int(result.content2)!
-                                                            , link: result.content3, cover: result.content4))
+
+                    owner.mainView.updateBook(BookModel(title: result.content1, priceStandard: Int(result.content2)!
+                                                  , link: result.content3, cover: result.content4))
                 }
                 .disposed(by: disposeBag)
             
             input.fileData
                 .bind(to: mainView.collectionView.rx.items(cellIdentifier: InputImageCollectionViewCell.identifier, cellType: InputImageCollectionViewCell.self)
                 ) { row, element, cell in
-                    
-                    self.loadImage(loadURL: self.makeURL(element), defaultImg: "defaultProfile") { resultImage in
+                    MakeUI.loadImage(loadURL: MakeUI.makeURL(element), defaultImg: "defaultProfile") { resultImage in
                         cell.inputImage.image = resultImage
                     }
-                    
                     cell.deleteButton.isHidden = true
                 }
                 .disposed(by: disposeBag)
@@ -169,10 +158,7 @@ class CreatePostViewController: RxBaseViewController {
         viewModel.selectedBook
             .subscribe(with: self) { owner, book in
                 print(book)
-                owner.mainView.cardView.unknownView.isHidden = true
-                owner.mainView.cardView.title.text = book.title
-                owner.mainView.cardView.price.text = "\(book.priceStandard.makePrice())원"
-                owner.mainView.cardView.bookImage.kf.setImage(with: URL(string: book.cover)!)
+                owner.mainView.updateBook(book)
             }
             .disposed(by: disposeBag)
         

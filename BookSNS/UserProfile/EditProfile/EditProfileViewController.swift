@@ -48,7 +48,7 @@ class EditProfileViewController: RxBaseViewController {
         
         viewModel.profileImage
             .subscribe(with: self) { owner, profileImage in
-                owner.loadImage(loadURL: owner.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
+                MakeUI.loadImage(loadURL: MakeUI.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileImageView.image = resultImage
                 }
             }

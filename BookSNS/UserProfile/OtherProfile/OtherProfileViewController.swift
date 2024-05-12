@@ -35,7 +35,6 @@ class OtherProfileViewController: RxBaseViewController {
 
         mainView.followButton.rx.tap
             .subscribe(with: self) { owner, _ in
-                print("Follow 버튼 클릭")
                 if isFollowing {
                     input.unfollowButtonTapped.onNext(owner.userID)
                 } else {
@@ -65,24 +64,10 @@ class OtherProfileViewController: RxBaseViewController {
         output.followList
             .subscribe(with: self) { owner, followingList in
                 
-                if followingList.isEmpty {
-                    isFollowing = false
-                } else {
-                    for index in 0..<followingList.count {
-                        let following = followingList[index]
-                        
-                        if following.user_id == owner.userID {
-                            isFollowing = true
-                            break
-                        } else {
-                            isFollowing = false
-                        }
-                    }
-                }
+                isFollowing = UserClassification.isUserFollowing(followModel: followingList, id: owner.userID)
                 
-                owner.mainView.followButton.setTitle(isFollowing ? "팔로잉" : "팔로우",  for: .normal)
-                owner.mainView.followButton.backgroundColor = isFollowing ? Color.mainColor : .white
-                owner.mainView.followButton.setTitleColor(isFollowing ? .white : Color.mainColor, for: .normal)
+                owner.mainView.updateFollowButton(isFollowing)
+     
             }
             .disposed(by: disposeBag)
         
@@ -90,15 +75,8 @@ class OtherProfileViewController: RxBaseViewController {
             .subscribe(with: self) { owner, profile in
                 
                 owner.navigationItem.rx.title.onNext(profile.nick)
-                
-                owner.mainView.profileName.text = profile.nick
-                owner.mainView.postNumLabel.text = "\(profile.posts.count)"
-                owner.mainView.followerButton.setTitle("\(profile.followers.count)", for: .normal)
-                owner.mainView.followingButton.setTitle("\(profile.following.count)", for: .normal)
- 
-                owner.loadImage(loadURL: owner.makeURL(profile.profileImage), defaultImg: "defaultProfile") { resultImage in
-                    owner.mainView.profileImage.image = resultImage
-                }
+                owner.mainView.updateProfileInfo(profile)
+
             }
             .disposed(by: disposeBag)
         
@@ -116,7 +94,7 @@ class OtherProfileViewController: RxBaseViewController {
                             cell.marketMark.isHidden = false
                         }
 
-                        owner.loadImage(loadURL: owner.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
+                        MakeUI.loadImage(loadURL: MakeUI.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
                             cell.postImageView.image = resultImage
                         }
 

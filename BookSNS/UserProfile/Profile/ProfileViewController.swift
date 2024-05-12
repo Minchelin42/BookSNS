@@ -72,7 +72,7 @@ class ProfileViewController: RxBaseViewController {
                 
                 output.selectPostButton.onNext(true)
 
-                owner.loadImage(loadURL: owner.makeURL(profile.profileImage), defaultImg: "defaultProfile") { resultImage in
+                MakeUI.loadImage(loadURL: MakeUI.makeURL(profile.profileImage), defaultImg: "defaultProfile") { resultImage in
                     owner.mainView.profileImage.image = resultImage
                 }
                
@@ -92,7 +92,7 @@ class ProfileViewController: RxBaseViewController {
                             cell.marketMark.isHidden = false
                         }
 
-                        owner.loadImage(loadURL: owner.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
+                        MakeUI.loadImage(loadURL: MakeUI.makeURL(postModel.files[0]), defaultImg: "defaultProfile") { resultImage in
                             cell.postImageView.image = resultImage
                         }
                     }
@@ -170,7 +170,7 @@ class ProfileViewController: RxBaseViewController {
 extension ProfileViewController {
     
     func userLogout() {
-        UserDefaults.standard.setValue("", forKey: "accessToken")
+        UserDefaults.standard.set("", forKey: "accessToken")
         UserDefaults.standard.set("", forKey: "refreshToken")
         UserDefaults.standard.set("", forKey: "profileImage")
         UserDefaults.standard.set("", forKey: "userID")
@@ -196,12 +196,12 @@ extension ProfileViewController {
             WithDrawViewModel.shared.withDrawAlertButtonTapped.onNext(())
             WithDrawViewModel.shared.withDrawAccess
                 .subscribe(with: self) { owner, _ in
-                    UserDefaults.standard.setValue("", forKey: "accessToken")
-                    UserDefaults.standard.setValue("", forKey: "refreshToken")
-                    UserDefaults.standard.setValue("", forKey: "profileImage")
-                    UserDefaults.standard.setValue("", forKey: "userID")
-                    UserDefaults.standard.setValue("", forKey: "email")
-                    UserDefaults.standard.setValue("", forKey: "nick")
+                    UserDefaults.standard.set("", forKey: "accessToken")
+                    UserDefaults.standard.set("", forKey: "refreshToken")
+                    UserDefaults.standard.set("", forKey: "profileImage")
+                    UserDefaults.standard.set("", forKey: "userID")
+                    UserDefaults.standard.set("", forKey: "email")
+                    UserDefaults.standard.set("", forKey: "nick")
                     
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     

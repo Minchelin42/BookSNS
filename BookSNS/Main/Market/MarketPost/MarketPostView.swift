@@ -132,6 +132,35 @@ class MarketPostView: BaseView {
         
     }
     
+    func updateView(_ postModel: PostModel) {
+        imageRegisterButton.isHidden = true
+      
+        textView.text = postModel.content
+        textView.textColor = .black
+
+        collectionView.snp.remakeConstraints { make in
+            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(80)
+        }
+        collectionView.layoutIfNeeded()
+        
+        priceTextField.text = postModel.content4
+        
+        createButton.setTitle("판매글 수정", for: .normal)
+    }
+    
+    func updateCardView(_ bookModel: BookModel) {
+        cardView.unknownView.isHidden = true
+        cardView.title.text = bookModel.title
+        cardView.price.text = "\(bookModel.priceStandard.makePrice())원"
+        
+        if let url = URL(string: bookModel.cover) {
+            cardView.bookImage.kf.setImage(with: url)
+        } else {
+            cardView.bookImage.image = UIImage(named: "Book")
+        }
+    }
+    
 }
 
 extension MarketPostView: UITextViewDelegate {

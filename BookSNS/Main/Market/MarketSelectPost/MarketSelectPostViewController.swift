@@ -78,6 +78,9 @@ class MarketSelectPostViewController: RxBaseViewController {
         output.postResult
             .subscribe(with: self) { owner, result in
                 
+                var isLike = UserClassification.isUserLike(likes: result.likes)
+                owner.mainView.updateView(result, isLike: isLike)
+                
                 owner.viewModel.postResult = CreatePostQuery(content: result.content, content1: result.content1, content2: result.content2, content3: result.content3, content4: result.content4, content5: result.content5, files: result.files, product_id: result.product_id)
                 
                 owner.mainView.comment.rx.tap
@@ -88,10 +91,6 @@ class MarketSelectPostViewController: RxBaseViewController {
                         Transition.sheet(nowVC: owner, toVC: vc)
                     }
                     .disposed(by: owner.disposeBag)
-                
-                var isLike = result.likes.contains { $0 == UserDefaultsInfo.userID}
-                
-                owner.mainView.save.setImage(UIImage(named: isLike ? "Bookmark.fill" : "Bookmark"), for: .normal)
                 
                 owner.mainView.save.rx.tap
                     .flatMap { _ in
@@ -107,13 +106,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                         print("오류 발생 \(error)")
                     }
                     .disposed(by: owner.disposeBag)
-                
-                owner.mainView.nickName.rx.text.onNext("\(result.creator?.nick ?? "")님의 한마디")
-                owner.mainView.userComment.rx.text.onNext(result.content)
-                owner.mainView.bookTitleLabel.rx.text.onNext(result.content1)
-                owner.mainView.standardPriceLabel.rx.text.onNext("정가: \(result.content2.makePrice)원")
-                owner.mainView.marketPriceLabel.rx.text.onNext("중고 판매가: \(result.content4.makePrice)원")
-                
+
                 owner.viewModel.payQuery.post_id = owner.postID
                 owner.viewModel.payQuery.price = Int(result.content4) ?? 0
                 owner.viewModel.payQuery.productName = result.content1
@@ -127,26 +120,7 @@ class MarketSelectPostViewController: RxBaseViewController {
                         $0.buyer_name = UserDefaultsInfo.userID
                         $0.app_scheme = "sesac"
                     }
-                
-                let profileImage = result.creator?.profileImage ?? ""
 
-                owner.loadImage(loadURL: owner.makeURL(profileImage), defaultImg: "defaultProfile") { resultImage in
-                    owner.mainView.profileButton.setImage(resultImage, for: .normal)
-                }
-                
-                let isUser = (UserDefaultsInfo.userID == result.creator?.user_id)
-                
-                if isUser {
-                    if result.likes2.isEmpty { //사용자의 게시글이며, 팔리지 않은 상품
-                        owner.mainView.optionButton.isHidden = false
-
-                    } else { //사용자의 게시글이며, 팔린 상품
-                        owner.mainView.optionButton.isHidden = true
-                    }
-                } else { //사용자의 게시글이 X
-                    owner.mainView.optionButton.isHidden = true
-                }
-         
                 owner.mainView.profileButton.rx.tap
                     .map { return result.creator?.user_id ?? "" }
                     .subscribe(with: self) { owner, profileID in
@@ -168,27 +142,13 @@ class MarketSelectPostViewController: RxBaseViewController {
                     }
                     .disposed(by: owner.disposeBag)
 
-                owner.mainView.pageControl.numberOfPages = result.files.count
-                
                 owner.mainView.pageControl.rx.controlEvent(.valueChanged)
                     .map { return owner.mainView.pageControl.currentPage }
                     .subscribe(with: self) { owner, page in
                         owner.mainView.postImage.contentOffset.x = UIScreen.main.bounds.width * CGFloat(page)
                     }
                     .disposed(by: owner.disposeBag)
-                
-                for index in 0..<result.files.count {
-                    owner.loadImage(loadURL: owner.makeURL(result.files[index]), defaultImg: "defaultProfile", completionHandler: { resultImage in
-                        let image = UIImageView()
-                        image.frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(index), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 0.9)
-                        image.image = resultImage
-                        owner.mainView.postImage.addSubview(image)
-                    })
 
-                    owner.mainView.postImage.contentSize.width = UIScreen.main.bounds.width * CGFloat(index + 1)
-
-                }
-                
                 owner.mainView.postImage.rx.didEndDecelerating
                     .subscribe(with: self) { owner, _ in
                         let pageNumber = owner.mainView.postImage.contentOffset.x / UIScreen.main.bounds.width
