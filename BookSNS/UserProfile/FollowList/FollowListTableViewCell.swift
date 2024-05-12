@@ -10,10 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class FollowListTableViewCell: BaseTableViewCell {
-    
-    static let identifier = "FollowListTableViewCell"
-    
+class FollowListTableViewCell: BaseTableViewCell, CellType {
+
     var disposeBag = DisposeBag()
     
     let profileButton = UIButton()

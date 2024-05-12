@@ -10,10 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class SearchBookTableViewCell: BaseTableViewCell {
+class SearchBookTableViewCell: BaseTableViewCell, CellType {
 
-    static let identifier = "ITunesTableViewCell"
-    
     var disposeBag = DisposeBag()
     
     let bookImage = {

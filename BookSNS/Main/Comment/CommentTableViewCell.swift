@@ -10,10 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class CommentTableViewCell: BaseTableViewCell {
+class CommentTableViewCell: BaseTableViewCell, CellType {
 
-    static let identifier = "CommentTableViewCell"
-    
     var disposeBag = DisposeBag()
     
     let profileButton = {

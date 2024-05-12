@@ -10,10 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class HomeTableViewCell: BaseTableViewCell {
-    
-    static let identifier = "HomeTableViewCell"
-    
+class HomeTableViewCell: BaseTableViewCell, CellType {
+
     var disposeBag = DisposeBag()
     
     let profileButton = UIButton(type: .custom)

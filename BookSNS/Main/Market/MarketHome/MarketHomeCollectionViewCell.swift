@@ -8,10 +8,8 @@
 import UIKit
 import SnapKit
 
-class MarketHomeCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "MarketHomeCollectionViewCell"
-    
+class MarketHomeCollectionViewCell: UICollectionViewCell, CellType {
+
     let soldOutView = SoldOutView()
     
     let photoImageView: UIImageView = {

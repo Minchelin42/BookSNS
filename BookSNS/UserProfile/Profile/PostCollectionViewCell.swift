@@ -8,10 +8,8 @@
 import UIKit
 import SnapKit
 
-class PostCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "PostCollectionViewCell"
-    
+class PostCollectionViewCell: UICollectionViewCell, CellType {
+
     let postImageView = UIImageView()
     let marketMark = MarketMark(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
     

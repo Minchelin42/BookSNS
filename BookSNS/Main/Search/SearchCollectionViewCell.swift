@@ -8,10 +8,8 @@
 import UIKit
 import SnapKit
 
-class SearchCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "SearchCollectionViewCell"
-    
+class SearchCollectionViewCell: UICollectionViewCell, CellType {
+
     let photoImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleToFill

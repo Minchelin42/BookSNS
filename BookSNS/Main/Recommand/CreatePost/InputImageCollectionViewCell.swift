@@ -10,14 +10,12 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class InputImageCollectionViewCell: UICollectionViewCell {
+class InputImageCollectionViewCell: UICollectionViewCell, CellType {
     
     let disposeBag = DisposeBag()
     
     var deleteButtonTap: (() -> Void)?
-    
-    static let identifier = "InputImageCollectionViewCell"
-    
+
     let inputImage = UIImageView()
     let deleteButton = UIButton()
 

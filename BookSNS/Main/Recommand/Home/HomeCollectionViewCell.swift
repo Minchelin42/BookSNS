@@ -9,9 +9,8 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class HomeCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "HomeCollectionViewCell"
+class HomeCollectionViewCell: UICollectionViewCell, CellType {
+
     var disposeBag = DisposeBag()
     
     let storyButton = {
