@@ -21,13 +21,17 @@
 
 
 ## ⚒️ 기술 적용
-- **Portone** 연동을 통해 여러 결제 대행사(PG) 및 간편결제를 WebView 기반으로 구현
+- **RxSwift**와 **RxCocoa**를 통해 비동기 데이터 스트림 관리 및 UI와 비즈니스 로직 간의 데이터 바인딩 처리
 - **Router**를 통해 HTTP 요청을 추상화하여 Alamofire 네트워크 통신을 효율적으로 관리
 - **NotificationCenter**를 통해 데이터의 변화를 감지하고 뷰의 업데이트를 진행
-- **Input-Output** 패턴을 통해 데이터 흐름을 명확히 하고, 뷰와 비즈니스 로직 간의 결합도를 낮춤
-- **RxSwift**와 **RxCocoa**를 통해 비동기 데이터 스트림 관리 및 UI와 비즈니스 로직 간의 데이터 바인딩 처리
+- **Input-Output** 패턴을 통해 데이터 흐름을 명확히 하고, 뷰와 비즈니스 로직 간의 결합도를 낮춤
+- **protocol**을 통해 viewModel의 Input-Output 패턴을 추상화
 - **weak self**를 통해 클로저 내부의 강한 참조 순환을 방지하여 메모리 누수 예방
 - **interceptor**를 통해 accessToken을 갱신하는 인증 관리 로직 구현
+- **CompositionalLayout**을 활용하여 다양한 레이아웃을 가진 collectionView를 동적으로 구성
+- **Cursor-based Pagenation**을 통해 대규모 데이터셋을 효율적으로 처리
+- 여러 결제 대행사(PG) 및 간편결제 로직을 WebView 기반으로 구현하여 **결제 기능** 도입
+- **Multipart Form Data**를 통해 사진 업로드 처리
 
 
 ## 📷 스크린샷
@@ -48,6 +52,93 @@
 |<img src="https://github.com/Minchelin42/BookSNS/assets/126135097/4ea6c6bb-ce71-4439-9a30-88423e3813a7" width="200" height="390"/>|<img src="https://github.com/Minchelin42/BookSNS/assets/126135097/608ab961-38d6-4267-81b6-e047a573d859" width="200" height="390"/>|<img src="https://github.com/Minchelin42/BookSNS/assets/126135097/f939661c-b5c5-471f-87f8-bfd47ff26ade" width="200" height="390"/>|
 
 ## 💥 트러블슈팅
-### 1️⃣ **interceptor**
+### **interceptor를 이용하여 accessToken 갱신**
+문제 상황 : accessToken이 만료되었을 때 사용자 입장에서 데이터도 불러오지 못하고 아무런 기능도 이용할 수 없는 상태가 되며, 이를 수동으로 해결해야 함
 
-### 2️⃣ **NetworkMonitoring**
+해결 방안 : interceptor를 적용하여 accessToken이 만료되었을 때 accessToken 갱신 후 네트워크 통신 진행
+
+```Swift
+import Alamofire
+import UIKit
+
+class APIRequestInterceptor: RequestInterceptor {
+    
+    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+        var urlRequest = urlRequest
+        urlRequest.setValue(UserDefaultsInfo.accessToken, forHTTPHeaderField: "Authorization")
+        
+        completion(.success(urlRequest))
+    }
+    
+    let retryLimit = 3
+    let retryDelay: TimeInterval = 1
+    
+func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        guard let response = request.task?.response as? HTTPURLResponse else {
+            completion(.doNotRetryWithError(error))
+            return
+        }
+        
+        let statusCode = response.statusCode
+        
+        if statusCode == 401 {
+            completion(.doNotRetry)
+            return
+        }
+        
+        getToken { statusCode in
+            if statusCode == 418 {
+                print("refreshToken 만료")
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                
+                let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                
+                let nav = UINavigationController(rootViewController: SignInViewController())
+
+                sceneDelegate?.window?.rootViewController = nav
+                sceneDelegate?.window?.makeKeyAndVisible()
+            }
+        }
+        
+    }
+    
+    private func getToken(completion: @escaping(Int) -> Void) {
+        
+        do { let urlRequest: URLRequest = try
+            Router.renewToken.asURLRequest()
+            
+            AF.request(urlRequest)
+                .validate(statusCode: 200..<420)
+                .responseDecodable(of: TokenModel.self) { response in
+                    switch response.result {
+                    case .success(let responseModel):
+                        print("토큰 갱신 성공",responseModel)
+                        print(responseModel)
+                        UserDefaults.standard.setValue(responseModel.accessToken, forKey: "accessToken")
+                        NotificationCenter.default.post(name: .reloadPost, object: nil)
+                        NotificationCenter.default.post(name: .reloadMarket, object: nil)
+                        NotificationCenter.default.post(name: .reloadSearch, object: nil)
+                        NotificationCenter.default.post(name: .reloadProfile, object: nil)
+                        
+                        if let code = response.response?.statusCode {
+                            completion(code)
+                        }
+                    case .failure(let error):
+                        if let code = response.response?.statusCode {
+                            print("토큰 갱신 실패 \(code)")
+                            completion(code)
+                        } else {
+                            print("토큰 갱신 에러 발생 \(error)")
+                        }
+                    }
+                }
+        }catch {
+            print(error)
+        }
+        
+    }
+    
+}
+
+```
+
